@@ -44,7 +44,7 @@ export function LeadFormV4() {
               </li>
             ))}
           </ul>
-          <div className="flex gap-7 border-y border-white/15 py-3.5">
+          <div className="flex flex-wrap gap-x-8 gap-y-3 border-y border-white/15 py-3.5">
             {leadForm.stats.map((s) => (
               <div key={s.label} className="grid gap-0.5">
                 <strong className="font-mono text-2xl text-white">{s.value}</strong>
@@ -92,7 +92,7 @@ export function LeadFormV4() {
                 setSubmitted(true);
               }}
               onFocusCapture={() => setEngaged(true)}
-              className="grid grid-cols-1 gap-3.5 rounded-2xl border border-white/15 bg-white p-7 shadow-v2-xl sm:grid-cols-2"
+              className="grid grid-cols-1 gap-3.5 rounded-2xl border border-white/15 bg-white p-5 shadow-v2-xl sm:grid-cols-2 sm:p-7"
             >
               {leadForm.fields.map((f) => (
                 <label key={f.label} className="grid gap-1.5">
@@ -124,11 +124,11 @@ export function LeadFormV4() {
                 />
                 Đồng ý nhận liên hệ
               </label>
-              <div className="justify-self-end sm:col-start-2 sm:justify-self-end">
+              <div className="justify-self-stretch sm:col-start-2 sm:justify-self-end">
                 <button
                   type="submit"
                   disabled={!agree}
-                  className={`v3-shine inline-flex h-12 items-center gap-2 rounded-md bg-v2blue-600 px-6 font-semibold text-white shadow-v2-md transition enabled:hover:bg-v2blue-700 disabled:cursor-not-allowed disabled:opacity-50 ${
+                  className={`v3-shine inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-v2blue-600 px-6 font-semibold text-white shadow-v2-md transition enabled:hover:bg-v2blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto ${
                     engaged && !submitted ? "v4-sparkle" : ""
                   }`}
                 >

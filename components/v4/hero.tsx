@@ -168,7 +168,7 @@ export function V4Hero() {
               <span className="h-2 w-2 rounded-full bg-v2blue-300 motion-safe:animate-pulse-ring" />
               Mạng lưới OOH toàn quốc
             </motion.span>
-            <h1 className="m-0 mt-6 max-w-[880px] font-v2display text-[clamp(2.5rem,4.6vw,3.5rem)] font-bold leading-[1.12] tracking-[-0.01em]">
+            <h1 className="m-0 mt-6 max-w-[880px] font-v2display text-[clamp(1.875rem,8.5vw,2.5rem)] font-bold leading-[1.12] tracking-[-0.01em] sm:text-[clamp(2.5rem,4.6vw,3.5rem)]">
               <Line>Giải pháp Quảng cáo</Line>
               <Line>
                 <span className="text-v2blue-300">
@@ -183,34 +183,39 @@ export function V4Hero() {
             </h1>
             <motion.p
               variants={fadeUp}
-              className="m-0 mt-5 max-w-[620px] text-[1.125rem] leading-[1.65] text-slate-200"
+              className="m-0 mt-5 max-w-[620px] text-[1rem] leading-[1.65] text-slate-200 sm:text-[1.125rem]"
             >
               Được hơn 400 nhãn hàng tin chọn trong suốt 20 năm; vận hành cùng dữ liệu vị trí
               minh bạch và điểm AI theo ngành hàng.
             </motion.p>
-            <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
+            <motion.div
+              variants={fadeUp}
+              className="mt-8 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3.5"
+            >
               <a
                 href="#ban-do"
-                className="v3-shine inline-flex h-[54px] items-center gap-2.5 rounded-md bg-v2blue-600 px-7 text-[1.0625rem] font-semibold text-white shadow-v2-lg transition hover:-translate-y-0.5 hover:bg-v2blue-500"
+                className="v3-shine inline-flex h-[50px] items-center justify-center gap-2.5 rounded-md bg-v2blue-600 px-7 text-[1rem] font-semibold text-white shadow-v2-lg transition hover:-translate-y-0.5 hover:bg-v2blue-500 sm:h-[54px] sm:text-[1.0625rem]"
               >
                 Khám phá bản đồ vị trí <ArrowRight className="h-[19px] w-[19px]" />
               </a>
               <a
                 href="#lien-he"
-                className="inline-flex h-[54px] items-center gap-2 rounded-md border border-white/40 bg-v2blue-900/30 px-6 text-[1.0625rem] font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/10"
+                className="inline-flex h-[50px] items-center justify-center gap-2 rounded-md border border-white/40 bg-v2blue-900/30 px-6 text-[1rem] font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/10 sm:h-[54px] sm:text-[1.0625rem]"
               >
                 <PhoneCall className="h-[18px] w-[18px]" /> Nhận tư vấn
               </a>
             </motion.div>
 
             {/* Số liệu làm bằng chứng — hàng nhẹ, không dùng band nặng */}
-            <motion.div variants={fadeUp} className="mt-12 flex items-stretch divide-x divide-white/15">
+            <motion.div variants={fadeUp} className="mt-10 flex items-stretch divide-x divide-white/15 sm:mt-12">
               {heroStats.map((s) => (
-                <div key={s.label} className="px-7 text-center sm:px-10">
-                  <div className="font-mono text-[1.375rem] font-bold tabular-nums sm:text-[1.75rem]">
+                <div key={s.label} className="flex-1 px-3 text-center sm:flex-none sm:px-10">
+                  <div className="font-mono text-[1.25rem] font-bold tabular-nums sm:text-[1.75rem]">
                     {s.value}
                   </div>
-                  <div className="mt-1 text-[.8125rem] text-slate-300">{s.label}</div>
+                  <div className="mt-1 text-[.6875rem] leading-snug text-slate-300 sm:text-[.8125rem]">
+                    {s.label}
+                  </div>
                 </div>
               ))}
             </motion.div>

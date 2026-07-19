@@ -87,14 +87,21 @@ function IntroImage() {
  * Giới thiệu (v4) — Lớp 02 Parallax Lab "Depth zoom":
  * pin 200vh; ảnh billboard zoom 0.72→1.02 (camera đẩy vào), chữ nền khổng lồ
  * scale ngược chiều 1→1.6 + mờ dần (tách tầng chiều sâu), thẻ nội dung trắng
- * trượt vào khi zoom gần xong. Mobile/reduced-motion: bản tĩnh 2 cột, không pin.
+ * trượt vào khi zoom gần xong.
+ * Mobile: KHÔNG pin (2 cột xếp dọc sẽ tràn khung) nhưng vẫn giữ parallax
+ * scroll-linked — chữ nền trôi ngang, ảnh zoom vào, thẻ nội dung trượt lên.
+ * Reduced-motion: bản tĩnh 2 cột.
  */
 export function IntroV4() {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion() ?? false;
   const mobile = useIsMobile();
 
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  // Mobile không pin → đo tiến độ theo cả quãng section đi qua viewport
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: mobile ? ["start end", "end start"] : ["start start", "end end"],
+  });
   const t = useSpring(scrollYProgress, { stiffness: 90, damping: 24, restDelta: 0.001 });
 
   const bgScale = useTransform(t, [0.02, 0.9], [1, 1.6]);
@@ -103,8 +110,16 @@ export function IntroV4() {
   const cardOpacity = useTransform(t, [0.38, 0.58], [0, 1]);
   const cardX = useTransform(t, [0.38, 0.58], [-36, 0]);
 
-  /* Bản tĩnh: mobile (2 cột xếp dọc sẽ tràn khung pin) và reduced-motion */
-  if (reduced || mobile) {
+  /* Biên độ riêng cho bản mobile không pin */
+  const mBgX = useTransform(t, [0, 1], [70, -70]);
+  const mBgOpacity = useTransform(t, [0, 0.35, 0.75, 1], [0, 1, 1, 0]);
+  const mCardY = useTransform(t, [0.04, 0.28], [44, 0]);
+  const mCardOpacity = useTransform(t, [0.04, 0.24], [0, 1]);
+  const mImgScale = useTransform(t, [0.15, 0.5], [0.9, 1]);
+  const mImgY = useTransform(t, [0, 1], [36, -24]);
+
+  /* Reduced-motion: bản tĩnh 2 cột, không hiệu ứng */
+  if (reduced) {
     return (
       <section
         id="gioi-thieu"
@@ -123,6 +138,44 @@ export function IntroV4() {
           <Reveal y={0}>
             <IntroImage />
           </Reveal>
+        </div>
+      </section>
+    );
+  }
+
+  /* Mobile: parallax không pin — chữ nền trôi, thẻ trượt lên, ảnh zoom vào */
+  if (mobile) {
+    return (
+      <section
+        ref={ref}
+        id="gioi-thieu"
+        className="relative overflow-hidden py-20"
+        style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#EBF4FF 100%)" }}
+      >
+        {/* Tầng xa: chữ khổng lồ trôi ngang ngược hướng cuộn */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-8 flex justify-center overflow-hidden"
+        >
+          <motion.span
+            style={{ x: mBgX, opacity: mBgOpacity }}
+            className="whitespace-nowrap font-v2sans text-[26vw] font-extrabold uppercase tracking-tight text-v2blue-900/10 will-change-transform"
+          >
+            Toàn Cầu ADV
+          </motion.span>
+        </div>
+
+        <div className="relative mx-auto grid max-w-[560px] gap-10 px-4 sm:px-6">
+          <motion.div
+            style={{ y: mCardY, opacity: mCardOpacity }}
+            className="relative z-[2] rounded-2xl border border-slate-200 bg-white/95 p-6 shadow-v2-xl backdrop-blur will-change-transform"
+          >
+            <IntroCopy />
+          </motion.div>
+          {/* Tầng gần: ảnh zoom vào + trôi nhẹ ngược hướng cuộn */}
+          <motion.div style={{ scale: mImgScale, y: mImgY }} className="relative z-[1] will-change-transform">
+            <IntroImage />
+          </motion.div>
         </div>
       </section>
     );

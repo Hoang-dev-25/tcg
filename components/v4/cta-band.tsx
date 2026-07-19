@@ -16,7 +16,7 @@ export function CtaBandV4() {
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div
-            className="relative grid items-center gap-9 overflow-visible rounded-[28px] p-9 shadow-v2-lg sm:p-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:p-[72px]"
+            className="relative grid items-center gap-8 overflow-visible rounded-[20px] p-6 shadow-v2-lg sm:rounded-[28px] sm:p-12 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:p-[72px]"
             style={{ background: "linear-gradient(120deg,#D6E9FF 0%,#EBF4FF 100%)" }}
           >
             <Parallax
@@ -41,16 +41,16 @@ export function CtaBandV4() {
               <p className="m-0 max-w-[480px] text-[1.0625rem] leading-[1.65] text-slate-600">
                 {ctaBand.desc}
               </p>
-              <div className="mt-2 flex flex-wrap items-center gap-3.5">
+              <div className="mt-2 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-3.5">
                 <a
                   href="#lien-he"
-                  className="v3-shine inline-flex h-[54px] items-center gap-2.5 rounded-md bg-v2blue-900 px-7 text-[1.0625rem] font-semibold text-white shadow-v2-md transition hover:-translate-y-0.5"
+                  className="v3-shine inline-flex h-[50px] items-center justify-center gap-2.5 rounded-md bg-v2blue-900 px-7 text-[1rem] font-semibold text-white shadow-v2-md transition hover:-translate-y-0.5 sm:h-[54px] sm:text-[1.0625rem]"
                 >
                   Yêu cầu báo giá <ArrowRight className="h-[19px] w-[19px]" />
                 </a>
                 <a
                   href="#ban-do"
-                  className="inline-flex h-[54px] items-center gap-2 rounded-md border-[1.5px] border-v2blue-300 px-6 text-[1.0625rem] font-semibold text-v2blue-900 transition hover:-translate-y-0.5 hover:border-v2blue-400"
+                  className="inline-flex h-[50px] items-center justify-center gap-2 rounded-md border-[1.5px] border-v2blue-300 px-6 text-[1rem] font-semibold text-v2blue-900 transition hover:-translate-y-0.5 hover:border-v2blue-400 sm:h-[54px] sm:text-[1.0625rem]"
                 >
                   <MapIcon className="h-[18px] w-[18px]" /> Khám phá bản đồ vị trí
                 </a>

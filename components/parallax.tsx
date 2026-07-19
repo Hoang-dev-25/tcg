@@ -31,7 +31,7 @@ export function Parallax({ children, speed = 0.4, className }: ParallaxProps) {
     offset: ["start end", "end start"],
   });
 
-  const factor = reducedMotion ? 0 : isMobile ? 0.5 : 1;
+  const factor = reducedMotion ? 0 : isMobile ? 0.7 : 1;
   const range = 110 * speed * factor;
   const y = useTransform(scrollYProgress, [0, 1], [range, -range]);
 

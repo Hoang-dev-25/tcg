@@ -69,19 +69,19 @@ function StepPanel({ step, index, t }: { step: (typeof STEPS)[number]; index: nu
   const y = useTransform(t, [a, a + 0.06], [18, 0]);
   const Icon = step.icon;
   return (
-    <motion.div style={{ opacity, y }} className="col-start-1 row-start-1 grid content-start gap-4">
+    <motion.div style={{ opacity, y }} className="col-start-1 row-start-1 grid content-start gap-3 sm:gap-4">
       <span className="flex items-center gap-3">
-        <span className="grid h-11 w-11 place-items-center rounded-md border border-white/15 bg-white/10 text-v2blue-200 backdrop-blur">
+        <span className="grid h-10 w-10 place-items-center rounded-md border border-white/15 bg-white/10 text-v2blue-200 backdrop-blur sm:h-11 sm:w-11">
           <Icon className="h-5 w-5" />
         </span>
         <span className="font-mono text-sm font-bold text-v2blue-300">BƯỚC {step.k}/03</span>
       </span>
-      <h3 className="m-0 font-v2display text-[1.625rem] font-semibold leading-[1.2] text-white sm:text-3xl">
+      <h3 className="m-0 font-v2display text-[1.25rem] font-semibold leading-[1.2] text-white sm:text-3xl">
         {step.title}
       </h3>
-      <p className="m-0 max-w-[420px] text-[1.0625rem] leading-[1.65] text-slate-200">{step.desc}</p>
+      <p className="m-0 max-w-[420px] text-[.9375rem] leading-[1.65] text-slate-200 sm:text-[1.0625rem]">{step.desc}</p>
       <div className="flex items-baseline gap-2 rounded-md border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur">
-        <strong className="font-mono text-[1.375rem] tabular-nums text-white">{step.stat.value}</strong>
+        <strong className="font-mono text-[1.125rem] tabular-nums text-white sm:text-[1.375rem]">{step.stat.value}</strong>
         <span className="text-[.8125rem] font-semibold text-v2blue-100">{step.stat.label}</span>
       </div>
     </motion.div>
@@ -96,9 +96,9 @@ function ScoreCard({ item, index, t }: { item: (typeof SCORES)[number]; index: n
   return (
     <motion.div
       style={{ rotateY, opacity, transformPerspective: 900 }}
-      className="v4-conic flex items-center gap-3 rounded-md border border-white/15 bg-white/95 px-4 py-3 shadow-v2-xl backdrop-blur will-change-transform"
+      className="v4-conic flex items-center gap-2.5 rounded-md border border-white/15 bg-white/95 px-3 py-2.5 shadow-v2-xl backdrop-blur will-change-transform sm:gap-3 sm:px-4 sm:py-3"
     >
-      <strong className="font-mono text-[1.5rem] font-bold tabular-nums text-v2blue-900">{item.score}</strong>
+      <strong className="font-mono text-[1.25rem] font-bold tabular-nums text-v2blue-900 sm:text-[1.5rem]">{item.score}</strong>
       <span className="grid leading-tight">
         <span className="whitespace-nowrap text-[.8125rem] font-bold text-slate-700">{item.industry}</span>
         <span className="whitespace-nowrap text-[.6875rem] font-semibold text-v2blue-600">
@@ -109,10 +109,123 @@ function ScoreCard({ item, index, t }: { item: (typeof SCORES)[number]; index: n
   );
 }
 
+/* Bộ motion value điều khiển sân khấu bản đồ — dùng chung desktop & mobile. */
+type MapStageValues = {
+  mapScale: MotionValue<number>;
+  mapX: MotionValue<string>;
+  mapY: MotionValue<string>;
+  heatOpacity: MotionValue<number>;
+  radiusScale: MotionValue<number>;
+  radiusOpacity: MotionValue<number>;
+  markerY: MotionValue<string>;
+  markerOpacity: MotionValue<number>;
+  scanX: MotionValue<string>;
+  scanOpacity: MotionValue<number>;
+};
+
+/** Sân khấu bản đồ: zoom → heatmap/radius/scan → marker. Dùng chung 2 breakpoint. */
+function MapStage({ v, compact = false }: { v: MapStageValues; compact?: boolean }) {
+  return (
+    <div
+      className={`relative overflow-hidden border border-white/15 shadow-v2-xl ${
+        compact ? "rounded-xl" : "rounded-2xl"
+      }`}
+    >
+      {/* Bản đồ zoom theo bước */}
+      <motion.div
+        style={{ scale: v.mapScale, x: v.mapX, y: v.mapY }}
+        className="relative will-change-transform"
+      >
+        <div style={{ background: "linear-gradient(160deg,#FFFFFF,#EBF4FF)" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={mapPreview.image}
+            alt="Bản đồ mạng lưới vị trí OOH Toàn Cầu"
+            className="block w-full mix-blend-multiply"
+          />
+        </div>
+
+        {/* Heatmap traffic (bước 2) */}
+        <motion.div aria-hidden style={{ opacity: v.heatOpacity }} className="absolute inset-0">
+          <div
+            className="absolute h-[34%] w-[26%]"
+            style={{
+              left: "48%",
+              top: "22%",
+              background: "radial-gradient(ellipse at center,rgba(255,120,50,.55),rgba(255,178,36,.28) 55%,transparent 75%)",
+              filter: "blur(6px)",
+            }}
+          />
+          <div
+            className="absolute h-[26%] w-[20%]"
+            style={{
+              left: "56%",
+              top: "40%",
+              background: "radial-gradient(ellipse at center,rgba(255,178,36,.45),transparent 70%)",
+              filter: "blur(8px)",
+            }}
+          />
+        </motion.div>
+
+        {/* Radius demographics 3km (bước 2) — scale từ tâm vị trí.
+            Offset tâm đặt qua x/y của framer (translate Tailwind sẽ bị motion ghi đè). */}
+        <motion.div
+          aria-hidden
+          style={{ scale: v.radiusScale, opacity: v.radiusOpacity, left: "61%", top: "38%", x: "-50%", y: "-50%" }}
+          className="absolute h-[38%] w-[24%]"
+        >
+          <span className="absolute inset-0 rounded-full border-2 border-v2blue-500/70 bg-v2blue-500/15" />
+          <span className="absolute inset-[18%] rounded-full border border-v2blue-500/50" />
+          <span className="absolute -right-1 top-0 flex items-center gap-1 whitespace-nowrap rounded-full bg-white px-2 py-0.5 text-[.625rem] font-bold text-v2blue-800 shadow-v2-sm">
+            <Users className="h-3 w-3" /> 1,2 triệu người / 3km
+          </span>
+        </motion.div>
+
+        {/* Marker drop (bước 1) */}
+        <motion.div
+          style={{ x: "-50%", y: v.markerY, opacity: v.markerOpacity, left: "61%", top: "38%" }}
+          className="absolute"
+        >
+          <span className="grid place-items-center rounded-full bg-v2blue-600 p-2 text-white shadow-v2-lg ring-4 ring-v2blue-500/30">
+            <MapPin className="h-4 w-4" />
+          </span>
+        </motion.div>
+      </motion.div>
+
+      {/* Scan line "AI đang xử lý" (bước 2) — quét ngang 1 lần */}
+      <motion.div
+        aria-hidden
+        style={{ x: v.scanX, opacity: v.scanOpacity }}
+        className="absolute inset-y-0 w-full will-change-transform"
+      >
+        <div
+          className="h-full w-full"
+          style={{
+            background:
+              "linear-gradient(90deg,transparent 88%,rgba(54,143,255,.16) 96%,rgba(173,211,255,.85) 99%,rgba(54,143,255,.16) 100%)",
+          }}
+        />
+      </motion.div>
+
+      {/* Nhãn trạng thái radar */}
+      <motion.div
+        style={{ opacity: v.heatOpacity }}
+        className={`absolute flex items-center gap-2 rounded-full bg-v2blue-900/85 backdrop-blur ${
+          compact ? "left-2.5 top-2.5 px-2.5 py-1" : "left-4 top-4 px-3 py-1.5"
+        }`}
+      >
+        <Radar className="h-3.5 w-3.5 animate-spin text-v2blue-300" style={{ animationDuration: "3s" }} />
+        <span className="text-[.6875rem] font-bold text-v2blue-100">AI đang phân tích lớp dữ liệu…</span>
+      </motion.div>
+    </div>
+  );
+}
+
 /**
  * ⭐ AI Showcase (v4) — pin 300vh, scrub 3 bước: zoom vào vị trí → AI phân tích
  * (heatmap + radius + scan line) → kết quả (score card lật vào + CTA).
- * Mobile/reduced-motion: bỏ pin, 3 block dọc reveal thường.
+ * Mobile: pin rút gọn 260vh, bố cục dọc — vẫn giữ nguyên scrub 3 bước.
+ * Reduced-motion: bỏ pin, 3 block dọc reveal thường.
  */
 export function AiShowcase() {
   const ref = useRef<HTMLDivElement>(null);
@@ -145,8 +258,21 @@ export function AiShowcase() {
 
   const progressW = useTransform(t, (v) => `${Math.max(2, v * 100)}%`);
 
-  /* ---------- Fallback mobile / reduced-motion: 3 block dọc ---------- */
-  if (reduced || mobile) {
+  const stage: MapStageValues = {
+    mapScale,
+    mapX,
+    mapY,
+    heatOpacity,
+    radiusScale,
+    radiusOpacity,
+    markerY,
+    markerOpacity,
+    scanX,
+    scanOpacity,
+  };
+
+  /* ---------- Fallback reduced-motion: 3 block dọc, không hiệu ứng ---------- */
+  if (reduced) {
     return (
       <section id="ban-do" className="relative overflow-hidden bg-v2blue-900 py-20 text-white">
         <div
@@ -191,6 +317,67 @@ export function AiShowcase() {
           >
             Xem báo cáo mẫu <ArrowRight className="h-[18px] w-[18px]" />
           </a>
+        </div>
+      </section>
+    );
+  }
+
+  /* ---------- Mobile: pin 260vh, bố cục dọc — vẫn scrub 3 bước ---------- */
+  if (mobile) {
+    return (
+      <section id="ban-do" aria-label="AI chọn vị trí trong 3 bước">
+        <div ref={ref} className="relative h-[260vh]">
+          <div className="sticky top-0 flex h-dvh flex-col justify-center overflow-hidden bg-v2blue-900 text-white">
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(160deg,#0D2F5E 0%,#134384 62%,#1A5BB0 100%)" }}
+            />
+            <HexTexture size={24} glow={9} className="opacity-50" />
+
+            <div className="relative z-[2] mx-auto grid w-full max-w-[560px] gap-4 px-4 sm:px-6">
+              <div className="grid justify-items-start gap-2">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[.6875rem] font-bold uppercase tracking-[.1em] text-v2blue-100 backdrop-blur">
+                  <Sparkles className="h-3.5 w-3.5" /> AI Insights
+                </span>
+                <h2 className="m-0 font-v2display text-[1.375rem] font-semibold leading-[1.18]">
+                  AI chọn vị trí trong 3 bước
+                </h2>
+                {/* Thanh tiến độ 3 bước */}
+                <span className="relative h-1 w-full max-w-[240px] overflow-hidden rounded-full bg-white/15">
+                  <motion.span
+                    style={{ width: progressW }}
+                    className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-v2blue-400 to-v2blue-200"
+                  />
+                </span>
+              </div>
+
+              <MapStage v={stage} compact />
+
+              {/* Score cards lật vào (bước 3) — đè mép dưới bản đồ */}
+              <div className="-mt-8 flex flex-wrap justify-center gap-2 px-1">
+                {SCORES.map((sc, i) => (
+                  <ScoreCard key={sc.industry} item={sc} index={i} t={t} />
+                ))}
+              </div>
+
+              {/* Panel 3 bước crossfade */}
+              <div className="grid min-h-[176px]">
+                {STEPS.map((s, i) => (
+                  <StepPanel key={s.k} step={s} index={i} t={t} />
+                ))}
+              </div>
+
+              <motion.div style={{ opacity: ctaOpacity, y: ctaY }}>
+                <a
+                  href="#lien-he"
+                  className="v3-shine inline-flex h-12 items-center gap-2 rounded-md bg-v2blue-600 px-5 text-sm font-semibold text-white shadow-v2-lg"
+                >
+                  Xem báo cáo mẫu <ArrowRight className="h-4 w-4" />
+                </a>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
     );
@@ -250,92 +437,7 @@ export function AiShowcase() {
                 aria-hidden
                 className="absolute left-[10%] top-[8%] h-[80%] w-[80%] rounded-full bg-v2blue-400/25 blur-[90px]"
               />
-              <div className="relative overflow-hidden rounded-2xl border border-white/15 shadow-v2-xl">
-                {/* Bản đồ zoom theo bước */}
-                <motion.div
-                  style={{ scale: mapScale, x: mapX, y: mapY }}
-                  className="relative will-change-transform"
-                >
-                  <div style={{ background: "linear-gradient(160deg,#FFFFFF,#EBF4FF)" }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={mapPreview.image}
-                      alt="Bản đồ mạng lưới vị trí OOH Toàn Cầu"
-                      className="block w-full mix-blend-multiply"
-                    />
-                  </div>
-
-                  {/* Heatmap traffic (bước 2) */}
-                  <motion.div aria-hidden style={{ opacity: heatOpacity }} className="absolute inset-0">
-                    <div
-                      className="absolute h-[34%] w-[26%]"
-                      style={{
-                        left: "48%",
-                        top: "22%",
-                        background: "radial-gradient(ellipse at center,rgba(255,120,50,.55),rgba(255,178,36,.28) 55%,transparent 75%)",
-                        filter: "blur(6px)",
-                      }}
-                    />
-                    <div
-                      className="absolute h-[26%] w-[20%]"
-                      style={{
-                        left: "56%",
-                        top: "40%",
-                        background: "radial-gradient(ellipse at center,rgba(255,178,36,.45),transparent 70%)",
-                        filter: "blur(8px)",
-                      }}
-                    />
-                  </motion.div>
-
-                  {/* Radius demographics 3km (bước 2) — scale từ tâm vị trí.
-                      Offset tâm đặt qua x/y của framer (translate Tailwind sẽ bị motion ghi đè). */}
-                  <motion.div
-                    aria-hidden
-                    style={{ scale: radiusScale, opacity: radiusOpacity, left: "61%", top: "38%", x: "-50%", y: "-50%" }}
-                    className="absolute h-[38%] w-[24%]"
-                  >
-                    <span className="absolute inset-0 rounded-full border-2 border-v2blue-500/70 bg-v2blue-500/15" />
-                    <span className="absolute inset-[18%] rounded-full border border-v2blue-500/50" />
-                    <span className="absolute -right-1 top-0 flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[.625rem] font-bold text-v2blue-800 shadow-v2-sm">
-                      <Users className="h-3 w-3" /> 1,2 triệu người / 3km
-                    </span>
-                  </motion.div>
-
-                  {/* Marker drop (bước 1) */}
-                  <motion.div
-                    style={{ x: "-50%", y: markerY, opacity: markerOpacity, left: "61%", top: "38%" }}
-                    className="absolute"
-                  >
-                    <span className="grid place-items-center rounded-full bg-v2blue-600 p-2 text-white shadow-v2-lg ring-4 ring-v2blue-500/30">
-                      <MapPin className="h-4 w-4" />
-                    </span>
-                  </motion.div>
-                </motion.div>
-
-                {/* Scan line "AI đang xử lý" (bước 2) — quét ngang 1 lần */}
-                <motion.div
-                  aria-hidden
-                  style={{ x: scanX, opacity: scanOpacity }}
-                  className="absolute inset-y-0 w-full will-change-transform"
-                >
-                  <div
-                    className="h-full w-full"
-                    style={{
-                      background:
-                        "linear-gradient(90deg,transparent 88%,rgba(54,143,255,.16) 96%,rgba(173,211,255,.85) 99%,rgba(54,143,255,.16) 100%)",
-                    }}
-                  />
-                </motion.div>
-
-                {/* Nhãn trạng thái radar */}
-                <motion.div
-                  style={{ opacity: heatOpacity }}
-                  className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-v2blue-900/85 px-3 py-1.5 backdrop-blur"
-                >
-                  <Radar className="h-3.5 w-3.5 animate-spin text-v2blue-300" style={{ animationDuration: "3s" }} />
-                  <span className="text-[.6875rem] font-bold text-v2blue-100">AI đang phân tích lớp dữ liệu…</span>
-                </motion.div>
-              </div>
+              <MapStage v={stage} />
 
               {/* Score cards lật vào (bước 3) */}
               <div className="absolute -bottom-6 left-1/2 flex -translate-x-1/2 gap-3">
