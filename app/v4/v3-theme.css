@@ -1,0 +1,90 @@
+/* Hiệu ứng trang trí lấy từ v2-tcg — chỉ nạp cho route /v3 (import trong app/v3/layout.tsx). */
+
+/* Sao lấp lánh (hero + contact nền tối) */
+@keyframes v3twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.65; }
+}
+@keyframes v3drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.v3-star {
+  position: absolute;
+  border-radius: 9999px;
+  animation: v3twinkle 4.5s ease-in-out infinite, v3drift 6.5s ease-in-out infinite;
+}
+
+/* Ô lục giác phát sáng nhấp nháy (HexTexture — glow-scatter) */
+@keyframes v3hexglow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.v3-hex {
+  animation: v3hexglow 4.8s ease-in-out infinite;
+}
+
+/* Nút CTA có vệt sáng quét ngang (btn-hero của v2) */
+@keyframes v3ctashine {
+  0% { left: -70%; }
+  60%, 100% { left: 140%; }
+}
+.v3-shine { position: relative; overflow: hidden; }
+.v3-shine::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -70%;
+  width: 42%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-18deg);
+  animation: v3ctashine 3.4s ease-in-out 1.8s infinite;
+  pointer-events: none;
+}
+
+/* Viền conic xoay cho thẻ AI (CSS thuần, không tốn JS) */
+@property --v4angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes v4spin {
+  to { --v4angle: 360deg; }
+}
+.v4-conic {
+  position: relative;
+  background-clip: padding-box;
+}
+.v4-conic::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--v4angle),
+    rgba(87, 163, 255, 0) 0%,
+    rgba(87, 163, 255, 0.9) 18%,
+    rgba(173, 211, 255, 0.9) 30%,
+    rgba(87, 163, 255, 0) 45%
+  );
+  animation: v4spin 3.2s linear infinite;
+}
+
+/* Sparkle/pulse nút submit khi người dùng bắt đầu điền form */
+@keyframes v4sparkle {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(87, 163, 255, 0.55); }
+  50% { box-shadow: 0 0 0 10px rgba(87, 163, 255, 0); }
+}
+.v4-sparkle {
+  animation: v4sparkle 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-star { animation: none; }
+  .v3-hex { animation: none; opacity: 0.8; }
+  .v3-shine::before { display: none; }
+  .v4-conic::before { animation: none; }
+  .v4-sparkle { animation: none; }
+}

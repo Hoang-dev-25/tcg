@@ -1,0 +1,83 @@
+/**
+ * Design tokens — Toàn Cầu ADV (v3 "Corporate Blue")
+ * CSS variables cho môi trường NGOÀI Tailwind (HTML tĩnh, CMS, email...).
+ * Nguồn sự thật: docs/design-system/design-system.md
+ * Hex phải khớp 1:1 với tailwind.config.ts (v2blue, shadow v2-*) — sửa màu thì sửa cả hai.
+ */
+
+:root {
+  /* ===== Màu brand (thang v2blue) ===== */
+  --tcg-blue-50: #ebf4ff;
+  --tcg-blue-100: #d6e9ff;
+  --tcg-blue-200: #add3ff;
+  --tcg-blue-300: #7bb8ff;
+  --tcg-blue-400: #57a3ff;
+  --tcg-blue-500: #368fff; /* base brand — không dùng cho chữ/nút trên nền trắng */
+  --tcg-blue-600: #2374d9; /* mức tối thiểu đạt AA trên nền trắng */
+  --tcg-blue-700: #1a5bb0;
+  --tcg-blue-800: #134384;
+  --tcg-blue-900: #0d2f5e;
+
+  /* ===== Vai trò ngữ nghĩa ===== */
+  --tcg-cta: var(--tcg-blue-600);
+  --tcg-cta-hover: var(--tcg-blue-700);
+  --tcg-link: var(--tcg-blue-600);
+  --tcg-heading: var(--tcg-blue-900);
+  --tcg-surface: #ffffff;
+  --tcg-surface-tint: var(--tcg-blue-50);
+  --tcg-surface-dark: var(--tcg-blue-900);
+  --tcg-gradient-dark: linear-gradient(160deg, #0d2f5e 0%, #134384 60%, #1a5bb0 100%);
+  --tcg-gradient-band: linear-gradient(120deg, #d6e9ff 0%, #ebf4ff 100%);
+
+  /* Trung tính (slate) */
+  --tcg-text: #334155; /* slate-700 */
+  --tcg-text-soft: #475569; /* slate-600 */
+  --tcg-text-muted: #64748b; /* slate-500 */
+  --tcg-border: #e2e8f0; /* slate-200 */
+
+  /* Trên nền đậm */
+  --tcg-on-dark: #ffffff;
+  --tcg-on-dark-soft: #e2e8f0; /* slate-200 */
+  --tcg-on-dark-muted: #cbd5e1; /* slate-300 */
+  --tcg-on-dark-accent: var(--tcg-blue-300);
+  --tcg-on-dark-border: rgba(255, 255, 255, 0.1);
+
+  /* ===== Typography ===== */
+  --tcg-font-display: "Lora", Georgia, serif; /* CHỈ tiêu đề, subset vietnamese */
+  --tcg-font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --tcg-font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace; /* số liệu */
+
+  --tcg-text-h1: clamp(2.5rem, 4.3vw, 3.2rem);
+  --tcg-text-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --tcg-text-h3: 1.375rem;
+  --tcg-text-lead: 1.125rem;
+  --tcg-text-emphasis: 1.0625rem;
+  --tcg-text-body: 0.9375rem;
+  --tcg-text-caption: 0.8125rem;
+  --tcg-text-kicker: 0.75rem; /* uppercase + letter-spacing .12em + semibold */
+
+  /* ===== Bo góc (mềm) ===== */
+  --tcg-radius-sm: 4px;
+  --tcg-radius-md: 8px; /* nút, input, chip */
+  --tcg-radius-lg: 12px;
+  --tcg-radius-2xl: 16px; /* card, ảnh */
+  --tcg-radius-band: 28px; /* band lớn */
+  --tcg-radius-full: 9999px;
+
+  /* ===== Bóng đổ (pha xanh brand, không đen thuần) ===== */
+  --tcg-shadow-sm: 0 1px 2px rgba(13, 47, 94, 0.06);
+  --tcg-shadow-md: 0 2px 10px rgba(13, 47, 94, 0.08);
+  --tcg-shadow-lg: 0 8px 24px rgba(13, 47, 94, 0.1);
+  --tcg-shadow-xl: 0 16px 40px rgba(13, 47, 94, 0.14);
+
+  /* ===== Motion ===== */
+  --tcg-ease: cubic-bezier(0.16, 0.84, 0.44, 1); /* ease-soft */
+  --tcg-ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  --tcg-duration-micro: 200ms; /* hover, đổi màu: 150–300ms */
+  --tcg-duration-reveal: 650ms; /* vào viewport: 500–800ms */
+
+  /* ===== Layout ===== */
+  --tcg-container: 1280px;
+  --tcg-header-h: 72px;
+  --tcg-touch-min: 44px;
+}

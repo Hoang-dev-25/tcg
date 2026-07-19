@@ -1,0 +1,231 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
+import { ArrowRight, ChevronDown, MapPin, PhoneCall, Sparkles } from "lucide-react";
+
+import { heroStats, heroWords } from "@/lib/v3-data";
+import { useParallaxFactor } from "@/hooks/useParallaxFactor";
+
+/* Load-in: stagger từng phần tử, headline reveal theo dòng (clip) */
+const stagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+};
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 26 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } },
+};
+const lineReveal: Variants = {
+  hidden: { y: "112%" },
+  show: { y: "0%", transition: { duration: 0.75, ease: [0.16, 0.84, 0.44, 1] } },
+};
+
+/** Một dòng headline reveal từ dưới lên trong khung cắt (clip-path reveal). */
+function Line({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
+      <motion.span variants={lineReveal} className="block will-change-transform">
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+/** Gõ chữ luân phiên các loại hình OOH (như v3). */
+function useTypewriter(words: string[], reduced: boolean) {
+  const [state, setState] = useState({ w: 0, len: reduced ? words[0].length : 0, del: false });
+
+  useEffect(() => {
+    if (reduced) return;
+    const word = words[state.w];
+    let delay = state.del ? 42 : 88;
+    if (!state.del && state.len === word.length) delay = 2100;
+    if (state.del && state.len === 0) delay = 420;
+    const t = setTimeout(() => {
+      setState((p) => {
+        const wd = words[p.w];
+        if (!p.del) return p.len < wd.length ? { ...p, len: p.len + 1 } : { ...p, del: true };
+        return p.len > 0 ? { ...p, len: p.len - 1 } : { w: (p.w + 1) % words.length, len: 0, del: false };
+      });
+    }, delay);
+    return () => clearTimeout(t);
+  }, [state, reduced, words]);
+
+  return words[state.w].slice(0, state.len);
+}
+
+/**
+ * Hero full màn hình kiểu "camera zoom" (v4):
+ * runway 200dvh + hero sticky — khi cuộn, hero thu nhỏ + bo góc + tối dần,
+ * ảnh nền dịch chậm (parallax), section sau (đặt -mt-[100dvh] ở page) trượt lên phủ.
+ * Mọi biên độ nhân useParallaxFactor() → mobile giảm cường độ, reduced-motion tĩnh.
+ */
+export function V4Hero() {
+  const runway = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion() ?? false;
+  const factor = useParallaxFactor();
+  const text = useTypewriter(
+    heroWords.map((w) => w.word),
+    reduced
+  );
+
+  // 0 → 1 đúng trong pha section dưới trượt lên phủ hero
+  const { scrollYProgress } = useScroll({ target: runway, offset: ["start start", "end end"] });
+
+  // 3 tầng tốc độ: nền chậm nhất → floating card tầng giữa → text nhanh nhất + fade
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1 - 0.1 * factor]);
+  const radius = useTransform(scrollYProgress, [0, 1], [0, 28 * factor]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 90 * factor]);
+  const cardsY = useTransform(scrollYProgress, [0, 1], [0, -170 * factor]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -260 * factor]);
+  const contentFade = useTransform(scrollYProgress, [0, 0.35, 0.8], [1, 1, factor === 0 ? 1 : 0.15]);
+  const dim = useTransform(scrollYProgress, [0, 0.9], [0, 0.55 * factor]);
+  const hintOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+
+  return (
+    <div ref={runway} id="top" className="relative z-[5] h-[200dvh] bg-v2blue-900">
+      <div className="sticky top-0 h-dvh overflow-hidden">
+        <motion.section
+          style={{ scale, borderRadius: radius }}
+          className="relative flex h-full flex-col overflow-hidden bg-v2blue-900 text-white"
+          aria-label="Giới thiệu Toàn Cầu ADV"
+        >
+          {/* Ảnh nền dịch chậm (parallax) — scale dư 1.12 để không hở mép */}
+          <motion.div aria-hidden style={{ y: bgY }} className="absolute inset-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/v4-assets/screen.png"
+              alt=""
+              className="h-full w-full scale-[1.12] object-cover"
+            />
+          </motion.div>
+
+          {/* Overlay vignette đối xứng — đảm bảo tương phản chữ căn giữa trên ảnh */}
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg,rgba(13,47,94,.72) 0%,rgba(13,47,94,.45) 38%,rgba(13,47,94,.45) 62%,rgba(13,47,94,.78) 100%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background: "radial-gradient(ellipse 70% 55% at 50% 46%,transparent 40%,rgba(13,47,94,.45) 100%)",
+            }}
+          />
+
+          {/* Lớp tối dần khi bị phủ — cảm giác camera lùi xuống */}
+          <motion.div aria-hidden style={{ opacity: dim }} className="absolute inset-0 bg-v2blue-900" />
+
+          {/* Tầng giữa: floating card trôi ở tốc độ riêng (chậm hơn text, nhanh hơn nền) */}
+          <motion.div aria-hidden style={{ y: cardsY }} className="absolute inset-0 z-[1] hidden lg:block">
+            <motion.div
+              initial={reduced ? false : { opacity: 0, scale: 0.88 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 1.15, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute left-[7%] top-[26%] flex items-center gap-2.5 rounded-md border border-white/15 bg-white/95 px-4 py-3 shadow-v2-xl backdrop-blur motion-safe:animate-float"
+            >
+              <span className="grid h-9 w-9 place-items-center rounded-[10px] bg-v2blue-50 text-v2blue-600">
+                <Sparkles className="h-[18px] w-[18px]" />
+              </span>
+              <span className="grid text-left leading-tight">
+                <strong className="text-[.9375rem] text-v2blue-900">Điểm AI 92/100</strong>
+                <span className="text-[.75rem] text-slate-500">Gợi ý theo ngành hàng</span>
+              </span>
+            </motion.div>
+            <motion.div
+              initial={reduced ? false : { opacity: 0, scale: 0.88 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute bottom-[24%] right-[6%] flex items-center gap-2.5 rounded-md border border-white/15 bg-white/95 px-4 py-3 shadow-v2-xl backdrop-blur motion-safe:animate-float-late"
+            >
+              <span className="grid h-9 w-9 place-items-center rounded-[10px] bg-v2blue-50 text-v2blue-600">
+                <MapPin className="h-[18px] w-[18px]" />
+              </span>
+              <span className="grid text-left leading-tight">
+                <strong className="text-[.9375rem] text-v2blue-900">~730 vị trí</strong>
+                <span className="text-[.75rem] text-slate-500">Phủ khắp 30+ tỉnh thành</span>
+              </span>
+            </motion.div>
+          </motion.div>
+
+          {/* Nội dung căn giữa — tầng nhanh nhất, fade khi hero bị phủ */}
+          <motion.div
+            variants={stagger}
+            initial={reduced ? false : "hidden"}
+            animate="show"
+            style={{ y: contentY, opacity: contentFade }}
+            className="relative z-[2] mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-4 pb-20 pt-24 text-center sm:px-6 lg:px-8"
+          >
+            <motion.span
+              variants={fadeUp}
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[.8125rem] font-bold uppercase tracking-[.1em] text-v2blue-100 backdrop-blur"
+            >
+              <span className="h-2 w-2 rounded-full bg-v2blue-300 motion-safe:animate-pulse-ring" />
+              Mạng lưới OOH toàn quốc
+            </motion.span>
+            <h1 className="m-0 mt-6 max-w-[880px] font-v2display text-[clamp(2.5rem,4.6vw,3.5rem)] font-bold leading-[1.12] tracking-[-0.01em]">
+              <Line>Giải pháp Quảng cáo</Line>
+              <Line>
+                <span className="text-v2blue-300">
+                  {text}
+                  <span
+                    aria-hidden
+                    className="ml-1 inline-block h-[0.92em] w-[3px] -translate-y-[0.05em] rounded-sm bg-v2blue-300 align-middle motion-safe:animate-[pulse-soft_1s_steps(1)_infinite]"
+                  />
+                </span>
+              </Line>
+              <Line>Hàng đầu Việt Nam</Line>
+            </h1>
+            <motion.p
+              variants={fadeUp}
+              className="m-0 mt-5 max-w-[620px] text-[1.125rem] leading-[1.65] text-slate-200"
+            >
+              Được hơn 400 nhãn hàng tin chọn trong suốt 20 năm; vận hành cùng dữ liệu vị trí
+              minh bạch và điểm AI theo ngành hàng.
+            </motion.p>
+            <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
+              <a
+                href="#ban-do"
+                className="v3-shine inline-flex h-[54px] items-center gap-2.5 rounded-md bg-v2blue-600 px-7 text-[1.0625rem] font-semibold text-white shadow-v2-lg transition hover:-translate-y-0.5 hover:bg-v2blue-500"
+              >
+                Khám phá bản đồ vị trí <ArrowRight className="h-[19px] w-[19px]" />
+              </a>
+              <a
+                href="#lien-he"
+                className="inline-flex h-[54px] items-center gap-2 rounded-md border border-white/40 bg-v2blue-900/30 px-6 text-[1.0625rem] font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/10"
+              >
+                <PhoneCall className="h-[18px] w-[18px]" /> Nhận tư vấn
+              </a>
+            </motion.div>
+
+            {/* Số liệu làm bằng chứng — hàng nhẹ, không dùng band nặng */}
+            <motion.div variants={fadeUp} className="mt-12 flex items-stretch divide-x divide-white/15">
+              {heroStats.map((s) => (
+                <div key={s.label} className="px-7 text-center sm:px-10">
+                  <div className="font-mono text-[1.375rem] font-bold tabular-nums sm:text-[1.75rem]">
+                    {s.value}
+                  </div>
+                  <div className="mt-1 text-[.8125rem] text-slate-300">{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Gợi ý cuộn — mờ dần ngay khi bắt đầu cuộn */}
+          <motion.div
+            aria-hidden
+            style={{ opacity: hintOpacity }}
+            className="pointer-events-none absolute bottom-7 left-1/2 z-[2] -translate-x-1/2 text-v2blue-200"
+          >
+            <ChevronDown className="h-6 w-6 motion-safe:animate-scroll-hint" />
+          </motion.div>
+        </motion.section>
+      </div>
+    </div>
+  );
+}

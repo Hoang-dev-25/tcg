@@ -1,0 +1,44 @@
+/* Toàn Cầu ADV — color tokens v3 "Corporate Blue". Brand blue #368FFF (user-specified 2026-07-14). CTA vàng/amber bị loại bỏ theo yêu cầu. */
+:root{
+/* Blue ramp (brand primary) — base 500 #368FFF */
+--blue-50:#EBF4FF;--blue-100:#D6E9FF;--blue-200:#ADD3FF;--blue-300:#7BB8FF;--blue-400:#57A3FF;--blue-500:#368FFF;--blue-600:#2374D9;--blue-700:#1A5BB0;--blue-800:#134384;--blue-900:#0D2F5E;
+/* Slate neutrals (ghi lạnh hợp tông xanh) */
+--slate-50:#F8FAFC;--slate-100:#F1F5F9;--slate-200:#E2E8F0;--slate-300:#CBD5E1;--slate-400:#94A3B8;--slate-500:#64748B;--slate-600:#475569;--slate-700:#334155;--slate-800:#1E293B;--slate-900:#0F172A;--slate-950:#020617;
+/* Semantic (light mode) */
+--background:#FFFFFF;--foreground:#0F172A;
+--card:#FFFFFF;--card-foreground:#0F172A;
+--muted:#F1F5F9;--muted-foreground:#64748B;
+--border:#E2E8F0;--input:#CBD5E1;
+--primary:#2374D9;--primary-foreground:#FFFFFF;
+--cta:#2374D9;--cta-foreground:#FFFFFF;
+--secondary:#EBF4FF;--secondary-foreground:#1A5BB0;
+--accent:#F1F5F9;--accent-foreground:#1A5BB0;
+--ring:#368FFF;
+/* States */
+--success:#16A34A;--success-foreground:#FFFFFF;
+--warning:#F59E0B;--warning-foreground:#0F172A;
+--destructive:#DC2626;--destructive-foreground:#FFFFFF;
+--info:#2563EB;--info-foreground:#FFFFFF;
+/* AI score tiers */
+--score-low:#E5484D;--score-mid:#F5A524;--score-good:#4FB477;--score-high:#159B5B;
+/* OOH availability */
+--status-available:#16A34A;--status-soon:#F59E0B;--status-booked:#94A3B8;
+/* Legacy aliases (v1 navy/amber, v2 green/brick/stone → v3 blue/slate) — code cũ vẫn đúng brand */
+--navy-50:var(--blue-50);--navy-100:var(--blue-100);--navy-200:var(--blue-200);--navy-300:var(--blue-300);--navy-400:var(--blue-400);--navy-500:var(--blue-500);--navy-600:var(--blue-600);--navy-700:var(--blue-700);--navy-800:var(--blue-800);--navy-900:var(--blue-900);
+--green-50:var(--blue-50);--green-100:var(--blue-100);--green-200:var(--blue-200);--green-300:var(--blue-300);--green-400:var(--blue-400);--green-500:var(--blue-500);--green-600:var(--blue-600);--green-700:var(--blue-700);--green-800:var(--blue-800);--green-900:var(--blue-900);
+--amber-50:var(--blue-50);--amber-100:var(--blue-100);--amber-200:var(--blue-200);--amber-300:var(--blue-300);--amber-400:var(--blue-500);--amber-500:var(--blue-600);--amber-600:var(--blue-700);
+--brick-50:var(--blue-50);--brick-100:var(--blue-100);--brick-200:var(--blue-200);--brick-300:var(--blue-300);--brick-400:var(--blue-500);--brick-500:var(--blue-600);--brick-600:var(--blue-700);
+--stone-50:var(--slate-50);--stone-100:var(--slate-100);--stone-200:var(--slate-200);--stone-300:var(--slate-300);--stone-400:var(--slate-400);--stone-500:var(--slate-500);--stone-600:var(--slate-600);--stone-700:var(--slate-700);--stone-800:var(--slate-800);--stone-900:var(--slate-900);--stone-950:var(--slate-950);
+}
+.dark{
+--background:#0B1526;--foreground:#F1F5F9;
+--card:#12203A;--card-foreground:#F1F5F9;
+--muted:#1B2B47;--muted-foreground:#94A3B8;
+--border:rgba(255,255,255,.10);--input:rgba(255,255,255,.15);
+--primary:#7BB8FF;--primary-foreground:#0D2F5E;
+--cta:#7BB8FF;--cta-foreground:#0D2F5E;
+--secondary:#1B2B47;--secondary-foreground:#F1F5F9;
+--accent:#1B2B47;--accent-foreground:#F1F5F9;
+--ring:#7BB8FF;
+--success:#22C55E;--warning:#FBBF24;--destructive:#F87171;--info:#60A5FA;
+}

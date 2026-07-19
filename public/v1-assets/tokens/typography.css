@@ -1,0 +1,19 @@
+/* Toàn Cầu ADV — typography v3 Editorial: Lora (serif, hỗ trợ tiếng Việt) làm chữ chính (display + body) + IBM Plex Mono cho số liệu. Thay Playfair Display + IBM Plex Sans (yêu cầu user 2026-07-16). */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{
+--font-display:'Lora',Georgia,'Times New Roman',serif;
+--font-sans:'Lora',Georgia,'Times New Roman',serif;
+--font-heading:var(--font-display);
+--font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+/* Type scale — display/h1/h2/h3 = Lora serif; số liệu = mono */
+--text-display:4.25rem;--lh-display:1.1 /* @kind other */;--w-display:600 /* @kind other */;
+--text-h1:3rem;--lh-h1:1.14 /* @kind other */;--w-h1:600 /* @kind other */;
+--text-h2:2.25rem;--lh-h2:1.2 /* @kind other */;--w-h2:600 /* @kind other */;
+--text-h3:1.5rem;--lh-h3:1.32 /* @kind other */;--w-h3:600 /* @kind other */;
+--text-h4:1.25rem;--lh-h4:1.4 /* @kind other */;--w-h4:600 /* @kind other */;
+--text-body-lg:1.125rem;--text-body:1rem;--text-body-sm:.875rem;--text-caption:.75rem;
+--lh-body:1.7 /* @kind other */;--lh-body-sm:1.55 /* @kind other */;--lh-caption:1.4 /* @kind other */;
+}
+body{font-family:var(--font-sans);color:var(--foreground);background:var(--background);font-size:var(--text-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--primary);text-decoration:none}
+a:hover{color:var(--green-500);text-decoration:underline}

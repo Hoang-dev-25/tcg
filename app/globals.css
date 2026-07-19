@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 221 52% 5%;
+    --foreground: 214 45% 95%;
+    --card: 221 47% 8%;
+    --card-foreground: 214 45% 95%;
+    --popover: 221 47% 8%;
+    --popover-foreground: 214 45% 95%;
+    --primary: 40 100% 57%;
+    --primary-foreground: 221 52% 6%;
+    --secondary: 220 40% 13%;
+    --secondary-foreground: 214 45% 95%;
+    --muted: 220 36% 14%;
+    --muted-foreground: 217 22% 68%;
+    --accent: 189 100% 59%;
+    --accent-foreground: 221 52% 6%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 220 34% 18%;
+    --input: 220 34% 20%;
+    --ring: 189 100% 59%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  /* Cuộn mượt CSS chỉ là fallback khi Lenis không chạy */
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.lenis) {
+      scroll-behavior: auto;
+    }
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-background font-body text-foreground antialiased;
+  }
+
+  ::selection {
+    @apply bg-neon-amber/80 text-ink-950;
+  }
+}
+
+@layer utilities {
+  .text-glow-amber {
+    text-shadow: 0 0 18px rgba(255, 178, 36, 0.55), 0 0 60px rgba(255, 178, 36, 0.25);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 18px rgba(46, 230, 255, 0.5), 0 0 60px rgba(46, 230, 255, 0.22);
+  }
+
+  .bg-grid-faint {
+    background-image: linear-gradient(rgba(46, 230, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46, 230, 255, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+}

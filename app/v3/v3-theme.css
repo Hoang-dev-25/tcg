@@ -1,0 +1,50 @@
+/* Hiệu ứng trang trí lấy từ v2-tcg — chỉ nạp cho route /v3 (import trong app/v3/layout.tsx). */
+
+/* Sao lấp lánh (hero + contact nền tối) */
+@keyframes v3twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.65; }
+}
+@keyframes v3drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.v3-star {
+  position: absolute;
+  border-radius: 9999px;
+  animation: v3twinkle 4.5s ease-in-out infinite, v3drift 6.5s ease-in-out infinite;
+}
+
+/* Ô lục giác phát sáng nhấp nháy (HexTexture — glow-scatter) */
+@keyframes v3hexglow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.v3-hex {
+  animation: v3hexglow 4.8s ease-in-out infinite;
+}
+
+/* Nút CTA có vệt sáng quét ngang (btn-hero của v2) */
+@keyframes v3ctashine {
+  0% { left: -70%; }
+  60%, 100% { left: 140%; }
+}
+.v3-shine { position: relative; overflow: hidden; }
+.v3-shine::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -70%;
+  width: 42%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-18deg);
+  animation: v3ctashine 3.4s ease-in-out 1.8s infinite;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-star { animation: none; }
+  .v3-hex { animation: none; opacity: 0.8; }
+  .v3-shine::before { display: none; }
+}

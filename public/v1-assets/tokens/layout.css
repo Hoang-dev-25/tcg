@@ -1,0 +1,21 @@
+/* Toàn Cầu ADV — spacing, radius, elevation, motion. v3: bo góc mềm hơn (bớt cứng), bóng pha xanh brand, motion cuốn hút hơn. */
+:root{
+/* Spacing: base 4px, nhịp section thoáng (editorial airy) */
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--space-10:40px;--space-12:48px;--space-16:64px;--space-24:96px;--space-28:112px;
+--container-max:1280px;--prose-max:72ch;
+/* Radius v3 — mềm hơn để card bớt cứng, cuốn hút hơn. Quy tắc hình khối: input/nút nhỏ = md(10px); card = xl(16px)/2xl(20px); pill/badge = full. */
+--radius:0.625rem;
+--radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:16px;--radius-2xl:22px;--radius-full:9999px;
+/* Elevation — bóng pha xanh brand (không đen thuần), có bậc hover cho card */
+--shadow-sm:0 1px 2px rgba(13,47,94,.06);
+--shadow-md:0 4px 14px rgba(13,47,94,.09);
+--shadow-lg:0 12px 30px rgba(13,47,94,.12);
+--shadow-xl:0 22px 48px rgba(13,47,94,.16);
+--shadow-card:0 1px 2px rgba(13,47,94,.05),0 8px 24px rgba(13,47,94,.06);
+--shadow-card-hover:0 6px 16px rgba(13,47,94,.10),0 24px 48px rgba(13,47,94,.18);
+/* Motion — v3: nhịp cuốn hút, easing mượt (chuẩn + bật nhẹ) */
+--dur-fast:180ms /* @kind other */;--dur-base:300ms /* @kind other */;--dur-slow:600ms /* @kind other */;
+--ease-standard:cubic-bezier(.2,0,0,1) /* @kind other */;
+--ease-out:cubic-bezier(.16,1,.3,1) /* @kind other */;
+--ease-spring:cubic-bezier(.34,1.56,.64,1) /* @kind other */;
+}

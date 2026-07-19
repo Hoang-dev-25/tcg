@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toàn Cầu ADV — Quảng cáo ngoài trời (OOH) đúng vị trí, đúng thời điểm</title>
+<meta name="description" content="Toàn Cầu ADV — 20+ năm kinh nghiệm quảng cáo ngoài trời toàn quốc: billboard, sân bay, màn hình LED, nhà chờ xe bus. Bản đồ vị trí, điểm phù hợp AI theo ngành hàng và báo giá nhanh.">
+<meta name="theme-color" content="#0D2F5E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Toàn Cầu ADV — Quảng cáo ngoài trời đúng vị trí, đúng thời điểm">
+<meta property="og:description" content="Mạng lưới OOH toàn quốc: billboard, sân bay, LED, nhà chờ. Chọn vị trí bằng điểm phù hợp AI theo ngành hàng và nhận báo giá nhanh.">
+<meta property="og:image" content="/v2-assets/assets/logo-full.png">
+<meta property="og:locale" content="vi_VN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Toàn Cầu ADV — Quảng cáo ngoài trời đúng vị trí, đúng thời điểm">
+<meta name="twitter:description" content="Mạng lưới OOH toàn quốc với bản đồ vị trí, điểm phù hợp AI theo ngành hàng và báo giá nhanh.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D2F5E'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23368FFF' stroke-width='2'/%3E%3Cpath d='M7 16h18M16 7c3 3 3 15 0 18M16 7c-3 3-3 15 0 18' fill='none' stroke='%237BB8FF' stroke-width='1.4'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {50:'#EBF4FF',100:'#D6E9FF',200:'#ADD3FF',300:'#7BB8FF',400:'#57A3FF',500:'#368FFF',600:'#2374D9',700:'#1A5BB0',800:'#134384',900:'#0D2F5E'},
+        ink: '#0F172A',
+      },
+      fontFamily: {
+        display: ['"Lora"','Georgia','"Times New Roman"','serif'],
+        sans: ['"Plus Jakarta Sans"','system-ui','-apple-system','Segoe UI','sans-serif'],
+        mono: ['"Plus Jakarta Sans"','system-ui','-apple-system','Segoe UI','sans-serif'],
+      },
+      boxShadow: {
+        'e-sm':'0 1px 2px rgba(13,47,94,.06)',
+        'e-md':'0 2px 10px rgba(13,47,94,.08)',
+        'e-lg':'0 8px 24px rgba(13,47,94,.10)',
+        'e-xl':'0 16px 40px rgba(13,47,94,.14)',
+      },
+      maxWidth: { container: '1280px' },
+    }
+  }
+}
+</script>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<style>
+  html{scroll-padding-top:72px;scroll-behavior:smooth;overflow-x:clip}
+  body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;color:#0F172A;background:#fff;overflow-x:clip;font-size:1rem;line-height:1.65}
+  ::selection{background:#D6E9FF}
+
+  /* Font: Plus Jakarta Sans cho toàn bộ trang (hỗ trợ tiếng Việt đầy đủ). Cố định ngay
+     trong CSS để không phụ thuộc Tailwind CDN. Số liệu dùng tabular-nums cho thẳng cột. */
+  /* Bản thử: Lora (serif) cho tiêu đề, Plus Jakarta Sans cho thân & UI */
+  .font-display{font-family:'Lora',Georgia,'Times New Roman',serif}
+  .font-sans,.font-mono{font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+  .font-mono{font-variant-numeric:tabular-nums}
+
+  .wrap{max-width:1280px;margin-inline:auto;padding-inline:16px}
+  @media(min-width:640px){.wrap{padding-inline:24px}}
+  @media(min-width:1024px){.wrap{padding-inline:32px}}
+
+  /* Buttons (design-system variants) */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-weight:600;border-radius:2px;cursor:pointer;line-height:1;text-decoration:none;transition:background .2s ease,box-shadow .2s ease,transform .1s ease;white-space:nowrap}
+  .btn:active{transform:translateY(1px)}
+  .btn-sm{height:36px;padding:0 16px;font-size:.875rem}
+  .btn-md{height:44px;padding:0 20px;font-size:.9375rem}
+  .btn-lg{height:52px;padding:0 24px;font-size:.9375rem}
+  .btn-cta,.btn-primary{background:#2374D9;color:#fff}
+  .btn-cta:hover,.btn-primary:hover{background:#1A5BB0;box-shadow:0 2px 10px rgba(13,47,94,.18)}
+  .btn-secondary{background:#EBF4FF;color:#1A5BB0}
+  .btn-secondary:hover{background:#D6E9FF}
+  .btn-outline{background:transparent;border:1px solid #2374D9;color:#2374D9}
+  .btn-outline:hover{background:#EBF4FF}
+  .btn-outline-inverse{background:transparent;border:1px solid rgba(255,255,255,.42);color:#fff}
+  .btn-outline-inverse:hover{background:rgba(255,255,255,.12)}
+
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #368FFF;outline-offset:2px;border-radius:2px}
+  input:focus-visible,textarea:focus-visible{outline-offset:1px;box-shadow:0 0 0 3px rgba(54,143,255,.25)}
+
+  /* Keyframes */
+  @keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.65}}
+  @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(54,143,255,.55)}70%{box-shadow:0 0 0 8px rgba(54,143,255,0)}100%{box-shadow:0 0 0 0 rgba(54,143,255,0)}}
+  .live-dot{animation:livePulse 2s ease-out infinite}
+  .star{position:absolute;border-radius:9999px;animation:twinkle 4.5s ease-in-out infinite,drift 6.5s ease-in-out infinite}
+  .no-sb{scrollbar-width:none;-ms-overflow-style:none}
+  .no-sb::-webkit-scrollbar{display:none}
+
+  /* Scroll progress bar */
+  #scrollProgress{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,#57A3FF,#2374D9 60%,#1A5BB0);box-shadow:0 0 10px rgba(54,143,255,.55);transition:width .12s ease-out;will-change:width}
+
+  /* Easing tokens */
+  :root{--ease-soft:cubic-bezier(.16,.84,.44,1)}
+
+  /* Hero intro — staggered line-mask reveal, Ken Burns photo, shine CTA */
+  @keyframes heroRise{from{transform:translateY(115%)}to{transform:none}}
+  @keyframes heroFade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes heroZoom{from{transform:scale(1.14)}to{transform:none}}
+  @keyframes heroDraw{to{transform:scaleX(1)}}
+  @keyframes ctaShine{0%{left:-70%}60%,100%{left:140%}}
+  @keyframes cueDrop{0%{transform:translateY(0);opacity:0}25%{opacity:1}100%{transform:translateY(14px);opacity:0}}
+  .hero-zoom{animation:heroZoom 7s var(--ease-soft) both}
+  .hero-line{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+  .hero-line>span{display:inline-block;transform:translateY(115%);animation:heroRise .85s var(--ease-soft) both}
+  .hero-fade{opacity:0;animation:heroFade .8s ease both}
+  .hero-mark{position:relative;display:inline-block}
+  .hero-mark::after{content:"";position:absolute;left:0;right:0;bottom:.03em;height:.12em;border-radius:2px;background:linear-gradient(90deg,#57A3FF,#ADD3FF);opacity:.85;transform:scaleX(0);transform-origin:left;animation:heroDraw .6s var(--ease-soft) both;animation-delay:var(--d,1s)}
+  .btn-hero{position:relative;overflow:hidden;box-shadow:0 6px 24px rgba(35,116,217,.38);transition:background .2s ease,box-shadow .3s var(--ease-soft),transform .3s var(--ease-soft)}
+  .btn-hero::before{content:"";position:absolute;top:-20%;bottom:-20%;left:-70%;width:42%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-18deg);animation:ctaShine 3.4s ease-in-out 1.8s infinite;pointer-events:none}
+  .btn-hero:hover{box-shadow:0 12px 32px rgba(35,116,217,.5);transform:translateY(-2px)}
+  .btn-hero:active{transform:translateY(0) scale(.98)}
+  .cta-arrow{display:inline-block;transition:transform .35s var(--ease-soft)}
+  .btn:hover .cta-arrow{transform:translateX(5px)}
+  .scroll-cue{position:absolute;right:2.5rem;bottom:120px;z-index:2;width:26px;height:42px;border:1.5px solid rgba(255,255,255,.5);border-radius:14px;display:none;justify-content:center;padding-top:8px}
+  @media(min-width:1024px){.scroll-cue{display:flex}}
+  .scroll-cue span{width:4px;height:9px;border-radius:2px;background:#ADD3FF;animation:cueDrop 1.8s ease-in-out infinite}
+  @media(prefers-reduced-motion:reduce){
+    .hero-line>span,.hero-fade,.hero-zoom{animation:none!important;opacity:1!important;transform:none!important}
+    .hero-mark::after{animation:none!important;transform:scaleX(1)}
+    .btn-hero::before{display:none}
+    .scroll-cue{display:none!important}
+  }
+
+  /* Scroll-triggered accents — fire when the ancestor [data-reveal] gains .in */
+  .mark-draw{position:relative}
+  .mark-draw::after{content:"";position:absolute;left:0;right:0;bottom:.03em;height:.12em;border-radius:2px;background:linear-gradient(90deg,#57A3FF,#ADD3FF);opacity:.6;transform:scaleX(0);transform-origin:left;transition:transform .8s var(--ease-soft) .55s}
+  [data-reveal].in .mark-draw::after{transform:scaleX(1)}
+  .bar-anim{transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease-soft) .45s}
+  [data-reveal].in .bar-anim{transform:scaleX(1)}
+  #aiScores>span{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .6s var(--ease-soft)}
+  [data-reveal].in #aiScores>span{opacity:1;transform:none}
+  #aiScores>span:nth-child(1){transition-delay:.35s}
+  #aiScores>span:nth-child(2){transition-delay:.47s}
+  #aiScores>span:nth-child(3){transition-delay:.59s}
+  #aiScores>span:nth-child(4){transition-delay:.71s}
+  @media(prefers-reduced-motion:reduce){
+    .mark-draw::after,.bar-anim{transform:scaleX(1)!important}
+    #aiScores>span{opacity:1!important;transform:none!important}
+  }
+
+  /* Services — static tilted card plane as background, gradient wash keeps the message readable */
+  #svcBg{position:absolute;inset:0;overflow:hidden}
+  .svc-bg-plane{position:absolute;top:50%;left:50%;width:150%;transform:translate(-50%,-50%) rotate(-6deg);display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  @media(min-width:640px){.svc-bg-plane{grid-template-columns:repeat(4,1fr)}}
+  @media(min-width:1024px){.svc-bg-plane{grid-template-columns:repeat(6,1fr);gap:24px}}
+  .svc-bg-plane .svc-card:nth-child(odd){transform:translateY(30px)}
+  .svc-card{box-shadow:0 12px 32px rgba(13,47,94,.12)}
+  /* dense over text (top-left), progressively clearer toward the open side; soft edge fades top & bottom */
+  .svc-wash{background:
+    linear-gradient(112deg,rgba(239,246,255,.97) 0%,rgba(239,246,255,.93) 34%,rgba(239,246,255,.7) 52%,rgba(239,246,255,.32) 72%,rgba(239,246,255,.1) 100%),
+    linear-gradient(180deg,rgba(239,246,255,.9) 0%,rgba(239,246,255,0) 16%,rgba(239,246,255,0) 86%,rgba(239,246,255,.92) 100%)}
+  @media(max-width:1023px){
+    .svc-wash{background:linear-gradient(180deg,rgba(239,246,255,.98) 0%,rgba(239,246,255,.92) 46%,rgba(239,246,255,.6) 72%,rgba(239,246,255,.28) 100%)}
+  }
+
+  /* Testimonial cards — straighten + lift on hover */
+  .tcard{transition:transform .5s var(--ease-soft)}
+  .tcard__inner{transition:box-shadow .5s var(--ease-soft)}
+  .tcard:hover{transform:rotate(0deg) translateY(-12px) scale(1.02)!important;z-index:5}
+  .tcard:hover .tcard__inner{box-shadow:0 26px 50px rgba(13,47,94,.22)}
+
+  /* Generic lift for floating info cards */
+  .card-lift{transition:transform .5s var(--ease-soft),box-shadow .5s var(--ease-soft);will-change:transform}
+  .card-lift:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(13,47,94,.16)}
+
+  @media(prefers-reduced-motion:reduce){
+    .svc-card:hover,.tcard:hover,.card-lift:hover{transform:none!important}
+    #scrollProgress{transition:none}
+  }
+
+  /* Scroll reveal */
+  [data-reveal]{opacity:0;will-change:opacity,transform;transition:opacity .8s ease,transform .8s cubic-bezier(.16,.84,.44,1)}
+  [data-reveal].in{opacity:1;transform:none!important}
+  [data-reveal="up"]{transform:translateY(32px)}
+  [data-reveal="down"]{transform:translateY(-28px)}
+  [data-reveal="left"]{transform:translateX(-42px)}
+  [data-reveal="right"]{transform:translateX(42px)}
+  [data-reveal="scale"]{transform:scale(.92)}
+  [data-reveal="fade"]{transform:none}
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+    [data-reveal]{opacity:1!important;transform:none!important}
+  }
+</style>
+</head>
+<body>
+
+<div id="scrollProgress" aria-hidden="true"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-e-sm">
+  <div class="wrap flex items-center gap-4 h-[72px]">
+    <a href="#top" class="flex items-center gap-2.5 shrink-0">
+      <img src="/v2-assets/assets/logo-full.png" alt="Toàn Cầu ADV" class="h-9 sm:h-10 w-auto">
+    </a>
+    <nav class="hidden md:flex gap-6 text-[.9375rem] font-medium flex-1">
+      <a href="#top" class="text-blue-600 font-semibold">Trang chủ</a>
+      <a href="#ban-do" class="text-slate-600 hover:text-blue-700">Bản đồ</a>
+      <a href="#dich-vu" class="text-slate-600 hover:text-blue-700">Dịch vụ</a>
+      <a href="#tin-tuc" class="text-slate-600 hover:text-blue-700">Tin tức</a>
+      <a href="#lien-he" class="text-slate-600 hover:text-blue-700">Liên hệ</a>
+    </nav>
+    <a href="#lien-he" class="btn btn-cta btn-sm ml-auto md:ml-0 hidden sm:inline-flex">Yêu cầu báo giá</a>
+    <button id="menuBtn" aria-label="Mở menu" aria-expanded="false" class="md:hidden ml-auto inline-grid place-items-center w-10 h-10 rounded-[2px] text-slate-700 hover:bg-slate-100">
+      <span data-lucide="menu" class="w-6 h-6"></span>
+    </button>
+  </div>
+  <!-- mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200 bg-white">
+    <nav class="wrap flex flex-col py-2 text-[.9375rem] font-medium">
+      <a href="#top" class="py-3 text-blue-600 font-semibold">Trang chủ</a>
+      <a href="#ban-do" class="py-3 text-slate-700 border-t border-slate-100">Bản đồ</a>
+      <a href="#dich-vu" class="py-3 text-slate-700 border-t border-slate-100">Dịch vụ</a>
+      <a href="#tin-tuc" class="py-3 text-slate-700 border-t border-slate-100">Tin tức</a>
+      <a href="#lien-he" class="py-3 text-slate-700 border-t border-slate-100">Liên hệ</a>
+      <a href="#lien-he" class="btn btn-cta btn-md my-3">Yêu cầu báo giá</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="top" class="relative overflow-hidden text-white bg-blue-900 lg:min-h-screen flex flex-col">
+  <!-- photo: full-bleed on mobile, right 58% on desktop -->
+  <div class="absolute inset-0 lg:left-auto lg:w-[58%] overflow-hidden">
+    <img src="/v2-assets/image/hero-image.png" alt="Vị trí quảng cáo sân bay nổi bật" class="hero-zoom w-full h-full object-cover">
+  </div>
+  <!-- overlay: vertical on mobile, diagonal on desktop -->
+  <div class="absolute inset-0 bg-gradient-to-b from-blue-900/85 via-blue-900/80 to-blue-900/95 lg:bg-gradient-to-r lg:from-blue-900 lg:from-36% lg:via-blue-900/75 lg:via-54% lg:to-transparent lg:to-72%"></div>
+  <!-- decorative curves -->
+  <svg class="absolute inset-0 w-full h-full z-[1] pointer-events-none" viewBox="0 0 1440 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="hcA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#368FFF" stop-opacity=".55"></stop><stop offset="100%" stop-color="#ADD3FF" stop-opacity=".05"></stop></linearGradient>
+      <linearGradient id="hcB" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#7BB8FF" stop-opacity=".4"></stop><stop offset="100%" stop-color="#1A5BB0" stop-opacity="0"></stop></linearGradient>
+      <linearGradient id="hcC" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ADD3FF" stop-opacity=".35"></stop><stop offset="100%" stop-color="#368FFF" stop-opacity="0"></stop></linearGradient>
+    </defs>
+    <path d="M0,420 C280,340 480,500 760,430 C1040,360 1180,480 1440,380 L1440,600 L0,600 Z" fill="url(#hcA)"></path>
+    <path d="M0,90 C260,20 520,140 820,70 C1080,10 1260,120 1440,50 L1440,0 L0,0 Z" fill="url(#hcB)"></path>
+    <path d="M200,600 C420,500 620,560 900,470 C1120,400 1300,470 1440,430 L1440,600 Z" fill="url(#hcC)"></path>
+  </svg>
+  <div id="heroStars" class="absolute inset-0 overflow-hidden pointer-events-none z-[1]"></div>
+
+  <div class="relative z-[2] wrap flex-1 flex items-center w-full py-16 lg:py-0">
+    <div class="grid gap-5 max-w-full lg:max-w-[560px]">
+      <span class="hero-fade inline-flex items-center gap-2 text-[.8125rem] font-bold tracking-[.1em] uppercase text-blue-200"><span class="live-dot w-2 h-2 rounded-full bg-blue-300"></span>Mạng lưới OOH toàn quốc</span>
+      <h1 class="m-0 font-display font-bold uppercase leading-[1.04] tracking-[.01em] text-[clamp(2.75rem,5vw,4.25rem)]">
+        <span class="hero-line"><span style="animation-delay:.15s">Quảng cáo ngoài trời</span></span>
+        <span class="hero-line"><span style="animation-delay:.3s">đúng <span class="hero-mark" style="--d:1.05s">vị trí</span>,</span></span>
+        <span class="hero-line"><span style="animation-delay:.45s">đúng <span class="hero-mark" style="--d:1.3s">thời điểm</span></span></span>
+      </h1>
+      <p class="hero-fade m-0 text-[1.0625rem] sm:text-lg leading-relaxed text-slate-200 max-w-[520px]" style="animation-delay:.65s">Với hơn 20 năm kinh nghiệm OOH và mạng lưới vị trí cao cấp toàn quốc, Toàn Cầu ADV giúp thương hiệu của bạn tiếp cận đúng khách hàng, ngay lúc họ đang chú ý nhất — và biến độ phủ đó thành kết quả đo lường được.</p>
+      <div class="hero-fade flex flex-wrap gap-3 mt-2" style="animation-delay:.85s">
+        <a href="#lien-he" class="btn btn-cta btn-lg btn-hero">Yêu cầu báo giá <span class="cta-arrow" aria-hidden="true">→</span></a>
+        <a href="#ban-do" class="btn btn-outline-inverse btn-lg">Khám phá bản đồ vị trí <span class="cta-arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- scroll cue -->
+  <div class="scroll-cue" aria-hidden="true"><span></span></div>
+
+  <!-- trust stats band -->
+  <div class="relative z-[2] w-full bg-blue-900/60 backdrop-blur border-t border-white/10">
+    <div class="wrap py-6">
+      <div class="hero-fade grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4" style="animation-delay:1.05s">
+        <div><div class="stat-num font-mono font-bold text-2xl sm:text-3xl" data-count="20" data-suffix="+">20+</div><div class="text-[.8125rem] text-slate-300 mt-1">Năm kinh nghiệm OOH</div></div>
+        <div><div class="stat-num font-mono font-bold text-2xl sm:text-3xl" data-count="730" data-prefix="~">~730</div><div class="text-[.8125rem] text-slate-300 mt-1">Mặt biển hệ thống sân bay</div></div>
+        <div><div class="stat-num font-mono font-bold text-2xl sm:text-3xl" data-count="89000" data-suffix=" m²">89.000 m²</div><div class="text-[.8125rem] text-slate-300 mt-1">Diện tích bề mặt quảng cáo</div></div>
+        <div><div class="stat-num font-mono font-bold text-2xl sm:text-3xl" data-count="400" data-suffix="+">400+</div><div class="text-[.8125rem] text-slate-300 mt-1">Thương hiệu đã đồng hành</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONSULTING ================= -->
+<section class="lg:min-h-screen flex items-center bg-white">
+  <div class="wrap py-16 lg:py-24 w-full">
+    <div class="grid lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-12 items-center">
+      <div data-reveal="fade" class="relative w-full order-2 lg:order-1" style="aspect-ratio:59/30">
+        <div id="rot0" class="rot-card absolute top-0 left-0 w-[36%] rounded-[4px] overflow-hidden shadow-e-md z-30" style="box-shadow:0 12px 30px rgba(54,143,255,.35)"></div>
+        <div id="rot1" class="rot-card absolute top-[27%] left-[32%] w-[36%] rounded-[4px] overflow-hidden shadow-e-lg z-20"></div>
+        <div id="rot2" class="rot-card absolute top-[13%] left-[64%] w-[36%] rounded-[4px] overflow-hidden shadow-e-md z-10"></div>
+      </div>
+      <div data-reveal="right" class="order-1 lg:order-2">
+        <span class="text-xs font-semibold tracking-[.12em] uppercase text-blue-600">Tư vấn đồng hành</span>
+        <h2 class="mt-3 font-display font-semibold leading-[1.18] text-ink text-[1.875rem] sm:text-4xl">Đồng hành cùng <span class="mark-draw">chuyên viên tư vấn</span> Toàn Cầu ADV</h2>
+        <p class="mt-5 text-slate-500 text-[1.0625rem] sm:text-lg leading-[1.65]">Tiếp cận kho vị trí OOH trên toàn quốc — billboard, sân bay, nhà chờ xe bus, trung tâm thương mại. Chuyên viên tư vấn giúp bạn chọn vị trí phù hợp mục tiêu, ngân sách và tệp khách hàng để mỗi chiến dịch hiệu quả hơn.</p>
+        <div class="mt-8"><a href="#ban-do" class="btn btn-primary btn-lg btn-hero">Khám phá kho vị trí OOH <span class="cta-arrow" aria-hidden="true">→</span></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CASE STUDY (BẢN ĐỒ) ================= -->
+<section id="ban-do" class="relative overflow-hidden lg:min-h-screen flex items-center bg-blue-900 text-white">
+  <div class="absolute inset-0 opacity-60 pointer-events-none" style="background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:36px 36px"></div>
+  <div class="wrap py-16 lg:py-24 relative w-full">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div data-reveal="left">
+        <span id="csEyebrow" class="text-xs font-bold tracking-[.12em] uppercase text-blue-200"></span>
+        <h2 id="csTitle" class="mt-3 font-display font-semibold leading-[1.18] text-[1.875rem] sm:text-4xl"></h2>
+        <div class="h-px bg-white/15 my-6"></div>
+        <div class="grid gap-0">
+          <div class="pb-[18px]">
+            <p class="m-0 text-[.6875rem] font-bold tracking-[.1em] uppercase text-blue-300">Mục tiêu</p>
+            <p id="csObjective" class="mt-2 text-slate-300 leading-[1.6]"></p>
+          </div>
+          <div class="h-px bg-white/15"></div>
+          <div class="py-[18px]">
+            <p class="m-0 text-[.6875rem] font-bold tracking-[.1em] uppercase text-blue-300">Chiến lược</p>
+            <p id="csStrategy" class="mt-2 text-slate-300 leading-[1.6]"></p>
+          </div>
+          <div class="h-px bg-white/15"></div>
+          <div class="pt-[18px]">
+            <p class="m-0 text-[.6875rem] font-bold tracking-[.1em] uppercase text-blue-300">Kết quả</p>
+            <p id="csResults" class="mt-2 text-slate-300 leading-[1.6]"></p>
+          </div>
+        </div>
+        <div class="mt-8"><a href="#ban-do" class="btn btn-secondary btn-md">Khám phá bản đồ vị trí <span class="cta-arrow" aria-hidden="true">→</span></a></div>
+      </div>
+      <div data-reveal="right">
+        <div class="relative rounded-[4px] overflow-hidden border border-white/10">
+          <img id="csImg" src="" alt="" class="w-full h-[360px] sm:h-[520px] object-cover block">
+          <div class="absolute top-4 left-4 bg-blue-900 border border-white/20 rounded-[2px] px-3.5 py-2">
+            <span id="csBadge" class="text-xs font-bold tracking-[.04em] text-white"></span>
+          </div>
+        </div>
+        <div class="flex justify-end gap-2.5 mt-4">
+          <button id="csPrev" aria-label="Xem ngành khác" class="w-11 h-11 rounded-full bg-transparent border border-blue-300 text-blue-200 grid place-items-center hover:bg-white/10 transition"><span data-lucide="arrow-left" class="w-[18px] h-[18px]"></span></button>
+          <button id="csNext" aria-label="Xem ngành khác" class="w-11 h-11 rounded-full bg-transparent border border-blue-300 text-blue-200 grid place-items-center hover:bg-white/10 transition"><span data-lucide="arrow-right" class="w-[18px] h-[18px]"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAP & AI SCORE ================= -->
+<section class="lg:min-h-screen flex items-center bg-white">
+  <div class="wrap py-16 lg:py-24 relative w-full">
+    <div class="lg:ml-auto lg:w-[72%] relative rounded-[4px] overflow-hidden border border-slate-200 h-[300px] sm:h-[420px] lg:h-[520px] shadow-e-md">
+      <img src="/v2-assets/uploads/pasted-1784080055153-0.png" alt="Bản đồ mật độ vị trí quảng cáo" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-blue-900/15 to-blue-900/55"></div>
+      <span class="absolute top-[16%] left-[38%] w-6 h-6 text-white" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))" data-lucide="map-pin"></span>
+      <span class="absolute top-[34%] left-[58%] w-7 h-7 text-blue-200" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))" data-lucide="map-pin"></span>
+      <span class="absolute top-[60%] left-[40%] w-6 h-6 text-white" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))" data-lucide="map-pin"></span>
+      <span class="absolute top-[66%] left-[72%] w-7 h-7 text-blue-200" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))" data-lucide="map-pin"></span>
+      <div class="absolute bottom-5 right-5 bg-blue-900/85 text-white rounded-[2px] px-4 py-2.5 text-[.8125rem] font-semibold backdrop-blur">Minh họa mật độ vị trí biển quảng cáo toàn quốc</div>
+    </div>
+    <div data-reveal="up" class="card-lift static lg:absolute lg:top-[120px] lg:left-8 w-full lg:w-[440px] lg:max-w-[calc(100%-64px)] bg-white border border-slate-200 rounded-xl shadow-e-lg p-7 sm:p-9 mt-6 lg:mt-0 z-[2]">
+      <span class="text-xs font-semibold tracking-[.12em] uppercase text-blue-600">Bản đồ &amp; điểm AI</span>
+      <h2 class="mt-3 font-display font-semibold leading-[1.18] text-ink text-[1.875rem] sm:text-4xl">Xem <span class="mark-draw">điểm phù hợp</span> theo ngành hàng trước khi thuê</h2>
+      <p class="mt-5 text-slate-500 text-[1.0625rem] sm:text-lg leading-[1.65]">Mỗi vị trí trên bản đồ đi kèm điểm AI và lý do đề xuất theo từng ngành hàng, giúp bạn chọn đúng vị trí trước khi yêu cầu báo giá.</p>
+      <div class="flex flex-wrap gap-2.5 mt-6" id="aiScores"></div>
+      <div class="mt-7"><a href="#ban-do" class="btn btn-outline btn-md">Xem toàn bộ bản đồ vị trí <span class="cta-arrow" aria-hidden="true">→</span></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES (CARD BACKGROUND SHOWCASE) ================= -->
+<section id="dich-vu" class="relative overflow-hidden bg-blue-50 lg:min-h-screen flex items-center">
+  <!-- background: slightly tilted, static layer of real board-type cards (decorative, no interaction) -->
+  <div id="svcBg" class="pointer-events-none select-none" aria-hidden="true"></div>
+  <!-- gradient wash: dense over the text zone, lighter where the cards should read through -->
+  <div class="svc-wash absolute inset-0 z-[1] pointer-events-none"></div>
+
+  <div class="wrap relative z-[2] py-20 lg:py-28 w-full">
+    <div data-reveal="up" class="grid gap-3 max-w-[600px]">
+      <span class="text-xs font-semibold tracking-[.12em] uppercase text-blue-600">Giải pháp OOH</span>
+      <h2 class="m-0 font-display font-semibold leading-[1.18] text-ink text-[1.875rem] sm:text-4xl"><span class="mark-draw">Một đầu mối</span> cho mọi loại hình quảng cáo ngoài trời</h2>
+      <p class="m-0 text-slate-600 text-[1.0625rem] sm:text-lg leading-[1.6]">Từ billboard, sân bay, LED đến nhà chờ xe bus — Toàn Cầu ADV phụ trách trọn gói khảo sát, thiết kế, thi công và vận hành. Phía sau là những vị trí chúng tôi đang khai thác thực tế trên toàn quốc.</p>
+    </div>
+
+    <div data-reveal="up" class="mt-10 sm:mt-12 grid grid-cols-2 md:grid-cols-4 max-w-[720px] gap-y-8">
+      <div class="pr-6"><div class="stat-num font-mono font-bold text-3xl sm:text-4xl text-ink leading-none" data-count="20" data-suffix="+">20+</div><div class="mt-2 text-[.8125rem] text-slate-600">Năm kinh nghiệm OOH</div></div>
+      <div class="px-6 md:border-l border-slate-400/40"><div class="stat-num font-mono font-bold text-3xl sm:text-4xl text-ink leading-none" data-count="730" data-prefix="~">~730</div><div class="mt-2 text-[.8125rem] text-slate-600">Mặt biển hệ thống sân bay</div></div>
+      <div class="pr-6 md:px-6 md:border-l border-slate-400/40"><div class="stat-num font-mono font-bold text-3xl sm:text-4xl text-ink leading-none" data-count="400" data-suffix="+">400+</div><div class="mt-2 text-[.8125rem] text-slate-600">Thương hiệu tin dùng</div></div>
+      <div class="px-6 md:border-l border-slate-400/40"><div class="stat-num font-mono font-bold text-3xl sm:text-4xl text-ink leading-none" data-count="8">8</div><div class="mt-2 text-[.8125rem] text-slate-600">Loại hình quảng cáo</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AI PROCESS ================= -->
+<section class="lg:min-h-screen flex items-center bg-white overflow-hidden">
+  <div class="wrap py-16 lg:py-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <div data-reveal="left">
+      <span class="text-xs font-semibold tracking-[.12em] uppercase text-blue-600">Cách AI hoạt động</span>
+      <h2 class="mt-3 font-display font-semibold leading-[1.18] text-ink text-[1.875rem] sm:text-4xl">Từ dữ liệu vị trí đến chiến dịch tối ưu, chỉ trong <span class="mark-draw">3 bước</span></h2>
+      <p class="mt-5 text-slate-500 text-[1.0625rem] sm:text-lg leading-[1.65]">Hệ thống liên tục học từ dữ liệu thực tế để mỗi đợt thuê vị trí sau hiệu quả hơn đợt trước.</p>
+      <div class="grid gap-6 mt-8" data-reveal-stagger="120">
+        <div data-reveal="up" class="flex gap-4">
+          <span class="shrink-0 w-10 h-10 rounded-full bg-blue-50 text-blue-600 grid place-items-center font-bold font-mono">1</span>
+          <div><p class="m-0 font-semibold text-ink text-[1.0625rem]">Thu thập dữ liệu vị trí</p><p class="mt-1.5 text-slate-500 leading-[1.6]">Lưu lượng, khung giờ và hành vi di chuyển quanh từng vị trí được ghi nhận liên tục.</p></div>
+        </div>
+        <div data-reveal="up" class="flex gap-4">
+          <span class="shrink-0 w-10 h-10 rounded-full bg-blue-50 text-blue-600 grid place-items-center font-bold font-mono">2</span>
+          <div><p class="m-0 font-semibold text-ink text-[1.0625rem]">Chấm điểm phù hợp theo ngành hàng</p><p class="mt-1.5 text-slate-500 leading-[1.6]">Mỗi vị trí được xếp hạng mức độ phù hợp với ngành hàng và tệp khách hàng mục tiêu.</p></div>
+        </div>
+        <div data-reveal="up" class="flex gap-4">
+          <span class="shrink-0 w-10 h-10 rounded-full bg-blue-50 text-blue-600 grid place-items-center font-bold font-mono">3</span>
+          <div><p class="m-0 font-semibold text-ink text-[1.0625rem]">Đề xuất tối ưu cho đợt tiếp theo</p><p class="mt-1.5 text-slate-500 leading-[1.6]">Hệ thống gợi ý điều chỉnh vị trí, ngân sách để cải thiện hiệu quả liên tục.</p></div>
+        </div>
+      </div>
+    </div>
+    <div data-reveal="fade" class="relative lg:min-h-[440px] lg:pr-10 lg:pb-14">
+      <div class="relative w-full lg:w-[78%] rounded-[4px] overflow-hidden shadow-e-md border border-slate-200 bg-blue-50">
+        <img src="/v2-assets/uploads/pasted-1784082550478-0.png" alt="Minh họa AI phân tích dữ liệu vị trí" class="w-full h-auto block">
+      </div>
+      <div class="card-lift static lg:absolute lg:right-0 lg:bottom-0 w-full lg:w-[64%] bg-white rounded-xl shadow-e-lg border border-slate-200 p-6 grid gap-3.5 mt-4 lg:mt-0">
+        <p class="m-0 text-xs font-bold tracking-[.08em] uppercase text-blue-600">Hiệu quả sau khi áp dụng đề xuất AI</p>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="flex items-baseline gap-1.5"><span class="stat-num font-mono font-bold text-xl text-ink" data-count="18" data-prefix="-" data-suffix="%">-18%</span><span class="text-[.6875rem] text-slate-500">chi phí/1.000 lượt</span></div>
+            <div class="h-1.5 bg-slate-100 rounded-full mt-2 overflow-hidden"><div class="bar-anim w-[62%] h-full bg-blue-600"></div></div>
+          </div>
+          <div>
+            <div class="flex items-baseline gap-1.5"><span class="stat-num font-mono font-bold text-xl text-ink" data-count="32" data-prefix="+" data-suffix="%">+32%</span><span class="text-[.6875rem] text-slate-500">tần suất tiếp cận</span></div>
+            <div class="h-1.5 bg-slate-100 rounded-full mt-2 overflow-hidden"><div class="bar-anim w-[84%] h-full bg-blue-600"></div></div>
+          </div>
+        </div>
+        <p class="m-0 text-xs text-slate-500">So với chiến dịch trước khi áp dụng đề xuất vị trí từ AI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section id="tin-tuc" class="py-20 lg:py-24 bg-white relative overflow-hidden">
+  <span class="absolute -top-10 left-6 font-display text-[16rem] leading-none text-blue-50 pointer-events-none select-none">&ldquo;</span>
+  <div class="wrap relative flex items-end justify-between gap-6 flex-wrap mb-10 sm:mb-12">
+    <div data-reveal="left">
+      <span class="text-xs font-bold tracking-[.12em] uppercase text-blue-600">Được tin dùng bởi 400+ thương hiệu</span>
+      <h2 class="mt-2.5 font-display font-semibold text-ink leading-[1.18] text-[1.875rem] sm:text-4xl">Đối tác nói gì về <span class="mark-draw">Toàn Cầu ADV</span></h2>
+    </div>
+    <span class="inline-flex items-center gap-2 border border-slate-200 rounded-full px-[18px] py-2.5 text-[.8125rem] font-semibold text-slate-500"><span data-lucide="move-horizontal" class="w-4 h-4 text-blue-600"></span>Kéo để xem thêm</span>
+  </div>
+  <div id="tScroll" class="overflow-x-scroll overflow-y-hidden cursor-grab no-sb" style="-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)">
+    <div id="tTrack" class="flex gap-7 w-max px-4 sm:px-8 pt-3 pb-10"></div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="lg:min-h-screen flex items-center bg-white">
+  <div class="wrap py-16 lg:py-24 w-full max-w-[1280px]">
+    <h2 data-reveal="up" class="mb-10 sm:mb-12 font-display font-semibold text-left text-ink leading-[1.18] text-[1.875rem] sm:text-4xl">Câu hỏi <span class="mark-draw">thường gặp</span></h2>
+    <div id="faqList" data-reveal-stagger="70" class="border-t border-slate-200"></div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="lien-he" class="relative overflow-hidden lg:min-h-screen flex items-center" style="background:linear-gradient(160deg,#0D2F5E,#1A5BB0)">
+  <div id="contactStars" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+  <div class="wrap py-16 lg:py-24 relative grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-14 items-center">
+    <div data-reveal="left" class="text-left text-white">
+      <span class="text-xs font-bold tracking-[.12em] uppercase text-blue-200">Bắt đầu ngay hôm nay</span>
+      <h2 class="mt-3 font-display font-semibold leading-[1.18] text-[1.875rem] sm:text-4xl">Sẵn sàng triển khai <span class="mark-draw">chiến dịch OOH</span>?</h2>
+      <p class="mt-4 text-slate-300 text-[1.0625rem] sm:text-lg max-w-[480px]">Kết nối với chuyên viên tư vấn Toàn Cầu ADV để tìm chiến lược thuê vị trí phù hợp mục tiêu và ngân sách của bạn — không cần cam kết trước.</p>
+      <div class="flex flex-wrap gap-3 mt-8">
+        <a href="#lien-he" class="btn btn-cta btn-lg btn-hero">Yêu cầu báo giá <span class="cta-arrow" aria-hidden="true">→</span></a>
+        <a href="#ban-do" class="btn btn-outline-inverse btn-lg">Khám phá bản đồ vị trí <span class="cta-arrow" aria-hidden="true">→</span></a>
+      </div>
+      <div class="flex flex-wrap gap-x-5 gap-y-2 mt-6">
+        <span class="flex items-center gap-1.5 text-[.8125rem] text-slate-300"><span data-lucide="check-circle" class="w-[15px] h-[15px] text-blue-300"></span>Phản hồi trong 24h</span>
+        <span class="flex items-center gap-1.5 text-[.8125rem] text-slate-300"><span data-lucide="check-circle" class="w-[15px] h-[15px] text-blue-300"></span>Tư vấn miễn phí</span>
+        <span class="flex items-center gap-1.5 text-[.8125rem] text-slate-300"><span data-lucide="check-circle" class="w-[15px] h-[15px] text-blue-300"></span>Không ràng buộc dài hạn</span>
+      </div>
+    </div>
+    <div data-reveal="right" class="bg-white/10 border border-white/15 rounded-[4px] p-7 grid gap-4 backdrop-blur text-left">
+      <p class="m-0 text-xs font-bold tracking-[.08em] uppercase text-blue-200">Gửi yêu cầu tư vấn</p>
+      <div id="contactSuccess" class="hidden justify-items-center text-center gap-2.5 py-6">
+        <span data-lucide="check-circle-2" class="w-8 h-8 text-blue-200"></span>
+        <p class="m-0 font-semibold text-white">Đã nhận được yêu cầu của bạn</p>
+        <p class="m-0 text-[.8125rem] text-slate-400">Chuyên viên tư vấn sẽ liên hệ trong 24h qua số điện thoại hoặc email bạn cung cấp.</p>
+      </div>
+      <form id="contactForm" class="grid gap-3.5">
+        <div class="grid gap-1.5">
+          <label class="text-[.8125rem] font-semibold text-white">Họ tên</label>
+          <input required placeholder="Nguyễn Văn A" class="w-full h-11 px-3.5 text-[.9375rem] text-ink bg-white border border-white/20 rounded-[2px] outline-none box-border">
+        </div>
+        <div class="grid gap-1.5">
+          <label class="text-[.8125rem] font-semibold text-white">Số điện thoại / Email</label>
+          <input required placeholder="090xxxxxxx hoặc email@congty.vn" class="w-full h-11 px-3.5 text-[.9375rem] text-ink bg-white border border-white/20 rounded-[2px] outline-none box-border">
+        </div>
+        <div class="grid gap-1.5">
+          <label class="text-[.8125rem] font-semibold text-white">Nhu cầu của bạn</label>
+          <textarea rows="3" placeholder="Ngành hàng, khu vực, ngân sách dự kiến..." class="w-full px-3.5 py-2.5 text-[.9375rem] text-ink bg-white border border-white/20 rounded-[2px] outline-none resize-y leading-normal box-border"></textarea>
+        </div>
+        <button type="submit" class="btn btn-cta h-12 w-full">Gửi yêu cầu tư vấn <span class="cta-arrow" aria-hidden="true">→</span></button>
+        <p class="m-0 text-xs text-slate-400">Hoặc gọi hotline <span class="font-mono font-semibold text-white">1900 xxxx</span> · 8:00–17:30, T2–T7</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-white text-slate-600 pt-20">
+  <div class="wrap">
+    <div class="grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-12 pb-14 border-b border-slate-200">
+      <div>
+        <div class="flex items-center gap-2.5 mb-4">
+          <img src="/v2-assets/assets/logo-full.png" alt="Toàn Cầu ADV" class="h-[34px] w-auto">
+        </div>
+        <p class="mt-0 mb-4 text-sm leading-[1.65] max-w-[360px]">Công ty Cổ phần Tập đoàn Quảng cáo Toàn Cầu — nền tảng quảng cáo ngoài trời kết nối chủ vị trí, nhãn hàng và khách hàng trên toàn quốc.</p>
+        <p class="m-0 text-sm leading-[1.9]">265 Thụy Khuê, Phường Tây Hồ, TP Hà Nội<br>Hotline: <span class="font-mono font-semibold text-ink">1900 xxxx</span><br>Email: <span class="text-ink">lienhe@toancauadv.vn</span><br>Giờ làm việc: 8:00 – 17:30, Thứ Hai – Thứ Bảy</p>
+      </div>
+      <div class="relative rounded-[4px] overflow-hidden border border-slate-200 min-h-[220px]">
+        <iframe title="Bản đồ trụ sở Toàn Cầu ADV" src="https://www.google.com/maps?q=265+Th%E1%BB%A5y+Khu%C3%AA,+T%C3%A2y+H%E1%BB%93,+H%C3%A0+N%E1%BB%99i&output=embed" class="absolute inset-0 w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+    <div data-reveal-stagger="90" class="grid grid-cols-2 lg:grid-cols-4 gap-8 py-12">
+      <div data-reveal="up">
+        <h4 class="mt-0 mb-4 text-[.9375rem] font-bold text-ink">Doanh nghiệp</h4>
+        <ul class="list-none m-0 p-0 grid gap-2.5 text-sm">
+          <li><a href="#top" class="text-slate-600 hover:text-blue-700">Về chúng tôi</a></li>
+          <li><a href="#tin-tuc" class="text-slate-600 hover:text-blue-700">Tin tức</a></li>
+          <li><a href="#lien-he" class="text-slate-600 hover:text-blue-700">Tuyển dụng</a></li>
+          <li><a href="#lien-he" class="text-slate-600 hover:text-blue-700">Liên hệ</a></li>
+        </ul>
+      </div>
+      <div data-reveal="up">
+        <h4 class="mt-0 mb-4 text-[.9375rem] font-bold text-ink">Dịch vụ</h4>
+        <ul class="list-none m-0 p-0 grid gap-2.5 text-sm">
+          <li><a href="#dich-vu" class="text-slate-600 hover:text-blue-700">Sân bay</a></li>
+          <li><a href="#dich-vu" class="text-slate-600 hover:text-blue-700">Billboard</a></li>
+          <li><a href="#dich-vu" class="text-slate-600 hover:text-blue-700">Màn hình LED</a></li>
+          <li><a href="#dich-vu" class="text-slate-600 hover:text-blue-700">Pano · Hộp đèn</a></li>
+        </ul>
+      </div>
+      <div data-reveal="up">
+        <h4 class="mt-0 mb-4 text-[.9375rem] font-bold text-ink">Vị trí OOH</h4>
+        <ul class="list-none m-0 p-0 grid gap-2.5 text-sm">
+          <li><a href="#ban-do" class="text-slate-600 hover:text-blue-700">Hà Nội (Trụ sở chính)</a></li>
+          <li><a href="#ban-do" class="text-slate-600 hover:text-blue-700">TP. Hồ Chí Minh</a></li>
+          <li><a href="#ban-do" class="text-slate-600 hover:text-blue-700">Đà Nẵng</a></li>
+          <li><a href="#ban-do" class="text-slate-600 hover:text-blue-700">Cần Thơ · Nghệ An</a></li>
+        </ul>
+      </div>
+      <div data-reveal="up">
+        <h4 class="mt-0 mb-4 text-[.9375rem] font-bold text-ink">Hotline</h4>
+        <p class="m-0 font-mono font-bold text-xl text-blue-600">1900 xxxx</p>
+        <p class="mt-2 text-sm">Thứ Hai – Thứ Bảy<br>8:00 – 17:30</p>
+      </div>
+    </div>
+    <div class="py-6 border-t border-slate-200 text-xs text-slate-400 text-center">© 2026 Công ty Cổ phần Tập đoàn Quảng cáo Toàn Cầu. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = typeof window.matchMedia==='function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- DATA ---------- */
+  var capabilities = [
+    {icon:'rectangle-horizontal',label:'Biển quảng cáo tấm lớn ngoài trời',desc:'Billboard, pano tấm lớn tại các trục đường huyết mạch và cửa ngõ thành phố, tiếp cận hàng trăm nghìn lượt xe mỗi ngày.',stat:'Billboard',loc:'Trục cao tốc · cửa ngõ TP',scale:'120+ vị trí',img:'/v2-assets/image/1. 19A.PV CGHN.png'},
+    {icon:'plane',label:'Quảng cáo tại sân bay',desc:'Mặt biển tại nhà ga, khu vực check-in và phòng chờ — tiếp cận tệp khách công tác, du lịch có mức chi tiêu cao.',stat:'Sân bay',loc:'Nội Bài · Tân Sơn Nhất…',scale:'~730 mặt biển',img:'/v2-assets/image/10. 54B.PV-CGHN.png'},
+    {icon:'bus',label:'Quảng cáo nhà chờ, xe bus, taxi',desc:'Pano, hộp đèn tại nhà chờ và trên phương tiện công cộng, lặp lại thông điệp theo tuyến di chuyển hằng ngày.',stat:'Transit',loc:'Nội đô Hà Nội · TP.HCM',scale:'Theo tuyến',img:'/v2-assets/image/ND-TB.png'},
+    {icon:'monitor',label:'Màn hình LED ngoài trời',desc:'Màn hình LED tần suất cao tại quảng trường, ngã tư trung tâm — đổi nội dung linh hoạt theo khung giờ vàng.',stat:'LED',loc:'Khu trung tâm',scale:'Phát 18h/ngày',img:'/v2-assets/image/9. 39B.PV-HNCG.png'},
+    {icon:'tablet-smartphone',label:'LCD/frame thang máy, TTTM',desc:'Màn hình và khung ảnh tại thang máy, sảnh tòa nhà và trung tâm thương mại — chạm đúng cư dân, dân văn phòng.',stat:'LCD/Frame',loc:'Tòa nhà · TTTM',scale:'Điểm mua sắm',img:'/v2-assets/image/HL14.HLHN.png'},
+    {icon:'compass',label:'Tư vấn, quy hoạch quảng cáo',desc:'Chuyên viên khảo sát thực địa, chấm điểm vị trí theo ngành hàng và đề xuất kế hoạch phù hợp ngân sách.',stat:'Tư vấn',loc:'Khảo sát toàn quốc',scale:'Theo mục tiêu',img:'/v2-assets/image/24A.HNHL.jpg'},
+    {icon:'palette',label:'Thiết kế, in ấn, thi công',desc:'Đội ngũ thiết kế, in ấn khổ lớn và thi công tại hiện trường — một đầu mối chịu trách nhiệm đến khi lên biển.',stat:'Sản xuất',loc:'Xưởng in · hiện trường',scale:'Trọn gói',img:'/v2-assets/image/7. 24B.PV-HN-CG.png'},
+    {icon:'calendar-days',label:'Roadshow, tổ chức sự kiện',desc:'Tổ chức roadshow, sự kiện kích hoạt thương hiệu ngoài trời — từ xin phép, dàn dựng đến vận hành trọn vẹn.',stat:'Sự kiện',loc:'Theo chiến dịch',scale:'Kích hoạt thương hiệu',img:'/v2-assets/image/133 ST KM.jpg'}
+  ];
+  var rotCats = ['Hạ Long','Hưng Yên','Quảng Ninh','Sơn La','Thái Bình'];
+  var rotImgs = ['/v2-assets/image/section-01-HL.jpg','/v2-assets/image/section-01-HY.png','/v2-assets/image/section-01-QN.jpg','/v2-assets/image/section-01-SL.png','/v2-assets/image/section-2-TH.jpg'];
+  var caseStudies = [
+    {badge:'F&B',eyebrow:'Chiến dịch triển khai cùng Toàn Cầu ADV',title:'Chuỗi F&B tại Hà Nội tăng nhận diện thương hiệu với billboard OOH',objective:'Tăng nhận diện thương hiệu cho thực đơn hè mới tại khu vực nội thành Hà Nội.',strategy:'Billboard tại các trục đường, nhà chờ xe bus đông đúc, nhắm tệp khách 25–40 tuổi.',results:'68% tăng nhận diện thương hiệu, ghi nhận rõ trong 4 tuần triển khai.',img:'/v2-assets/image/133 ST KM.jpg'},
+    {badge:'Hàng không',eyebrow:'Chiến dịch triển khai cùng Toàn Cầu ADV',title:'Thương hiệu hàng không mở rộng độ phủ tại sân bay Nội Bài',objective:'Tăng độ phủ thương hiệu tại khu vực nhà ga quốc tế.',strategy:'Mặt biển tại khu vực chờ, hành lang nhà ga trong hệ thống ~730 vị trí sân bay.',results:'Điểm phù hợp AI 92/100, lưu lượng tiếp cận tăng 45%.',img:'/v2-assets/image/7. 24B.PV-HN-CG.png'},
+    {badge:'Bán lẻ',eyebrow:'Chiến dịch triển khai cùng Toàn Cầu ADV',title:'Nhãn hàng bán lẻ cải thiện cảm nhận thương hiệu tại trung tâm thương mại',objective:'Tăng cảm nhận thương hiệu tích cực trước mùa mua sắm cao điểm.',strategy:'LCD/frame thang máy và pano tại các trung tâm thương mại lớn.',results:'81% tăng cảm nhận thương hiệu tích cực theo khảo sát sau chiến dịch.',img:'/v2-assets/image/10. 54B.PV-CGHN.png'},
+  ];
+  var aiScores = [
+    {score:92,tier:'Cao',reason:'Lưu lượng cao, gần khu ăn uống'},
+    {score:74,tier:'Khá',reason:'Trục mua sắm nội đô'},
+    {score:70,tier:'Khá',reason:'Tệp trẻ đô thị'},
+    {score:62,tier:'Khá',reason:'Gần trường đại học'}
+  ];
+  var testimonials = [
+    {badge:'NGÀNH F&B',quote:'Chiến dịch được triển khai nhanh, dựa trên dữ liệu vị trí và điểm phù hợp rõ ràng để tiếp cận đúng người xem trên nhiều loại hình.',name:'Quản lý thương hiệu',role:'Đối tác ngành F&B',avatar:'tcg-partner-fnb'},
+    {badge:'HÀNG KHÔNG',quote:'Đổi nội dung linh hoạt theo từng đợt giúp thông điệp luôn mới, và đội ngũ hỗ trợ khiến cả quá trình rất nhẹ nhàng.',name:'Trưởng phòng marketing',role:'Đối tác ngành hàng không',avatar:'tcg-partner-air'},
+    {badge:'THIẾT KẾ · THI CÔNG',quote:'Tiếp cận linh hoạt vào kho vị trí cao cấp giúp triển khai nhanh hơn, nhắm mục tiêu chính xác hơn cho từng đợt chiến dịch.',name:'Giám đốc dự án',role:'Đối tác thiết kế · thi công',avatar:'tcg-partner-build'}
+  ];
+  var faqs = [
+    {q:'Chuyên viên tư vấn giúp gì cho chiến dịch của tôi?',a:'Chuyên viên tư vấn giúp bạn lên kế hoạch, triển khai, đo lường và tối ưu chiến dịch OOH. Bắt đầu bằng một đề xuất dựa trên mục tiêu, ngân sách, khu vực và tệp khách hàng, sau đó đồng hành cùng bạn trong suốt quá trình triển khai.'},
+    {q:'Điểm AI theo ngành hàng là gì?',a:'Mỗi vị trí được chấm điểm phù hợp riêng cho từng ngành hàng, kèm lý do cụ thể như lưu lượng, tệp khách hoặc bối cảnh xung quanh, giúp bạn chọn vị trí nhanh và có cơ sở hơn.'},
+    {q:'Tôi có thể thuê những loại vị trí OOH nào?',a:'Toàn Cầu ADV cung cấp billboard, mặt biển sân bay, màn hình LED ngoài trời, LCD/frame thang máy và pano · hộp đèn tại nhà chờ xe bus, phủ khắp các tỉnh thành.'},
+    {q:'Hiệu quả chiến dịch được đo lường ra sao?',a:'Bạn theo dõi lưu lượng và tần suất tiếp cận theo từng vị trí trong suốt chiến dịch, đối chiếu với ngân sách để tối ưu cho đợt thuê tiếp theo.'},
+    {q:'Mạng lưới vị trí của Toàn Cầu ADV lớn thế nào?',a:'Toàn Cầu ADV cung cấp khoảng 730 mặt biển trong hệ thống sân bay và khoảng 89.000 m² bề mặt quảng cáo trên billboard, nhà chờ và LED toàn quốc, theo thông tin doanh nghiệp cung cấp.'}
+  ];
+
+  var esc = function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+
+  /* ---------- STARS ---------- */
+  function stars(el,n){
+    if(!el) return; var h='';
+    for(var i=0;i<n;i++){
+      var t=(Math.floor((i*53)%90)+4), l=(Math.floor((i*37)%92)+4), s=(i%3===0?3:2), c=(i%2?'#7BB8FF':'#ADD3FF');
+      h+='<span class="star" style="top:'+t+'%;left:'+l+'%;width:'+s+'px;height:'+s+'px;background:'+c+';animation-delay:'+(i*0.3)+'s,'+(i*0.25)+'s"></span>';
+    }
+    el.innerHTML=h;
+  }
+  stars(document.getElementById('heroStars'),13);
+  stars(document.getElementById('contactStars'),8);
+
+  /* ---------- MOBILE MENU ---------- */
+  var menuBtn=document.getElementById('menuBtn'), mobileMenu=document.getElementById('mobileMenu');
+  if(menuBtn){
+    menuBtn.addEventListener('click',function(){
+      var open=mobileMenu.classList.toggle('hidden')===false;
+      menuBtn.setAttribute('aria-expanded',String(open));
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mobileMenu.classList.add('hidden');menuBtn.setAttribute('aria-expanded','false');});});
+  }
+
+  /* ---------- SERVICES (article-style cards, background showcase) ---------- */
+  function capCard(cap){
+    return '<article class="svc-card relative rounded-2xl overflow-hidden bg-white border border-slate-200 flex flex-col">'
+      +'<div class="relative h-[150px] overflow-hidden shrink-0">'
+        +'<img src="'+cap.img+'" alt="'+esc(cap.label)+'" loading="lazy" class="absolute inset-0 w-full h-full object-cover">'
+        +'<div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(13,47,94,.02) 45%,rgba(13,47,94,.5))"></div>'
+        +'<span class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600"></span>'
+        +'<span class="absolute top-3 left-3 inline-flex items-center gap-1.5 bg-white/95 text-blue-700 rounded-[3px] px-2 py-1 text-[.6875rem] font-bold uppercase tracking-[.06em] shadow-e-sm"><span data-lucide="'+cap.icon+'" class="w-3.5 h-3.5"></span>'+esc(cap.stat)+'</span>'
+      +'</div>'
+      +'<div class="p-4 sm:p-5 flex flex-col flex-1">'
+        +'<p class="m-0 font-bold text-[.9375rem] leading-snug text-ink">'+esc(cap.label)+'</p>'
+        +'<p class="mt-2 mb-4 text-[.8125rem] text-slate-500 leading-[1.6]">'+esc(cap.desc)+'</p>'
+        +'<div class="mt-auto pt-3.5 flex items-center justify-between gap-3 border-t border-slate-100">'
+          +'<span class="inline-flex items-center gap-1.5 text-xs text-slate-500 min-w-0"><span data-lucide="map-pin" class="w-3.5 h-3.5 text-blue-500 shrink-0"></span><span class="truncate">'+esc(cap.loc)+'</span></span>'
+          +'<span class="text-xs font-semibold text-blue-700 whitespace-nowrap">'+esc(cap.scale)+'</span>'
+        +'</div>'
+      +'</div>'
+      +'</article>';
+  }
+  (function(){
+    var bg=document.getElementById('svcBg'); if(!bg) return;
+    // repeat the 8 board types to fill the tilted plane; offset odd rows for a natural collage feel
+    var seq=capabilities.concat(capabilities.slice().reverse(),capabilities);
+    bg.innerHTML='<div class="svc-bg-plane">'+seq.map(capCard).join('')+'</div>';
+  })();
+
+  /* ---------- HERO STAT COUNTERS ---------- */
+  (function(){
+    var nums=document.querySelectorAll('.stat-num'); if(!nums.length) return;
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+    function run(el){
+      var target=+el.getAttribute('data-count'),pre=el.getAttribute('data-prefix')||'',suf=el.getAttribute('data-suffix')||'';
+      var t0=null,dur=1500;
+      function step(t){
+        t0=t0||t;
+        var p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);
+        el.textContent=pre+fmt(Math.round(target*e))+suf;
+        if(p<1)requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    if(reduce||!('IntersectionObserver' in window))return; // keep static values
+    nums.forEach(function(n){n.textContent=(n.getAttribute('data-prefix')||'')+'0'+(n.getAttribute('data-suffix')||'')});
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){if(en.isIntersecting){run(en.target);io.unobserve(en.target)}});
+    },{threshold:.4});
+    nums.forEach(function(n){io.observe(n)});
+  })();
+
+  /* ---------- HERO MOUSE PARALLAX (decorative layers only) ---------- */
+  (function(){
+    var hero=document.getElementById('top'); if(!hero) return;
+    if(!window.matchMedia('(pointer:fine)').matches||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var layers=[{el:hero.querySelector('svg'),f:12},{el:document.getElementById('heroStars'),f:20}];
+    var tx=0,ty=0,cx=0,cy=0,raf=null;
+    function apply(){
+      raf=null;
+      cx+=(tx-cx)*.1; cy+=(ty-cy)*.1;
+      layers.forEach(function(l){if(l.el)l.el.style.transform='translate('+(-cx*l.f).toFixed(2)+'px,'+(-cy*l.f).toFixed(2)+'px)'});
+      if(Math.abs(cx-tx)>.002||Math.abs(cy-ty)>.002) raf=requestAnimationFrame(apply);
+    }
+    hero.addEventListener('mousemove',function(e){
+      var r=hero.getBoundingClientRect();
+      tx=e.clientX/r.width-.5; ty=(e.clientY-r.top)/r.height-.5;
+      if(!raf) raf=requestAnimationFrame(apply);
+    });
+  })();
+
+  /* ---------- AI SCORE BADGES ---------- */
+  (function(){
+    var el=document.getElementById('aiScores'); if(!el) return;
+    el.innerHTML=aiScores.map(function(s){
+      var color=s.score>=90?'#159B5B':(s.score>=70?'#4FB477':(s.score>=50?'#F5A524':'#E5484D'));
+      return '<span class="inline-flex items-center gap-1.5 border border-slate-200 rounded-full pl-2.5 pr-3 py-1.5" title="'+esc(s.reason)+'">'
+        +'<span style="width:10px;height:10px;transform:rotate(45deg);background:'+color+';border-radius:2px"></span>'
+        +'<span class="font-mono font-bold text-sm text-ink">'+s.score+'</span>'
+        +'<span class="text-xs text-slate-500">'+esc(s.tier)+'</span></span>';
+    }).join('');
+  })();
+
+  /* ---------- TESTIMONIALS ---------- */
+  (function(){
+    var track=document.getElementById('tTrack'), scroll=document.getElementById('tScroll');
+    if(!track) return;
+    var variants=[
+      {bg:'#EBF4FF',border:'1px solid transparent',text:'#475569',badge:'#2374D9',name:'#0F172A',role:'#64748B',line:'#7BB8FF',glyph:'rgba(35,116,217,.12)'},
+      {bg:'#0D2F5E',border:'1px solid #134384',text:'#E2E8F0',badge:'#ADD3FF',name:'#fff',role:'#94A3B8',line:'#57A3FF',glyph:'rgba(255,255,255,.12)'},
+      {bg:'#fff',border:'1px solid #E2E8F0',text:'#475569',badge:'#2374D9',name:'#0F172A',role:'#64748B',line:'#7BB8FF',glyph:'rgba(35,116,217,.12)'}
+    ];
+    var rotates=['-1.5deg','1.2deg','-0.6deg'], offsets=['0px','26px','10px'];
+    var base=testimonials.concat(testimonials);
+    track.innerHTML=base.map(function(t,i){
+      var v=variants[i%3];
+      return '<div class="tcard shrink-0 w-[300px] sm:w-[360px] select-none" style="margin-top:'+offsets[i%3]+';transform:rotate('+rotates[i%3]+')">'
+        +'<div class="tcard__inner relative rounded-xl p-7 pt-8 grid gap-4 shadow-e-md" style="background:'+v.bg+';border:'+v.border+'">'
+        +'<span class="absolute top-0.5 right-4 font-display text-[4.5rem] leading-none pointer-events-none" style="color:'+v.glyph+'">&ldquo;</span>'
+        +'<p class="m-0 font-display font-bold text-lg tracking-[.02em]" style="color:'+v.badge+'">'+esc(t.badge)+'</p>'
+        +'<div class="h-0.5 w-14" style="background:'+v.line+'"></div>'
+        +'<p class="m-0 leading-[1.65]" style="color:'+v.text+'">&ldquo;'+esc(t.quote)+'&rdquo;</p>'
+        +'<div class="flex items-center gap-3 mt-1.5 pt-4" style="border-top:1px solid '+v.glyph+'">'
+          +'<img src="https://picsum.photos/seed/'+t.avatar+'/120/120" alt="'+esc(t.name)+'" class="w-11 h-11 rounded-full object-cover shrink-0 pointer-events-none">'
+          +'<div><p class="m-0 font-bold text-[.8125rem] uppercase tracking-[.02em]" style="color:'+v.name+'">'+esc(t.name)+'</p>'
+          +'<p class="m-0 text-[.8125rem]" style="color:'+v.role+'">'+esc(t.role)+'</p></div></div></div></div>';
+    }).join('');
+
+    // drag + infinite loop + auto-scroll
+    var dragging=false,startX=0,startScroll=0,hovering=false;
+    scroll.addEventListener('mouseenter',function(){hovering=true;});
+    scroll.addEventListener('mouseleave',function(){hovering=false;});
+    scroll.addEventListener('mousedown',function(e){dragging=true;startX=e.pageX;startScroll=scroll.scrollLeft;scroll.style.cursor='grabbing';});
+    scroll.addEventListener('mousemove',function(e){if(!dragging)return;e.preventDefault();scroll.scrollLeft=startScroll-(e.pageX-startX);});
+    function up(){dragging=false;scroll.style.cursor='grab';}
+    scroll.addEventListener('mouseup',up); scroll.addEventListener('mouseleave',up);
+    function loop(){var half=scroll.scrollWidth/2;if(scroll.scrollLeft>=half)scroll.scrollLeft-=half;else if(scroll.scrollLeft<=0)scroll.scrollLeft+=half;}
+    scroll.addEventListener('scroll',loop);
+    if(!reduce){(function step(){if(!dragging&&!hovering)scroll.scrollLeft+=0.6;loop();requestAnimationFrame(step);})();}
+  })();
+
+  /* ---------- FAQ ---------- */
+  (function(){
+    var list=document.getElementById('faqList'); if(!list) return;
+    list.innerHTML=faqs.map(function(f,i){
+      return '<div data-reveal="up" class="border-b border-slate-200">'
+        +'<button type="button" class="faq-t w-full flex items-center justify-between py-5 text-left" aria-expanded="false">'
+          +'<span class="font-semibold text-ink text-[1.0625rem] pr-6">'+esc(f.q)+'</span>'
+          +'<span class="faq-i shrink-0 w-8 h-8 rounded-full bg-blue-50 text-blue-600 grid place-items-center font-bold text-lg transition-transform duration-300">+</span></button>'
+        +'<div class="faq-p overflow-hidden transition-[max-height] duration-300" style="max-height:0"><p class="mt-0 mb-5 text-slate-500 leading-[1.65]">'+esc(f.a)+'</p></div></div>';
+    }).join('');
+    list.querySelectorAll('.faq-t').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var panel=btn.nextElementSibling, icon=btn.querySelector('.faq-i'), open=panel.style.maxHeight!=='0px'&&panel.style.maxHeight!=='';
+        list.querySelectorAll('.faq-p').forEach(function(p){p.style.maxHeight='0';});
+        list.querySelectorAll('.faq-i').forEach(function(ic){ic.style.transform='rotate(0deg)';});
+        list.querySelectorAll('.faq-t').forEach(function(b){b.setAttribute('aria-expanded','false');});
+        if(!open){panel.style.maxHeight=panel.scrollHeight+'px';icon.style.transform='rotate(45deg)';btn.setAttribute('aria-expanded','true');}
+      });
+    });
+    var first=list.querySelector('.faq-t'); if(first) first.click();
+  })();
+
+  /* ---------- ROTATOR (consulting) ---------- */
+  (function(){
+    var cards=[document.getElementById('rot0'),document.getElementById('rot1'),document.getElementById('rot2')];
+    if(!cards[0]) return; var idx=0;
+    function render(){
+      for(var k=0;k<3;k++){
+        var i=(idx+k)%rotImgs.length;
+        cards[k].innerHTML='<div class="relative w-full" style="aspect-ratio:21/20;animation:rotIn .6s var(--ease-soft)"><img src="'+rotImgs[i]+'" alt="'+esc(rotCats[i])+'" class="absolute inset-0 w-full h-full object-cover"><div class="absolute left-0 right-0 bottom-0 text-white font-semibold text-[.9375rem] px-3.5 py-3" style="background:linear-gradient(0deg,rgba(13,47,94,.88),transparent)">'+esc(rotCats[i])+'</div></div>';
+      }
+      if(window.lucide) lucide.createIcons();
+    }
+    render();
+    if(!reduce) setInterval(function(){idx=(idx+1)%rotImgs.length;render();},3200);
+  })();
+
+  /* ---------- CASE STUDY ---------- */
+  (function(){
+    var i=0;
+    var E={eyebrow:'csEyebrow',title:'csTitle',objective:'csObjective',strategy:'csStrategy',results:'csResults',badge:'csBadge'};
+    function render(){
+      var c=caseStudies[i];
+      for(var k in E){var el=document.getElementById(E[k]); if(el) el.textContent=c[k];}
+      var img=document.getElementById('csImg'); if(img){img.src=c.img;img.alt=c.title;}
+    }
+    function pick(){var n=Math.floor(Math.random()*caseStudies.length);if(caseStudies.length>1&&n===i)n=(n+1)%caseStudies.length;i=n;render();}
+    render();
+    var p=document.getElementById('csPrev'),n=document.getElementById('csNext');
+    if(p)p.addEventListener('click',pick); if(n)n.addEventListener('click',pick);
+  })();
+
+  /* ---------- CONTACT FORM ---------- */
+  (function(){
+    var form=document.getElementById('contactForm'), ok=document.getElementById('contactSuccess');
+    if(!form) return;
+    form.addEventListener('submit',function(e){e.preventDefault();form.classList.add('hidden');ok.classList.remove('hidden');ok.classList.add('grid');});
+  })();
+
+  /* ---------- SCROLL REVEAL ---------- */
+  (function(){
+    var els=Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+    document.querySelectorAll('[data-reveal-stagger]').forEach(function(g){
+      var step=parseInt(g.getAttribute('data-reveal-stagger'),10)||90;
+      Array.prototype.slice.call(g.querySelectorAll('[data-reveal]')).forEach(function(c,i){c.style.transitionDelay=(i*step)+'ms';});
+    });
+    if(reduce || !('IntersectionObserver' in window)){els.forEach(function(el){el.classList.add('in');});return;}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){io.observe(el);});
+  })();
+
+  /* ---------- SCROLL PROGRESS BAR ---------- */
+  (function(){
+    var bar=document.getElementById('scrollProgress'); if(!bar) return;
+    var ticking=false;
+    function update(){
+      var st=window.scrollY||window.pageYOffset||0;
+      var max=document.documentElement.scrollHeight-window.innerHeight;
+      var pct=max>0?Math.min(100,(st/max)*100):0;
+      bar.style.width=pct+'%';
+      ticking=false;
+    }
+    window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
+    window.addEventListener('resize',update,{passive:true});
+    update();
+  })();
+
+  /* ---------- SECTION SNAP (desktop, delayed & gentle) ---------- */
+  (function(){
+    if(reduce) return; var snapping=false,timer=null,release=null;
+    function snap(){
+      if(snapping) return;
+      if(window.innerWidth<900) return;
+      var secs=Array.prototype.slice.call(document.querySelectorAll('section, footer'));
+      if(!secs.length) return;
+      var y=window.scrollY||window.pageYOffset||0;
+      var maxS=document.documentElement.scrollHeight-window.innerHeight;
+      if(y<=2||y>=maxS-2) return;
+      var bestTop=null,bestDist=Infinity;
+      secs.forEach(function(s){var top=s.getBoundingClientRect().top+y-72;var d=Math.abs(top-y);if(d<bestDist){bestDist=d;bestTop=top;}});
+      if(bestTop==null||bestDist<=4||bestDist>window.innerHeight*0.18) return;
+      snapping=true;
+      window.scrollTo({top:Math.max(0,Math.min(maxS,Math.round(bestTop))),behavior:'smooth'});
+      clearTimeout(release); release=setTimeout(function(){snapping=false;},800);
+    }
+    window.addEventListener('scroll',function(){if(snapping)return;clearTimeout(timer);timer=setTimeout(snap,300);},{passive:true});
+  })();
+
+  /* ---------- LUCIDE ---------- */
+  function icons(){if(window.lucide){lucide.createIcons({attrs:{'stroke-width':1.75}});}else{setTimeout(icons,120);}}
+  icons();
+})();
+</script>
+</body>
+</html>
