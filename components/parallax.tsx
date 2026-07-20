@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useParallaxFactor } from "@/hooks/useMotionTier";
 import { cn } from "@/lib/utils";
 
 type ParallaxProps = {
@@ -23,15 +23,14 @@ type ParallaxProps = {
  */
 export function Parallax({ children, speed = 0.4, className }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
-  const isMobile = useIsMobile();
+  // Cường độ lấy từ chính sách chung useMotionTier (full / mobile / safe)
+  const factor = useParallaxFactor();
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
-  const factor = reducedMotion ? 0 : isMobile ? 0.7 : 1;
   const range = 110 * speed * factor;
   const y = useTransform(scrollYProgress, [0, 1], [range, -range]);
 

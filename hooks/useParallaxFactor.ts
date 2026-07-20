@@ -1,18 +1,9 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
-
-import { useIsMobile } from "@/hooks/useMediaQuery";
-
 /**
- * Hệ số cường độ parallax dùng chung cho mọi layer:
- * - 0 khi người dùng bật prefers-reduced-motion (mọi transform về tĩnh)
- * - 0.7 trên mobile (giảm nhẹ biên độ nhưng vẫn cảm nhận rõ hiệu ứng)
- * - 1 trên desktop
+ * Giữ lại đường import cũ cho các layer đã dùng `useParallaxFactor`.
+ * Chính sách chuyển động nay tập trung ở `useMotionTier` (ba bậc full/mobile/safe)
+ * — sửa cường độ thì sửa ở đó, không sửa ở đây.
  */
-export function useParallaxFactor(): number {
-  const reducedMotion = useReducedMotion();
-  const isMobile = useIsMobile();
-  if (reducedMotion) return 0;
-  return isMobile ? 0.7 : 1;
-}
+export { useParallaxFactor, useSafeFactor, useMotionTier, mobileMotion } from "@/hooks/useMotionTier";
+export type { MotionTier } from "@/hooks/useMotionTier";

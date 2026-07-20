@@ -1,12 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Building2 } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
 import { Mark } from "@/components/v3/decor";
 import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useMotionTier, useSafeFactor } from "@/hooks/useMotionTier";
 
 /** Số liệu thật của doanh nghiệp (hệ thống v1) — mono, làm bằng chứng. */
 const FACTS = [
@@ -94,8 +95,9 @@ function IntroImage() {
  */
 export function IntroV4() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion() ?? false;
   const mobile = useIsMobile();
+  const tier = useMotionTier();
+  const safe = useSafeFactor();
 
   // Mobile không pin → đo tiến độ theo cả quãng section đi qua viewport
   const { scrollYProgress } = useScroll({
@@ -110,16 +112,18 @@ export function IntroV4() {
   const cardOpacity = useTransform(t, [0.38, 0.58], [0, 1]);
   const cardX = useTransform(t, [0.38, 0.58], [-36, 0]);
 
-  /* Biên độ riêng cho bản mobile không pin */
-  const mBgX = useTransform(t, [0, 1], [70, -70]);
+  /* Biên độ riêng cho bản mobile không pin — nhân useSafeFactor để khi người
+     dùng bật giảm chuyển động thì hạ còn 1/4 thay vì mất hẳn hiệu ứng. */
+  const mBgX = useTransform(t, [0, 1], [70 * safe, -70 * safe]);
   const mBgOpacity = useTransform(t, [0, 0.35, 0.75, 1], [0, 1, 1, 0]);
-  const mCardY = useTransform(t, [0.04, 0.28], [44, 0]);
+  const mCardY = useTransform(t, [0.04, 0.28], [44 * safe, 0]);
   const mCardOpacity = useTransform(t, [0.04, 0.24], [0, 1]);
-  const mImgScale = useTransform(t, [0.15, 0.5], [0.9, 1]);
-  const mImgY = useTransform(t, [0, 1], [36, -24]);
+  const mImgScale = useTransform(t, [0.15, 0.5], [1 - 0.1 * safe, 1]);
+  const mImgY = useTransform(t, [0, 1], [36 * safe, -24 * safe]);
 
-  /* Reduced-motion: bản tĩnh 2 cột, không hiệu ứng */
-  if (reduced) {
+  /* Desktop + giảm chuyển động: bản tĩnh 2 cột (bỏ hẳn depth zoom vì đây là
+     chuyển động tiền đình biên độ lớn). Mobile vẫn đi nhánh dưới với biên độ hạ. */
+  if (tier === "safe" && !mobile) {
     return (
       <section
         id="gioi-thieu"

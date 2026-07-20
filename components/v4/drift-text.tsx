@@ -20,8 +20,9 @@ export function DriftText() {
   const mobile = useIsMobile();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
-  // Biên độ px: mobile ~1/3 desktop để dòng chữ luôn đọc được quanh tâm viewport
-  const [a1, a2, a3] = mobile ? [56, 84, 68] : [170, 260, 210];
+  // Biên độ px. Mobile: rất nhỏ — màn hẹp nên dòng chữ dài đã sát mép, trôi
+  // mạnh sẽ đẩy chữ ra ngoài khung và trông như bị cắt cụt (lỗi đã gặp).
+  const [a1, a2, a3] = mobile ? [18, 30, 22] : [170, 260, 210];
   const x1 = useTransform(scrollYProgress, [0, 1], [a1 * factor, -a1 * factor]);
   const x2 = useTransform(scrollYProgress, [0, 1], [-a2 * factor, a2 * factor]);
   const x3 = useTransform(scrollYProgress, [0, 1], [a3 * factor, -a3 * factor]);

@@ -27,6 +27,7 @@ import {
 import { HexTexture, StarField } from "@/components/v3/decor";
 import { Spotlight } from "@/components/v3/spotlight";
 import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useMotionTier, useSafeFactor } from "@/hooks/useMotionTier";
 import { deckServices, type DeckService } from "@/lib/v4-services";
 import type { LucideName } from "@/lib/v3-data";
 
@@ -256,50 +257,164 @@ function TextPanel({ item, index, t }: { item: DeckService; index: number; t: Mo
   );
 }
 
-/* ---------- Mobile: sticky card stack phẳng, không pin, không 3D ---------- */
-function MobileCard({ item, index }: { item: DeckService; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  // thẻ bị thẻ sau đè: thu nhỏ ~4% + tối dần
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["end 88%", "end 25%"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
-  const dim = useTransform(scrollYProgress, [0, 1], [0, 0.3]);
+/* ---------- Mobile: coverflow carousel vuốt ngang ---------- */
+
+/** Bề ngang một thẻ tính theo viewport — dùng chung cho card và tính snap. */
+const M_CARD_VW = 74;
+
+/**
+ * Thẻ dịch vụ trên mobile. Biến đổi được lái bằng vị trí cuộn NGANG của
+ * carousel chứ không phải cuộn dọc trang: thẻ ở giữa dựng thẳng và sáng rõ,
+ * thẻ hai bên nghiêng theo trục Y + lùi lại + mờ đi → cảm giác coverflow 3D,
+ * tương đương độ mạnh thị giác của deck 3D bên desktop nhưng hợp thao tác vuốt.
+ * Bậc "safe": biên độ nhân 0.25, chỉ còn thu nhỏ/mờ nhẹ, bỏ nghiêng 3D.
+ */
+function MobileCard({
+  item,
+  index,
+  progress,
+  count,
+}: {
+  item: DeckService;
+  index: number;
+  progress: MotionValue<number>;
+  count: number;
+}) {
+  const safe = useSafeFactor();
   const Icon = ICONS[item.icon];
 
+  // Vị trí cuộn ngang (0..1) mà tại đó thẻ này nằm chính giữa khung
+  const at = count > 1 ? index / (count - 1) : 0;
+  const stepSize = count > 1 ? 1 / (count - 1) : 1;
+
+  // Lệch có dấu → nghiêng trái/phải; lệch tuyệt đối → thu nhỏ và mờ
+  const signed = useTransform(progress, (v) => (v - at) / stepSize);
+  const dist = useTransform(signed, (v) => Math.min(Math.abs(v), 1));
+
+  const rotateY = useTransform(signed, (v) => v * 20 * safe);
+  const scale = useTransform(dist, [0, 1], [1, 1 - 0.14 * safe]);
+  const opacity = useTransform(dist, [0, 1], [1, 1 - 0.45 * safe]);
+  const z = useTransform(dist, [0, 1], [0, -60 * safe]);
+
   return (
-    <div ref={ref} className="h-[72vh]">
+    <article
+      className="snap-center [transform-style:preserve-3d]"
+      style={{ flex: `0 0 ${M_CARD_VW}vw`, maxWidth: 300 }}
+    >
       <motion.div
-        style={{ top: `calc(12vh + ${index * 12}px)`, scale }}
-        className="sticky overflow-hidden rounded-2xl border border-white/15 shadow-v2-xl"
+        style={{ rotateY, scale, opacity, z }}
+        className="overflow-hidden rounded-2xl border border-white/15 bg-v2blue-900 shadow-v2-xl will-change-transform"
       >
-        <div className="relative bg-v2blue-900">
-          {/* Ảnh nguyên khổ 16:9, không cắt; nội dung nằm dưới ảnh */}
+        {/* Ảnh 4:3 thay vì 16:9 — thẻ thấp hơn, không còn chiếm trọn màn hình */}
+        <div className="relative">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={item.image} alt="" loading="lazy" className="aspect-video w-full object-cover" />
-          <motion.div aria-hidden style={{ opacity: dim }} className="absolute inset-0 z-[1] bg-v2blue-900" />
-          <div className="grid gap-2 p-5">
-            <span className="flex items-center justify-between">
-              <span className="flex items-center gap-2.5">
-                <span className="grid h-8 w-8 place-items-center rounded-[9px] bg-white/15 text-white">
-                  <Icon className="h-4 w-4" />
-                </span>
-                <span className="text-[.9375rem] font-bold text-white">{item.label}</span>
-              </span>
-              <span className="font-mono text-xs font-bold text-v2blue-200">
-                {String(index + 1).padStart(2, "0")}/{String(N).padStart(2, "0")}
-              </span>
+          <img
+            src={item.image}
+            alt=""
+            loading="lazy"
+            className="aspect-[4/3] w-full object-cover"
+          />
+          <span className="absolute right-2.5 top-2.5 rounded-full bg-v2blue-900/80 px-2 py-1 font-mono text-[.6875rem] font-bold text-v2blue-100 backdrop-blur">
+            {String(index + 1).padStart(2, "0")}/{String(count).padStart(2, "0")}
+          </span>
+          {item.isAI && item.aiScore !== undefined && (
+            <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full bg-v2blue-600/90 px-2.5 py-1 text-[.6875rem] font-bold text-white backdrop-blur">
+              <Sparkles className="h-3 w-3" /> Điểm AI {item.aiScore}
             </span>
-            <h3 className="m-0 font-v2display text-xl font-semibold text-white">{item.title}</h3>
-            <p className="m-0 text-[.875rem] leading-[1.6] text-slate-200">{item.desc}</p>
-            <a
-              href={item.ctaHref}
-              className="mt-1 inline-flex h-11 w-fit items-center gap-2 rounded-md bg-v2blue-600 px-4 text-sm font-semibold text-white"
-            >
-              {item.ctaLabel} <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
+          )}
+        </div>
+
+        <div className="grid gap-2 p-4">
+          <span className="flex items-center gap-2">
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[8px] bg-white/15 text-white">
+              <Icon className="h-[15px] w-[15px]" />
+            </span>
+            <span className="text-[.875rem] font-bold text-white">{item.label}</span>
+          </span>
+          <h3 className="m-0 font-v2display text-[1.0625rem] font-semibold leading-[1.3] text-white">
+            {item.title}
+          </h3>
+          {/* Cắt còn 3 dòng: giữ thẻ gọn, chi tiết đầy đủ nằm ở trang dịch vụ */}
+          <p className="m-0 line-clamp-3 text-[.8125rem] leading-[1.55] text-slate-300">
+            {item.desc}
+          </p>
+          <a
+            href={item.ctaHref}
+            className="mt-1 inline-flex h-10 w-fit items-center gap-1.5 rounded-md bg-v2blue-600 px-3.5 text-[.8125rem] font-semibold text-white"
+          >
+            {item.ctaLabel} <ArrowRight className="h-[15px] w-[15px]" />
+          </a>
         </div>
       </motion.div>
-    </div>
+    </article>
+  );
+}
+
+/**
+ * Carousel dịch vụ cho mobile — vuốt ngang có snap, hé thẻ kế tiếp để người
+ * dùng thấy ngay là còn nội dung bên phải. Thanh tiến độ và số thứ tự đồng bộ
+ * với vị trí cuộn. Thay cho stack dọc cũ vì stack khiến mỗi thẻ chiếm nguyên
+ * màn hình và phải cuộn rất lâu mới xem hết 5 dịch vụ.
+ */
+function MobileDeck() {
+  const scroller = useRef<HTMLDivElement>(null);
+  const count = deckServices.length;
+  const [active, setActive] = useState(0);
+
+  // Tiến độ cuộn ngang 0..1 của chính khung carousel
+  const { scrollXProgress } = useScroll({ container: scroller });
+  const p = useSpring(scrollXProgress, { stiffness: 120, damping: 26, restDelta: 0.001 });
+  const barW = useTransform(p, (v) => `${Math.max(12, Math.min(1, Math.max(0, v)) * 100)}%`);
+
+  useMotionValueEvent(p, "change", (v) => {
+    const idx = Math.round(Math.min(1, Math.max(0, v)) * (count - 1));
+    if (idx !== active) setActive(idx);
+  });
+
+  return (
+    <section id="spotlight" className="relative overflow-hidden bg-v2blue-900 py-14 text-white">
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(160deg,#0D2F5E 0%,#134384 62%,#1A5BB0 100%)" }}
+      />
+      <HexTexture size={24} glow={8} className="opacity-50" />
+
+      <div className="relative grid gap-5">
+        <div className="grid justify-items-start gap-2.5 px-4 sm:px-6">
+          <span className="text-xs font-semibold uppercase tracking-[.12em] text-v2blue-300">
+            Dịch vụ nổi bật
+          </span>
+          <h2 className="m-0 font-v2display text-[1.75rem] font-semibold leading-[1.18]">
+            Giải pháp OOH của Toàn Cầu
+          </h2>
+        </div>
+
+        {/* perspective đặt ở khung ngoài để rotateY của từng thẻ có chiều sâu thật */}
+        <div
+          ref={scroller}
+          className="flex snap-x snap-mandatory gap-3.5 overflow-x-auto overscroll-x-contain px-[13vw] pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{ perspective: 1000 }}
+        >
+          {deckServices.map((s, i) => (
+            <MobileCard key={s.label} item={s} index={i} progress={p} count={count} />
+          ))}
+        </div>
+
+        {/* Tiến độ + nhãn dịch vụ đang xem */}
+        <div className="flex items-center gap-3 px-4 sm:px-6">
+          <div aria-hidden className="h-1 flex-1 overflow-hidden rounded-full bg-white/15">
+            <motion.div style={{ width: barW }} className="h-full rounded-full bg-v2blue-400" />
+          </div>
+          <span className="font-mono text-xs font-bold tabular-nums text-v2blue-200">
+            {String(active + 1).padStart(2, "0")}/{String(count).padStart(2, "0")}
+          </span>
+        </div>
+        <p className="m-0 px-4 text-[.8125rem] text-slate-400 sm:px-6">
+          Vuốt ngang để xem tất cả {count} nhóm dịch vụ
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -315,6 +430,7 @@ export function ServicesDeck() {
   const stageRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion() ?? false;
   const mobile = useIsMobile();
+  const tier = useMotionTier();
   const inView = useInView(ref, { margin: "20% 0px" });
   const [dx, setDx] = useState(-560);
   const [active, setActive] = useState(0);
@@ -341,35 +457,13 @@ export function ServicesDeck() {
     return () => ro.disconnect();
   }, [reduced, mobile]);
 
-  /* Reduced motion: giữ nguyên cơ chế tab click cũ, không pin */
-  if (reduced) return <Spotlight />;
+  /* Desktop + giảm chuyển động: tab-switcher cũ — không pin, không scrub */
+  if (tier === "safe" && !mobile) return <Spotlight />;
 
-  /* Mobile: sticky card stack, không pin */
-  if (mobile) {
-    return (
-      <section id="spotlight" className="relative overflow-hidden bg-v2blue-900 py-16 text-white">
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(160deg,#0D2F5E 0%,#134384 62%,#1A5BB0 100%)" }}
-        />
-        <HexTexture size={24} glow={8} className="opacity-50" />
-        <div className="relative mx-auto grid max-w-[1280px] gap-6 px-4 sm:px-6">
-          <div className="grid justify-items-start gap-2.5">
-            <span className="text-xs font-semibold uppercase tracking-[.12em] text-v2blue-300">
-              Dịch vụ nổi bật
-            </span>
-            <h2 className="m-0 font-v2display text-[1.75rem] font-semibold leading-[1.18]">
-              Giải pháp OOH của Toàn Cầu
-            </h2>
-          </div>
-          {deckServices.map((s, i) => (
-            <MobileCard key={s.label} item={s} index={i} />
-          ))}
-        </div>
-      </section>
-    );
-  }
+  /* Mobile: card stack chiều sâu, không pin.
+     Dùng cho cả khi bật giảm chuyển động — biên độ đã được useSafeFactor hạ
+     xuống 1/4 bên trong MobileCard, nên vẫn an toàn mà không mất hẳn hiệu ứng. */
+  if (mobile) return <MobileDeck />;
 
   /* Desktop: pin N×100vh */
   return (
