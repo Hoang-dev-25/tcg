@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Check, CheckCircle2 } from "lucide-react";
+
+import { useIsMobile } from "@/hooks/useMediaQuery";
+import { ArrowRight, Check, CheckCircle2, Plus } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
 import { HexTexture, StarField } from "@/components/v3/decor";
@@ -15,39 +17,47 @@ export function LeadFormV4() {
   const [submitted, setSubmitted] = useState(false);
   const [agree, setAgree] = useState(false);
   const [engaged, setEngaged] = useState(false);
+  const [showOptional, setShowOptional] = useState(false);
+  const mobile = useIsMobile();
+
+  /* Mobile chỉ hiện 2 ô bắt buộc; 4 ô tuỳ chọn nằm sau một nút mở rộng.
+     Xếp cả 6 ô theo chiều dọc làm khối form dài hơn một màn hình và tạo cảm
+     giác phải khai báo rất nhiều mới liên hệ được. */
+  const visibleFields =
+    mobile && !showOptional ? leadForm.fields.filter((f) => f.required) : leadForm.fields;
 
   return (
     <section
       id="lien-he"
-      className="relative overflow-hidden py-20 lg:py-24"
+      className="relative overflow-hidden py-14 sm:py-20 lg:py-24"
       style={{ background: "linear-gradient(160deg,#0D2F5E,#1A5BB0)" }}
     >
       <HexTexture size={28} glow={11} className="opacity-55" />
       <StarField count={9} />
-      <div className="relative mx-auto grid max-w-[1280px] items-start gap-12 px-4 sm:px-6 lg:grid-cols-[.9fr_1.1fr] lg:px-8">
+      <div className="relative mx-auto grid max-w-[1280px] items-start gap-7 px-4 sm:px-6 sm:gap-12 lg:grid-cols-[.9fr_1.1fr] lg:px-8">
         {/* Cột thông tin (nền tối → chữ sáng) */}
-        <Reveal className="grid gap-4 text-white">
+        <Reveal className="grid gap-3 text-white sm:gap-4">
           <span className="text-xs font-bold uppercase tracking-[.12em] text-v2blue-200">
             Bắt đầu ngay hôm nay
           </span>
-          <h2 className="m-0 font-v2display text-[1.875rem] font-semibold leading-[1.18] sm:text-4xl">
+          <h2 className="m-0 font-v2display text-[1.5rem] font-semibold leading-[1.2] sm:text-4xl">
             {leadForm.title}
           </h2>
-          <p className="m-0 text-[1.0625rem] text-slate-300">{leadForm.desc}</p>
-          <ul className="m-0 grid list-none gap-2.5 p-0">
+          <p className="m-0 text-[.9375rem] leading-[1.6] text-slate-300 sm:text-[1.0625rem]">{leadForm.desc}</p>
+          <ul className="m-0 grid list-none gap-2 p-0">
             {leadForm.benefits.map((b) => (
-              <li key={b} className="flex items-center gap-2.5 font-medium text-slate-200">
-                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-v2blue-500 text-white">
+              <li key={b} className="flex items-start gap-2.5 text-[.875rem] font-medium leading-[1.5] text-slate-200 sm:text-base">
+                <span className="mt-[3px] grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full bg-v2blue-500 text-white">
                   <Check className="h-3 w-3" />
                 </span>
                 {b}
               </li>
             ))}
           </ul>
-          <div className="flex flex-wrap gap-x-8 gap-y-3 border-y border-white/15 py-3.5">
+          <div className="flex flex-wrap gap-x-7 gap-y-2 border-y border-white/15 py-3">
             {leadForm.stats.map((s) => (
               <div key={s.label} className="grid gap-0.5">
-                <strong className="font-mono text-2xl text-white">{s.value}</strong>
+                <strong className="font-mono text-xl text-white sm:text-2xl">{s.value}</strong>
                 <span className="text-xs font-semibold uppercase tracking-[.06em] text-slate-400">
                   {s.label}
                 </span>
@@ -92,9 +102,9 @@ export function LeadFormV4() {
                 setSubmitted(true);
               }}
               onFocusCapture={() => setEngaged(true)}
-              className="grid grid-cols-1 gap-3.5 rounded-2xl border border-white/15 bg-white p-5 shadow-v2-xl sm:grid-cols-2 sm:p-7"
+              className="grid grid-cols-1 gap-3 rounded-2xl border border-white/15 bg-white p-4 shadow-v2-xl sm:grid-cols-2 sm:gap-3.5 sm:p-7"
             >
-              {leadForm.fields.map((f) => (
+              {visibleFields.map((f) => (
                 <label key={f.label} className="grid gap-1.5">
                   <span className="text-[.8125rem] font-semibold text-slate-700">
                     {f.label}
@@ -103,14 +113,23 @@ export function LeadFormV4() {
                   <input
                     required={f.required}
                     placeholder={f.placeholder}
-                    className="h-11 w-full rounded-md border border-slate-300 bg-white px-3.5 text-[.9375rem] text-slate-900 outline-none transition focus:border-v2blue-500 focus:ring-2 focus:ring-v2blue-200"
+                    className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-[.9375rem] text-slate-900 outline-none transition focus:border-v2blue-500 focus:ring-2 focus:ring-v2blue-200 sm:h-11 sm:px-3.5"
                   />
                 </label>
               ))}
+              {mobile && !showOptional && (
+                <button
+                  type="button"
+                  onClick={() => setShowOptional(true)}
+                  className="flex h-10 items-center justify-center gap-1.5 rounded-md border border-dashed border-slate-300 text-[.8125rem] font-semibold text-v2blue-700"
+                >
+                  <Plus className="h-4 w-4" /> Thêm doanh nghiệp, email, ngành hàng, ngân sách
+                </button>
+              )}
               <label className="grid gap-1.5 sm:col-span-2">
                 <span className="text-[.8125rem] font-semibold text-slate-700">Nhu cầu / ghi chú</span>
                 <textarea
-                  rows={3}
+                  rows={2}
                   placeholder="Mô tả ngắn nhu cầu quảng cáo…"
                   className="w-full resize-y rounded-md border border-slate-300 bg-white px-3.5 py-2.5 text-[.9375rem] leading-normal text-slate-900 outline-none transition focus:border-v2blue-500 focus:ring-2 focus:ring-v2blue-200"
                 />

@@ -188,21 +188,26 @@ export function V4Hero() {
               Được hơn 400 nhãn hàng tin chọn trong suốt 20 năm; vận hành cùng dữ liệu vị trí
               minh bạch và điểm AI theo ngành hàng.
             </motion.p>
+            {/* Mobile: xếp NGANG, nút chính co giãn + nút phụ gọn theo nội dung.
+                Hai nút full-width 50px xếp chồng như trước chiếm quá nhiều màn
+                hero và trông thô. Vẫn giữ chiều cao chạm 44px tối thiểu. */}
             <motion.div
               variants={fadeUp}
-              className="mt-8 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3.5"
+              className="mt-7 flex w-full items-center justify-center gap-2.5 sm:mt-8 sm:w-auto sm:flex-wrap sm:gap-3.5"
             >
               <a
                 href="#ban-do"
-                className="v3-shine inline-flex h-[50px] items-center justify-center gap-2.5 rounded-md bg-v2blue-600 px-7 text-[1rem] font-semibold text-white shadow-v2-lg transition hover:-translate-y-0.5 hover:bg-v2blue-500 sm:h-[54px] sm:text-[1.0625rem]"
+                className="v3-shine inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-md bg-v2blue-600 px-4 text-[.9375rem] font-semibold text-white shadow-v2-lg transition hover:-translate-y-0.5 hover:bg-v2blue-500 sm:h-[54px] sm:flex-none sm:px-7 sm:text-[1.0625rem]"
               >
-                Khám phá bản đồ vị trí <ArrowRight className="h-[19px] w-[19px]" />
+                Khám phá bản đồ <ArrowRight className="h-[17px] w-[17px] shrink-0" />
               </a>
               <a
                 href="#lien-he"
-                className="inline-flex h-[50px] items-center justify-center gap-2 rounded-md border border-white/40 bg-v2blue-900/30 px-6 text-[1rem] font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/10 sm:h-[54px] sm:text-[1.0625rem]"
+                aria-label="Nhận tư vấn qua điện thoại"
+                className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-white/40 bg-v2blue-900/30 px-4 text-[.9375rem] font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/10 sm:h-[54px] sm:px-6 sm:text-[1.0625rem]"
               >
-                <PhoneCall className="h-[18px] w-[18px]" /> Nhận tư vấn
+                <PhoneCall className="h-[17px] w-[17px] shrink-0" />
+                Nhận tư vấn
               </a>
             </motion.div>
 

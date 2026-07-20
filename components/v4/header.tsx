@@ -24,10 +24,15 @@ export function HeaderV4() {
 
   return (
     <header
+      /* Khi menu mở: dùng nền TRẮNG ĐẶC cho cả thanh bar, vì panel nav bên dưới
+         cũng là bg-white đặc — để bar ở bg-white/85 + blur sẽ lộ vệt lệch màu
+         giữa hai mảng dính liền nhau. */
       className={`fixed inset-x-0 top-0 z-40 border-b transition-all duration-300 ${
-        solid
-          ? "border-slate-200/80 bg-white/85 shadow-v2-sm backdrop-blur-md"
-          : "border-transparent bg-transparent"
+        open
+          ? "border-slate-200 bg-white shadow-v2-sm"
+          : scrolled
+            ? "border-slate-200/80 bg-white/85 shadow-v2-sm backdrop-blur-md"
+            : "border-transparent bg-transparent"
       }`}
     >
       <div
@@ -85,7 +90,9 @@ export function HeaderV4() {
         </button>
       </div>
       {open && (
-        <div className="border-t border-slate-200 bg-white md:hidden">
+        /* Cùng bg-white đặc với thanh bar ở trên — không viền phân cách để hai
+           mảng đọc thành một khối liền */
+        <div className="bg-white md:hidden">
           <nav className="mx-auto flex max-w-[1280px] flex-col px-4 py-2 text-[.9375rem] font-medium">
             {nav.map((item, i) => (
               <a

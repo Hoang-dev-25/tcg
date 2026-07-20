@@ -1,14 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import {
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useSpring,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { ArrowRight, Clock3 } from "lucide-react";
 
 import { Parallax } from "@/components/parallax";
@@ -16,6 +9,7 @@ import { Reveal } from "@/components/landing/reveal";
 import { Mark } from "@/components/v3/decor";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { useParallaxFactor, useSafeFactor } from "@/hooks/useParallaxFactor";
+import { useSnapCarousel } from "@/hooks/useSnapCarousel";
 import { newsCardsRich, type NewsCardRich } from "@/lib/v4-cases";
 
 /* Lớp 11 Parallax Lab — column-offset grid: mỗi cột một tốc độ trôi,
@@ -134,18 +128,8 @@ function MobileCaseCard({
  * phải cuộn rất lâu; carousel gói cả 8 tin trong một màn và hé thẻ kế tiếp.
  */
 function MobileCases() {
-  const scroller = useRef<HTMLDivElement>(null);
   const count = newsCardsRich.length;
-  const [active, setActive] = useState(0);
-
-  const { scrollXProgress } = useScroll({ container: scroller });
-  const p = useSpring(scrollXProgress, { stiffness: 120, damping: 26, restDelta: 0.001 });
-  const barW = useTransform(p, (v) => `${Math.max(8, Math.min(1, Math.max(0, v)) * 100)}%`);
-
-  useMotionValueEvent(p, "change", (v) => {
-    const idx = Math.round(Math.min(1, Math.max(0, v)) * (count - 1));
-    if (idx !== active) setActive(idx);
-  });
+  const { scroller, progress: p, active, barWidth: barW } = useSnapCarousel(count);
 
   return (
     <section id="tin-tuc" className="relative overflow-hidden bg-white py-16">

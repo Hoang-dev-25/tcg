@@ -26,8 +26,10 @@ import {
 
 import { HexTexture, StarField } from "@/components/v3/decor";
 import { Spotlight } from "@/components/v3/spotlight";
+import { PinCue } from "@/components/v4/pin-cue";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { useMotionTier, useSafeFactor } from "@/hooks/useMotionTier";
+import { useSnapCarousel } from "@/hooks/useSnapCarousel";
 import { deckServices, type DeckService } from "@/lib/v4-services";
 import type { LucideName } from "@/lib/v3-data";
 
@@ -357,19 +359,8 @@ function MobileCard({
  * màn hình và phải cuộn rất lâu mới xem hết 5 dịch vụ.
  */
 function MobileDeck() {
-  const scroller = useRef<HTMLDivElement>(null);
   const count = deckServices.length;
-  const [active, setActive] = useState(0);
-
-  // Tiến độ cuộn ngang 0..1 của chính khung carousel
-  const { scrollXProgress } = useScroll({ container: scroller });
-  const p = useSpring(scrollXProgress, { stiffness: 120, damping: 26, restDelta: 0.001 });
-  const barW = useTransform(p, (v) => `${Math.max(12, Math.min(1, Math.max(0, v)) * 100)}%`);
-
-  useMotionValueEvent(p, "change", (v) => {
-    const idx = Math.round(Math.min(1, Math.max(0, v)) * (count - 1));
-    if (idx !== active) setActive(idx);
-  });
+  const { scroller, progress: p, active, barWidth: barW } = useSnapCarousel(count, 12);
 
   return (
     <section id="spotlight" className="relative overflow-hidden bg-v2blue-900 py-14 text-white">
@@ -436,7 +427,7 @@ export function ServicesDeck() {
   const [active, setActive] = useState(0);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const t = useSpring(scrollYProgress, { stiffness: 90, damping: 24, restDelta: 0.001 }); // ~ scrub: 1
+  const t = useSpring(scrollYProgress, { stiffness: 160, damping: 30, restDelta: 0.001 }); // ~ scrub: 1
   const progressW = useTransform(t, (v) => `${Math.max(2, v * 100)}%`);
 
   useMotionValueEvent(t, "change", (v) => {
@@ -468,8 +459,8 @@ export function ServicesDeck() {
   /* Desktop: pin N×100vh */
   return (
     <section id="spotlight" aria-label="Dịch vụ nổi bật — 3D deck">
-      <div ref={ref} className="relative" style={{ height: `${N * 100}vh` }}>
-        <div className="sticky top-0 flex h-dvh flex-col justify-center overflow-hidden bg-v2blue-900 text-white">
+      <div ref={ref} className="relative" style={{ height: `${N * 72}vh` }}>
+        <div className="sticky top-[76px] mx-3 flex h-[calc(100dvh-148px)] flex-col justify-center overflow-hidden rounded-[22px] bg-v2blue-900 text-white shadow-v2-xl sm:mx-5 lg:mx-8">
           <div
             aria-hidden
             className="absolute inset-0"
@@ -520,6 +511,9 @@ export function ServicesDeck() {
               ))}
             </div>
           </div>
+
+          {/* Deck pin qua nhiều màn — chỉ báo cho biết còn thẻ phía sau */}
+          <PinCue progress={t} current={active + 1} total={N} />
         </div>
       </div>
     </section>

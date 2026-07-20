@@ -31,7 +31,11 @@ export function DriftText() {
     <section
       ref={ref}
       aria-label="Tuyên ngôn Toàn Cầu ADV"
-      className="relative overflow-hidden bg-white py-16 sm:py-28"
+      /* Nền chuyển sắc thay vì trắng trơn: khối wordmark căn giữa trên nền trắng
+         trông y như chữ ký đóng trang, khiến người dùng tưởng đã hết website.
+         Dải xanh nhạt + gợi ý cuộn phía dưới cho biết trang còn tiếp. */
+      className="relative overflow-hidden py-12 sm:py-24"
+      style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#EBF4FF 50%,#FFFFFF 100%)" }}
     >
       <div className="grid gap-2 font-v2sans font-extrabold uppercase leading-[1.02] tracking-tight sm:gap-3">
         <motion.p

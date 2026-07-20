@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   motion,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -20,6 +21,7 @@ import {
 } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
+import { PinCue } from "@/components/v4/pin-cue";
 import { HexTexture, StarField } from "@/components/v3/decor";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { mapPreview } from "@/lib/v3-data";
@@ -234,7 +236,14 @@ export function AiShowcase() {
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   // scrub có độ trễ mượt (tương đương scrub: 1)
-  const t = useSpring(scrollYProgress, { stiffness: 90, damping: 24, restDelta: 0.001 });
+  const t = useSpring(scrollYProgress, { stiffness: 160, damping: 30, restDelta: 0.001 });
+
+  /* Bước đang xem — dùng cho PinCue để người dùng biết còn bước phía sau */
+  const [step, setStep] = useState(1);
+  useMotionValueEvent(t, "change", (v) => {
+    const i = Math.min(STEPS.length, Math.max(1, Math.floor(v * STEPS.length) + 1));
+    if (i !== step) setStep(i);
+  });
 
   /* Bước 1: zoom vào vị trí (Ngã tư Sở ~ 61%/38% trên ảnh bản đồ) */
   const mapScale = useTransform(t, [0, 0.16, 0.62, 0.86], [1, 1.55, 1.55, 1.12]);
@@ -326,8 +335,8 @@ export function AiShowcase() {
   if (mobile) {
     return (
       <section id="ban-do" aria-label="AI chọn vị trí trong 3 bước">
-        <div ref={ref} className="relative h-[260vh]">
-          <div className="sticky top-0 flex h-dvh flex-col justify-center overflow-hidden bg-v2blue-900 text-white">
+        <div ref={ref} className="relative h-[190vh]">
+          <div className="sticky top-[76px] mx-3 flex h-[calc(100dvh-148px)] flex-col justify-center overflow-hidden rounded-[22px] bg-v2blue-900 text-white shadow-v2-xl sm:mx-5 lg:mx-8">
             <div
               aria-hidden
               className="absolute inset-0"
@@ -377,6 +386,8 @@ export function AiShowcase() {
                 </a>
               </motion.div>
             </div>
+          
+            <PinCue progress={t} current={step} total={STEPS.length} />
           </div>
         </div>
       </section>
@@ -386,8 +397,8 @@ export function AiShowcase() {
   /* ---------- Desktop: pin 300vh ---------- */
   return (
     <section id="ban-do" aria-label="AI chọn vị trí trong 3 bước">
-      <div ref={ref} className="relative h-[300vh]">
-        <div className="sticky top-0 flex h-dvh flex-col justify-center overflow-hidden bg-v2blue-900 text-white">
+      <div ref={ref} className="relative h-[220vh]">
+        <div className="sticky top-[76px] mx-3 flex h-[calc(100dvh-148px)] flex-col justify-center overflow-hidden rounded-[22px] bg-v2blue-900 text-white shadow-v2-xl sm:mx-5 lg:mx-8">
           <div
             aria-hidden
             className="absolute inset-0"
@@ -447,6 +458,8 @@ export function AiShowcase() {
               </div>
             </div>
           </div>
+
+          <PinCue progress={t} current={step} total={STEPS.length} />
         </div>
       </div>
     </section>

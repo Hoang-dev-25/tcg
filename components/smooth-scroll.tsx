@@ -23,8 +23,13 @@ export function SmoothScroll({
     }
 
     const lenis = new Lenis({
-      lerp: 0.09,
+      // lerp 0.09 bám quá chậm: nội dung trôi tiếp một quãng sau khi ngừng cuộn,
+      // cộng với spring ở từng section pin thành cảm giác trễ và "nhão".
+      lerp: 0.14,
       wheelMultiplier: 1,
+      // Trên thiết bị cảm ứng dùng cuộn native — Lenis chen vào sẽ giành quyền
+      // với momentum của hệ điều hành và gây giật.
+      syncTouch: false,
     });
 
     let rafId = 0;

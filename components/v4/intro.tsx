@@ -20,30 +20,30 @@ const FACTS = [
 /** Phần chữ giới thiệu — dùng chung cho bản pin (trong thẻ trắng) và bản tĩnh. */
 function IntroCopy() {
   return (
-    <div className="grid justify-items-start gap-5">
-      <span className="inline-flex items-center gap-2 rounded-full bg-v2blue-50 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[.1em] text-v2blue-700">
+    <div className="grid justify-items-start gap-3.5 sm:gap-5">
+      <span className="inline-flex items-center gap-2 rounded-full bg-v2blue-50 px-3 py-1 text-[.6875rem] font-bold uppercase tracking-[.1em] text-v2blue-700 sm:px-3.5 sm:py-1.5 sm:text-xs">
         Về Toàn Cầu ADV
       </span>
-      <h2 className="m-0 font-v2display text-[clamp(1.75rem,2.6vw,2.25rem)] font-semibold leading-[1.2] text-v2blue-900">
+      <h2 className="m-0 font-v2display text-[1.375rem] font-semibold leading-[1.28] text-v2blue-900 sm:text-[clamp(1.75rem,2.6vw,2.25rem)] sm:leading-[1.2]">
         20 năm đưa thương hiệu Việt ra đường phố
       </h2>
-      <p className="m-0 max-w-[560px] text-[1rem] leading-[1.7] text-slate-600">
+      <p className="m-0 max-w-[560px] text-[.875rem] leading-[1.6] text-slate-600 sm:text-[1rem] sm:leading-[1.7]">
         Khởi đầu từ tổ chức sự kiện năm 2003, Toàn Cầu ADV phát triển thành mạng lưới quảng cáo
         ngoài trời phủ 30+ tỉnh thành — từ billboard cửa ngõ, sân bay, màn hình LED đến nhà chờ
         xe bus.
       </p>
-      <p className="m-0 max-w-[560px] text-[1rem] leading-[1.7] text-slate-600">
+      <p className="m-0 max-w-[560px] text-[.875rem] leading-[1.6] text-slate-600 sm:text-[1rem] sm:leading-[1.7]">
         Hệ thống đang được số hóa toàn diện: bản đồ vị trí minh bạch, điểm AI theo ngành hàng và
         báo giá PDF trong vài phút — để mỗi quyết định OOH đều dựa trên dữ liệu.
       </p>
-      <div className="mt-1 flex flex-wrap gap-2.5">
+      <div className="mt-0.5 grid w-full grid-cols-2 gap-2 sm:mt-1 sm:flex sm:w-auto sm:flex-wrap sm:gap-2.5">
         {FACTS.map((f) => (
           <div
             key={f.label}
-            className="flex items-baseline gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-v2-sm"
+            className="flex items-baseline gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 shadow-v2-sm sm:px-4 sm:py-2"
           >
-            <strong className="font-mono text-[1.125rem] tabular-nums text-v2blue-900">{f.value}</strong>
-            <span className="text-xs font-semibold text-slate-500">{f.label}</span>
+            <strong className="font-mono text-[.9375rem] tabular-nums text-v2blue-900 sm:text-[1.125rem]">{f.value}</strong>
+            <span className="text-[.6875rem] font-semibold leading-tight text-slate-500 sm:text-xs">{f.label}</span>
           </div>
         ))}
       </div>
@@ -104,7 +104,7 @@ export function IntroV4() {
     target: ref,
     offset: mobile ? ["start end", "end start"] : ["start start", "end end"],
   });
-  const t = useSpring(scrollYProgress, { stiffness: 90, damping: 24, restDelta: 0.001 });
+  const t = useSpring(scrollYProgress, { stiffness: 160, damping: 30, restDelta: 0.001 });
 
   const bgScale = useTransform(t, [0.02, 0.9], [1, 1.6]);
   const bgOpacity = useTransform(t, [0.02, 0.75], [0.5, 0.06]);
@@ -153,7 +153,7 @@ export function IntroV4() {
       <section
         ref={ref}
         id="gioi-thieu"
-        className="relative overflow-hidden py-20"
+        className="relative overflow-hidden py-14"
         style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#EBF4FF 100%)" }}
       >
         {/* Tầng xa: chữ khổng lồ trôi ngang ngược hướng cuộn */}
@@ -169,10 +169,10 @@ export function IntroV4() {
           </motion.span>
         </div>
 
-        <div className="relative mx-auto grid max-w-[560px] gap-10 px-4 sm:px-6">
+        <div className="relative mx-auto grid max-w-[560px] gap-7 px-4 sm:px-6">
           <motion.div
             style={{ y: mCardY, opacity: mCardOpacity }}
-            className="relative z-[2] rounded-2xl border border-slate-200 bg-white/95 p-6 shadow-v2-xl backdrop-blur will-change-transform"
+            className="relative z-[2] rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-v2-xl backdrop-blur will-change-transform"
           >
             <IntroCopy />
           </motion.div>
@@ -188,7 +188,7 @@ export function IntroV4() {
   /* Desktop: depth zoom pin 200vh */
   return (
     <section id="gioi-thieu" aria-label="Giới thiệu Toàn Cầu ADV">
-      <div ref={ref} className="relative h-[200vh]">
+      <div ref={ref} className="relative h-[165vh]">
         <div
           className="sticky top-0 flex h-dvh items-center overflow-hidden"
           style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#EBF4FF 100%)" }}

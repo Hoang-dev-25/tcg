@@ -1,10 +1,10 @@
 "use client";
 
-import { ArrowRight, FerrisWheel, Map as MapIcon } from "lucide-react";
+import { FerrisWheel, Map as MapIcon, PhoneCall } from "lucide-react";
 
 import { Parallax } from "@/components/parallax";
 import { Reveal } from "@/components/landing/reveal";
-import { ctaBand } from "@/lib/v3-data";
+import { contactInfo, ctaBand } from "@/lib/v3-data";
 
 /**
  * CTA cuối (v4) — dải band SÁNG (nhịp nghỉ sau khối Liên hệ navy) nhưng giữ
@@ -33,29 +33,41 @@ export function CtaBandV4() {
             <div className="relative grid justify-items-start gap-5">
               <span className="inline-flex items-center gap-2 rounded-full border border-v2blue-200 bg-white/70 px-4 py-1.5 text-xs font-bold uppercase tracking-[.1em] text-v2blue-700 backdrop-blur">
                 <span className="h-2 w-2 rounded-full bg-v2blue-400 motion-safe:animate-pulse-ring" />
-                Sẵn sàng lên sóng
+                ~730 vị trí đang mở tra cứu
               </span>
+              {/* Khẩu hiệu hướng tới khám phá bản đồ OOH — không lặp lại lời kêu
+                  gọi báo giá của form Liên hệ ngay phía trên. */}
               <h2 className="m-0 font-v2display text-[clamp(1.75rem,2.6vw,2.5rem)] font-bold leading-[1.18] tracking-[-0.01em] text-v2blue-900">
-                {ctaBand.title}
+                Vị trí tiếp theo của thương hiệu bạn đang chờ trên bản đồ
               </h2>
               <p className="m-0 max-w-[480px] text-[1.0625rem] leading-[1.65] text-slate-600">
-                {ctaBand.desc}
+                Mở bản đồ OOH toàn quốc, lọc theo tỉnh thành và ngân sách, xem điểm AI cho đúng
+                ngành hàng của bạn. Không cần đăng ký, không cần chờ báo giá.
               </p>
+              {/* Không lặp lại "Yêu cầu báo giá": form Liên hệ ngay phía trên đã
+                  đảm nhiệm hành động đó, đặt thêm một CTA trỏ ngược lên #lien-he
+                  là sai luồng. Ở đây chỉ đưa các lối liên hệ KHÁC. */}
               <div className="mt-2 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-3.5">
-                <a
-                  href="#lien-he"
-                  className="v3-shine inline-flex h-[50px] items-center justify-center gap-2.5 rounded-md bg-v2blue-900 px-7 text-[1rem] font-semibold text-white shadow-v2-md transition hover:-translate-y-0.5 sm:h-[54px] sm:text-[1.0625rem]"
-                >
-                  Yêu cầu báo giá <ArrowRight className="h-[19px] w-[19px]" />
-                </a>
+                {/* Hành động chính giờ là MỞ BẢN ĐỒ, hotline lùi về vai phụ */}
                 <a
                   href="#ban-do"
-                  className="inline-flex h-[50px] items-center justify-center gap-2 rounded-md border-[1.5px] border-v2blue-300 px-6 text-[1rem] font-semibold text-v2blue-900 transition hover:-translate-y-0.5 hover:border-v2blue-400 sm:h-[54px] sm:text-[1.0625rem]"
+                  className="v3-shine inline-flex h-12 items-center justify-center gap-2.5 rounded-md bg-v2blue-600 px-6 text-[.9375rem] font-semibold text-white shadow-v2-md transition hover:-translate-y-0.5 hover:bg-v2blue-500 sm:h-[54px] sm:px-7 sm:text-[1.0625rem]"
                 >
-                  <MapIcon className="h-[18px] w-[18px]" /> Khám phá bản đồ vị trí
+                  <MapIcon className="h-[18px] w-[18px] shrink-0" /> Mở bản đồ OOH
+                </a>
+                <a
+                  href={`tel:${contactInfo.hotline.replace(/\s/g, "")}`}
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-md border-[1.5px] border-v2blue-300 px-5 font-semibold text-v2blue-900 transition hover:-translate-y-0.5 hover:border-v2blue-400 sm:h-[54px] sm:px-6"
+                >
+                  <PhoneCall className="h-[17px] w-[17px] shrink-0" />
+                  <span className="font-mono text-[.9375rem] sm:text-[1.0625rem]">
+                    {contactInfo.hotline}
+                  </span>
                 </a>
               </div>
-              <span className="text-[.8125rem] text-slate-500">{ctaBand.note}</span>
+              <span className="text-[.8125rem] text-slate-500">
+                {contactInfo.hours} · {contactInfo.email}
+              </span>
             </div>
 
             <Parallax speed={0.28} className="relative">
