@@ -21,7 +21,7 @@ export function Spotlight() {
 
   return (
     <section id="spotlight" className="bg-white py-20 sm:py-24" aria-label="Dịch vụ nổi bật">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-3">
         <SectionHead
           kicker="Dịch vụ nổi bật"
           title="Giải pháp OOH của Toàn Cầu"

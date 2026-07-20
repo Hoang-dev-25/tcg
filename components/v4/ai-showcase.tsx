@@ -130,7 +130,7 @@ function MapStage({ v, compact = false }: { v: MapStageValues; compact?: boolean
   return (
     <div
       className={`relative overflow-hidden border border-white/15 shadow-v2-xl ${
-        compact ? "rounded-xl" : "rounded-2xl"
+        compact ? "max-h-[30vh] rounded-xl" : "rounded-2xl"
       }`}
     >
       {/* Bản đồ zoom theo bước */}
@@ -235,8 +235,8 @@ export function AiShowcase() {
   const mobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  // scrub có độ trễ mượt (tương đương scrub: 1)
-  const t = useSpring(scrollYProgress, { stiffness: 160, damping: 30, restDelta: 0.001 });
+  // scrub có độ trễ mượt, stiffness thấp để chuyển bước không bị "vụt" qua
+  const t = useSpring(scrollYProgress, { stiffness: 90, damping: 26, restDelta: 0.001 });
 
   /* Bước đang xem — dùng cho PinCue để người dùng biết còn bước phía sau */
   const [step, setStep] = useState(1);
@@ -335,8 +335,10 @@ export function AiShowcase() {
   if (mobile) {
     return (
       <section id="ban-do" aria-label="AI chọn vị trí trong 3 bước">
-        <div ref={ref} className="relative h-[190vh]">
-          <div className="sticky top-[76px] mx-3 flex h-[calc(100dvh-148px)] flex-col justify-center overflow-hidden rounded-[22px] bg-v2blue-900 text-white shadow-v2-xl sm:mx-5 lg:mx-8">
+        <div ref={ref} className="relative h-[260vh]">
+          {/* h-auto + min-h: khung cao đúng bằng nội dung trên máy nhỏ nên không còn
+              bị bo góc/overflow-hidden cắt mất score card và CTA ở đáy */}
+          <div className="sticky top-[68px] mx-3 flex h-auto min-h-[calc(100svh-136px)] flex-col justify-center overflow-hidden rounded-[22px] bg-v2blue-900 py-7 text-white shadow-v2-xl sm:mx-5 lg:mx-8">
             <div
               aria-hidden
               className="absolute inset-0"
@@ -344,7 +346,7 @@ export function AiShowcase() {
             />
             <HexTexture size={24} glow={9} className="opacity-50" />
 
-            <div className="relative z-[2] mx-auto grid w-full max-w-[560px] gap-4 px-4 sm:px-6">
+            <div className="relative z-[2] mx-auto grid w-full max-w-[560px] gap-3.5 px-4 sm:px-6">
               <div className="grid justify-items-start gap-2">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[.6875rem] font-bold uppercase tracking-[.1em] text-v2blue-100 backdrop-blur">
                   <Sparkles className="h-3.5 w-3.5" /> AI Insights
@@ -371,7 +373,7 @@ export function AiShowcase() {
               </div>
 
               {/* Panel 3 bước crossfade */}
-              <div className="grid min-h-[176px]">
+              <div className="grid min-h-[150px]">
                 {STEPS.map((s, i) => (
                   <StepPanel key={s.k} step={s} index={i} t={t} />
                 ))}
@@ -397,7 +399,7 @@ export function AiShowcase() {
   /* ---------- Desktop: pin 300vh ---------- */
   return (
     <section id="ban-do" aria-label="AI chọn vị trí trong 3 bước">
-      <div ref={ref} className="relative h-[220vh]">
+      <div ref={ref} className="relative h-[300vh]">
         <div className="sticky top-[76px] mx-3 flex h-[calc(100dvh-148px)] flex-col justify-center overflow-hidden rounded-[22px] bg-v2blue-900 text-white shadow-v2-xl sm:mx-5 lg:mx-8">
           <div
             aria-hidden

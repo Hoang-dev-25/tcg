@@ -17,7 +17,6 @@ import {
   Briefcase,
   Lamp,
   Monitor,
-  MoveRight,
   Plane,
   RectangleHorizontal,
   Sparkles,
@@ -49,9 +48,9 @@ const ARC = 0.2 * SEG; // mốc giữa của cung bay (nhấc lên trước, bay
 /* Kích thước thẻ (px) — khổ NGANG theo đúng tỉ lệ ảnh 16:9 để ảnh hiển thị đầy đủ,
    không bị object-cover cắt. Vùng ảnh 420×236 + thanh label 54px nằm DƯỚI ảnh.
    Kích thước chọn để deck (×0.8) + featured (×1.06) VỪA cột trái ~864px, không đè nhau. */
-const CW = 420;
-const BAR = 54;
-const CH = 236 + BAR;
+const CW = 460;
+const BAR = 56;
+const CH = 259 + BAR;
 
 type Pose = { x: number; y: number; z: number; rx: number; rz: number; s: number };
 
@@ -61,7 +60,7 @@ const deckPose = (i: number, dx: number): Pose => ({
   z: -i * 34,
   rx: 45,
   rz: -8,
-  s: 0.58,
+  s: 0.4,
 });
 const liftPose = (i: number, dx: number): Pose => ({
   x: dx * 0.78,
@@ -176,7 +175,7 @@ function DeckCard({
         marginLeft: -CW / 2,
         marginTop: -CH / 2,
       }}
-      className={`absolute left-[62%] top-1/2 overflow-hidden rounded-2xl border shadow-v2-xl ${
+      className={`absolute left-[67%] top-1/2 overflow-hidden rounded-2xl border shadow-v2-xl ${
         inView ? "will-change-transform" : ""
       } ${
         item.isAI
@@ -242,16 +241,16 @@ function TextPanel({ item, index, t }: { item: DeckService; index: number; t: Mo
 
   return (
     <motion.div style={{ opacity, y }} className="col-start-1 row-start-1 grid content-center gap-3.5">
-      <span className="text-xs font-bold uppercase tracking-[.12em] text-v2blue-300">
+      <span className="text-[.8125rem] font-bold uppercase tracking-[.12em] text-v2blue-300">
         Dịch vụ {String(index + 1).padStart(2, "0")}
       </span>
-      <h3 className="m-0 font-v2display text-[1.5rem] font-semibold leading-[1.22] text-white sm:text-[1.75rem]">
+      <h3 className="m-0 font-v2display text-[1.875rem] font-semibold leading-[1.2] text-white xl:text-[2.125rem]">
         {item.title}
       </h3>
-      <p className="m-0 text-[.9375rem] leading-[1.65] text-slate-200">{item.desc}</p>
+      <p className="m-0 text-[1.0625rem] leading-[1.7] text-slate-200">{item.desc}</p>
       <a
         href={item.ctaHref}
-        className="mt-1 inline-flex h-12 w-fit items-center gap-2 rounded-md bg-v2blue-600 px-5 text-sm font-semibold text-white shadow-v2-md transition hover:-translate-y-0.5 hover:bg-v2blue-500"
+        className="mt-1 inline-flex h-[52px] w-fit items-center gap-2 rounded-md bg-v2blue-600 px-6 text-[.9375rem] font-semibold text-white shadow-v2-md transition hover:-translate-y-0.5 hover:bg-v2blue-500"
       >
         {item.ctaLabel} <ArrowRight className="h-4 w-4" />
       </a>
@@ -427,20 +426,20 @@ export function ServicesDeck() {
   const [active, setActive] = useState(0);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const t = useSpring(scrollYProgress, { stiffness: 160, damping: 30, restDelta: 0.001 }); // ~ scrub: 1
-  const progressW = useTransform(t, (v) => `${Math.max(2, v * 100)}%`);
-
+  // scrub chậm & mượt hơn: stiffness thấp → thẻ "trôi" theo cuộn thay vì giật tới đích
+  const t = useSpring(scrollYProgress, { stiffness: 90, damping: 26, restDelta: 0.001 });
   useMotionValueEvent(t, "change", (v) => {
     const idx = Math.min(N - 1, Math.max(0, Math.floor((v + FLY * 0.5) / SEG)));
     if (idx !== active) setActive(idx);
   });
 
-  // đo khoảng bay deck ↔ sân khấu theo bề ngang thật (anchor 58% → 17%)
+  // đo khoảng bay deck ↔ sân khấu theo bề ngang thật (anchor 67% → 19%):
+  // hai khối tách hẳn nhau, thẻ featured không đè lên nhãn của deck phía sau
   useEffect(() => {
     if (reduced || mobile) return;
     const measure = () => {
       const w = stageRef.current?.clientWidth ?? 900;
-      setDx(-0.45 * w);
+      setDx(-0.48 * w);
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -459,7 +458,7 @@ export function ServicesDeck() {
   /* Desktop: pin N×100vh */
   return (
     <section id="spotlight" aria-label="Dịch vụ nổi bật — 3D deck">
-      <div ref={ref} className="relative" style={{ height: `${N * 72}vh` }}>
+      <div ref={ref} className="relative" style={{ height: `${N * 108}vh` }}>
         <div className="sticky top-[76px] mx-3 flex h-[calc(100dvh-148px)] flex-col justify-center overflow-hidden rounded-[22px] bg-v2blue-900 text-white shadow-v2-xl sm:mx-5 lg:mx-8">
           <div
             aria-hidden
@@ -488,8 +487,8 @@ export function ServicesDeck() {
 
           {/* Sân khấu: grid 2 cột thật — cột 3D và cột text có chỗ riêng, không bao giờ đè nhau */}
           <div
-            className="relative z-[1] mx-auto mt-6 grid w-full max-w-[1280px] flex-none grid-cols-[1fr_300px] gap-8 px-4 sm:px-6 lg:px-8 xl:grid-cols-[1fr_320px]"
-            style={{ height: CH + 170 }}
+            className="relative z-[1] mx-auto mt-5 grid w-full max-w-[1280px] flex-none grid-cols-[1fr_340px] gap-8 px-4 sm:px-6 lg:px-8 xl:grid-cols-[1fr_380px]"
+            style={{ height: CH + 130 }}
           >
             <div ref={stageRef} className="relative h-full" style={{ perspective: 1100 }}>
               {/* Bóng sàn dưới deck — neo khối 3D xuống mặt phẳng */}
