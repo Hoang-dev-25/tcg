@@ -111,7 +111,7 @@ export function V5Hero() {
               className="h-[92vmin] w-[92vmin] rounded-full"
               style={{
                 background:
-                  "radial-gradient(circle at 50% 16%, #1A5BB0 0%, #113A72 30%, #0A1F42 58%, #050B1D 82%)",
+                  "radial-gradient(circle at 50% 16%, #1A5BB0 0%, #113A72 30%, #0A1F42 58%, #0A142E 82%)",
                 boxShadow:
                   "0 -22px 90px rgba(87,163,255,.38), inset 0 26px 70px rgba(173,211,255,.22)",
               }}
@@ -158,13 +158,6 @@ export function V5Hero() {
             style={{ y: contentY, opacity: contentFade }}
             className="relative z-[2] mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-4 pb-20 pt-24 text-center sm:px-6 lg:px-8"
           >
-            <motion.span
-              variants={fadeUp}
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[.8125rem] font-bold uppercase tracking-[.1em] text-v2blue-100 backdrop-blur"
-            >
-              <span className="h-2 w-2 rounded-full bg-v2blue-300 motion-safe:animate-pulse-ring" />
-              Mạng lưới OOH toàn quốc
-            </motion.span>
             <h1 className="m-0 mt-6 max-w-[880px] font-v2display text-[clamp(1.875rem,8.5vw,2.5rem)] font-bold leading-[1.12] tracking-[-0.01em] sm:text-[clamp(2.5rem,4.6vw,3.5rem)]">
               <Line>Giải pháp Quảng cáo</Line>
               <Line>
@@ -198,7 +191,7 @@ export function V5Hero() {
               <a
                 href="#lien-he"
                 aria-label="Nhận tư vấn qua điện thoại"
-                className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-white/40 bg-white/5 px-4 text-[.9375rem] font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/10 sm:h-[54px] sm:px-6 sm:text-[1.0625rem]"
+                className="v5-glass inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md px-4 text-[.9375rem] font-semibold transition hover:-translate-y-0.5 sm:h-[54px] sm:px-6 sm:text-[1.0625rem]"
               >
                 <PhoneCall className="h-[17px] w-[17px] shrink-0" />
                 Nhận tư vấn

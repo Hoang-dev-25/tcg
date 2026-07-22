@@ -33,16 +33,16 @@ export function HeaderV5() {
     <header
       className={`fixed inset-x-0 top-0 z-40 border-b transition-all duration-300 ${
         open
-          ? "border-white/10 bg-[#081226]"
+          ? "border-white/10 bg-[#0B1730]"
           : scrolled
-            ? "border-white/10 bg-[#081226]/80 shadow-[0_10px_36px_rgba(2,6,18,.5)] backdrop-blur-md"
+            ? "border-white/10 bg-[#0B1730]/95 shadow-[0_10px_36px_rgba(2,6,18,.5)]"
             : "border-transparent bg-transparent"
       }`}
     >
       {/* Scrim tối phía trên hero — giúp cụm header đọc rõ trên nền sao */}
       <div
         aria-hidden
-        className={`pointer-events-none absolute inset-x-0 top-0 h-[150%] bg-gradient-to-b from-[#050B1D]/85 via-[#050B1D]/35 to-transparent transition-opacity duration-300 ${
+        className={`pointer-events-none absolute inset-x-0 top-0 h-[150%] bg-gradient-to-b from-[#0A142E]/85 via-[#0A142E]/35 to-transparent transition-opacity duration-300 ${
           solid ? "opacity-0" : "opacity-100"
         }`}
       />
@@ -77,7 +77,7 @@ export function HeaderV5() {
           className={`v3-shine ml-auto hidden h-11 items-center gap-2 rounded-md px-5 text-[.9375rem] font-semibold transition md:inline-flex ${
             solid
               ? "bg-v2blue-600 text-white shadow-v2-sm hover:-translate-y-0.5 hover:bg-v2blue-500"
-              : "bg-white text-v2blue-800 shadow-v2-md hover:-translate-y-0.5 hover:bg-v2blue-50"
+              : "v5-glass hover:-translate-y-0.5"
           }`}
         >
           <PhoneCall className="h-4 w-4 shrink-0" />
@@ -94,7 +94,7 @@ export function HeaderV5() {
         </button>
       </div>
       {open && (
-        <div className="bg-[#081226] md:hidden">
+        <div className="bg-[#0B1730] md:hidden">
           <nav className="mx-auto flex max-w-[1280px] flex-col px-4 py-2 text-[.9375rem] font-medium">
             {nav.map((item, i) => (
               <a

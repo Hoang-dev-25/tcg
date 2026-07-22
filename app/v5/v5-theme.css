@@ -119,51 +119,16 @@
    trong suốt / kính mờ trên nền vũ trụ fixed. Khối dưới đây remap
    nền + chữ của các section (viết cho scope .v5-scope, không đụng v4). */
 
-/* ---------- Nebula trôi chậm ---------- */
-.v5-nebula {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(70px);
-  will-change: transform;
-}
-.v5-nebula-a {
-  left: -12%;
-  top: -14%;
-  width: 55vw;
-  height: 55vw;
-  background: radial-gradient(circle at 35% 35%, rgba(124, 92, 255, 0.30), rgba(124, 92, 255, 0) 65%);
-  animation: v5drift 52s ease-in-out infinite alternate;
-}
-.v5-nebula-b {
-  right: -18%;
-  top: 22%;
-  width: 60vw;
-  height: 60vw;
-  background: radial-gradient(circle at 60% 40%, rgba(35, 116, 217, 0.30), rgba(35, 116, 217, 0) 65%);
-  animation: v5drift 64s ease-in-out infinite alternate-reverse;
-}
-.v5-nebula-c {
-  left: 16%;
-  bottom: -25%;
-  width: 52vw;
-  height: 52vw;
-  background: radial-gradient(circle at 50% 60%, rgba(56, 189, 248, 0.16), rgba(56, 189, 248, 0) 70%);
-  animation: v5drift 75s ease-in-out infinite alternate;
-}
-@keyframes v5drift {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(6vw, 4vh, 0) scale(1.12); }
-}
-
-/* ---------- Texture nhiễu hạt + vignette ---------- */
+/* ---------- Texture nhiễu hạt + vignette ----------
+   Noise KHÔNG dùng mix-blend-mode: blend toàn màn hình trên canvas động
+   ép composite lại từng frame → một nguồn gây lag. Opacity thấp là đủ. */
 .v5-noise {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   background-size: 160px 160px;
-  opacity: 0.07;
-  mix-blend-mode: soft-light;
+  opacity: 0.05;
 }
 .v5-vignette {
-  background: radial-gradient(ellipse 90% 70% at 50% 40%, transparent 55%, rgba(2, 6, 18, 0.55) 100%);
+  background: radial-gradient(ellipse 95% 75% at 50% 40%, transparent 60%, rgba(4, 10, 26, 0.35) 100%);
 }
 
 /* ---------- Remap NỀN section/khối của v4 sang kính mờ tối ---------- */
@@ -201,10 +166,6 @@
 .v5-scope [class*="bg-white/9"] .text-v2blue-700 { color: #1A5BB0 !important; }
 .v5-scope [class*="bg-white/9"] .text-v2blue-600 { color: #2374D9 !important; }
 
-@media (prefers-reduced-motion: reduce) {
-  .v5-nebula { animation: none; }
-}
-
 /* Trong card gần-trắng, các khối con giữ nguyên tông sáng gốc (không remap tối) */
 .v5-scope [class*="bg-white/9"] .bg-white { background-color: #ffffff !important; }
 .v5-scope [class*="bg-white/9"] .bg-v2blue-50 { background-color: #ebf4ff !important; }
@@ -228,10 +189,50 @@
 }
 .v5-scope .bg-white\/70 { background-color: rgba(255, 255, 255, 0.12) !important; }
 
-/* Wash màu tĩnh của nền vũ trụ (nebula động đã chuyển sang canvas) */
+/* Wash màu tĩnh của nền vũ trụ (nebula động đã chuyển sang canvas) —
+   tông nâng sáng hơn một nấc theo feedback */
 .v5-space-wash {
   background:
-    radial-gradient(ellipse 80% 60% at 70% 8%, rgba(35, 116, 217, 0.16), transparent 60%),
-    radial-gradient(ellipse 70% 55% at 12% 78%, rgba(124, 92, 255, 0.14), transparent 65%),
-    linear-gradient(180deg, #060d20 0%, #050b1d 50%, #070f26 100%);
+    radial-gradient(ellipse 80% 60% at 70% 8%, rgba(54, 143, 255, 0.22), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 12% 78%, rgba(139, 108, 255, 0.18), transparent 65%),
+    linear-gradient(180deg, #0c1834 0%, #0a142e 50%, #0e1c3e 100%);
 }
+
+/* ---------- Hiệu năng: tắt backdrop-filter trong v5 ----------
+   Đo thực tế: các lớp backdrop-blur (header, chip, card kính) phải re-blur
+   mỗi frame trên nền canvas động → FPS giảm gần một nửa. Nền mờ + viền sáng
+   đã đủ tạo cảm giác kính; blur thật không đáng chi phí trên trang này. */
+.v5-scope [class*="backdrop-blur"],
+.v5-scope .backdrop-blur {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ---------- Nút kính kiểu iOS (liquid glass) ----------
+   Dùng cho các nút trước đây nền trắng. Blur chỉ áp lên vài nút nhỏ nên
+   không đáng kể về hiệu năng (khác các mảng backdrop-blur lớn đã tắt). */
+.v5-scope .v5-glass {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.34),
+    rgba(255, 255, 255, 0.13) 55%,
+    rgba(255, 255, 255, 0.22)
+  ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  color: #fff !important;
+  backdrop-filter: blur(18px) saturate(1.8) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.8) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 30px rgba(2, 6, 18, 0.35) !important;
+}
+
+/* ---------- Bỏ màu nền: AI Insights (#ban-do) & Dịch vụ nổi bật (#spotlight) ---------- */
+.v5-scope #ban-do .bg-v2blue-900,
+.v5-scope #ban-do.bg-v2blue-900,
+.v5-scope section#spotlight { background-color: transparent !important; }
+.v5-scope #ban-do div[aria-hidden][style*="linear-gradient(160deg"],
+.v5-scope #spotlight div[aria-hidden][style*="linear-gradient(160deg"] { display: none; }
+/* Card pin của AI Insights không còn nền → bỏ luôn bóng đổ quanh khối trống */
+.v5-scope #ban-do .sticky { box-shadow: none !important; }

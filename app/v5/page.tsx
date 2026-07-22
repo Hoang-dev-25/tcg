@@ -24,7 +24,7 @@ export default function V5Page() {
       {/* -mt-[100dvh]: phần này trượt lên phủ hero đang ghim (hiệu ứng camera zoom) */}
       <main className="relative z-10 -mt-[100dvh]">
         {/* Kính mờ tối thay cho bg-white của v4 — vẫn lộ sao phía sau */}
-        <div className="overflow-clip rounded-t-[8px] border-t border-white/10 bg-[#081226]/55 shadow-[0_-24px_60px_rgba(2,6,18,.55)]">
+        <div className="overflow-clip rounded-t-[8px] border-t border-white/10 bg-[#0E1B3C]/50 shadow-[0_-24px_60px_rgba(2,6,18,.55)]">
           <IntroV4 />
           <AiShowcase />
           <DriftText />

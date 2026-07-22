@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function V5Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${v2Lora.variable} ${v2Jakarta.variable} v5-scope v4-select-guard font-v2sans bg-[#050B1D] text-slate-100 antialiased`}
+      className={`${v2Lora.variable} ${v2Jakarta.variable} v5-scope v4-select-guard font-v2sans bg-[#0A142E] text-slate-100 antialiased`}
     >
       <SelectGuard />
       <UniverseBg />
