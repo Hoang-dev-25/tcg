@@ -121,7 +121,7 @@ export function LeadFormV4() {
                 <button
                   type="button"
                   onClick={() => setShowOptional(true)}
-                  className="flex h-10 items-center justify-center gap-1.5 rounded-md border border-dashed border-slate-300 text-[.8125rem] font-semibold text-v2blue-700"
+                  className="flex h-10 items-center justify-center gap-1.5 rounded-md text-[.8125rem] font-semibold text-v2blue-700"
                 >
                   <Plus className="h-4 w-4" /> Thêm doanh nghiệp, email, ngành hàng, ngân sách
                 </button>

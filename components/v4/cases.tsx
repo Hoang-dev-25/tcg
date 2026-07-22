@@ -1,20 +1,15 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { ArrowRight, Clock3 } from "lucide-react";
 
-import { Parallax } from "@/components/parallax";
 import { Reveal } from "@/components/landing/reveal";
 import { Mark } from "@/components/v3/decor";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { useParallaxFactor, useSafeFactor } from "@/hooks/useParallaxFactor";
 import { useSnapCarousel } from "@/hooks/useSnapCarousel";
 import { newsCardsRich, type NewsCardRich } from "@/lib/v4-cases";
-
-/* Lớp 11 Parallax Lab — column-offset grid: mỗi cột một tốc độ trôi,
-   lưới "gợn sóng" khi cuộn thay vì phẳng. */
-const COLUMN_SPEEDS = [0.12, 0.38, 0.18, 0.46];
 
 /* Màu tag theo nhóm nội dung — card nhận diện được ngay bằng màu thay vì
    toàn bộ đều xanh dương như trước. */
@@ -43,6 +38,30 @@ function AuthorChip({ name }: { name: string }) {
   );
 }
 
+/* Biên độ sóng theo cột (px) — mỗi cột một tốc độ trôi nhẹ, lưới gợn như
+   mặt sóng khi cuộn qua. Giữ nhỏ (<24px) để không vỡ cảm giác thẳng hàng. */
+const WAVE_AMP = [8, 18, 12, 22];
+
+/** Bọc card trong lớp trôi theo cột — sóng nhẹ, nhân theo bậc chuyển động. */
+function WaveItem({
+  col,
+  progress,
+  children,
+}: {
+  col: number;
+  progress: MotionValue<number>;
+  children: ReactNode;
+}) {
+  const factor = useParallaxFactor();
+  const amp = WAVE_AMP[col % WAVE_AMP.length] * factor;
+  const y = useTransform(progress, [0, 1], [amp, -amp]);
+  return (
+    <motion.div style={{ y }} className="h-full will-change-transform">
+      {children}
+    </motion.div>
+  );
+}
+
 /** Card tin — ảnh bên trong trôi chậm hơn card (~15%) tạo chiều sâu khi cuộn qua. */
 function CaseCard({ item, index }: { item: NewsCardRich; index: number }) {
   const ref = useRef<HTMLElement>(null);
@@ -51,7 +70,7 @@ function CaseCard({ item, index }: { item: NewsCardRich; index: number }) {
   const imgY = useTransform(scrollYProgress, [0, 1], [`${-7 * factor}%`, `${7 * factor}%`]);
 
   return (
-    <Reveal delay={(index % 4) * 0.08}>
+    <Reveal delay={(index % 4) * 0.08} className="h-full">
       <article
         ref={ref}
         className="group grid h-full cursor-pointer grid-rows-[auto_1fr] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-v2-sm transition duration-300 hover:-translate-y-1.5 hover:border-v2blue-300 hover:shadow-[0_14px_40px_rgba(35,116,217,.22)]"
@@ -75,7 +94,7 @@ function CaseCard({ item, index }: { item: NewsCardRich; index: number }) {
             {item.tag}
           </span>
         </div>
-        <div className="grid content-start gap-2.5 p-[16px_18px_20px]">
+        <div className="flex flex-col gap-2.5 p-[16px_18px_20px]">
           <span className="flex items-center gap-2.5 font-mono text-xs text-slate-500">
             {item.date}
             <span aria-hidden className="h-3 w-px bg-slate-200" />
@@ -87,7 +106,7 @@ function CaseCard({ item, index }: { item: NewsCardRich; index: number }) {
             {item.title}
           </h3>
           <p className="m-0 line-clamp-2 text-[.8125rem] leading-[1.6] text-slate-600">{item.excerpt}</p>
-          <span className="mt-1 flex items-center justify-between">
+          <span className="mt-auto flex items-center justify-between pt-1">
             <AuthorChip name={item.author} />
             <span className="inline-flex items-center gap-1.5 text-[.8125rem] font-semibold text-v2blue-600">
               Đọc tiếp{" "}
@@ -126,7 +145,7 @@ function MobileCaseCard({
   return (
     <motion.article
       style={{ scale, opacity }}
-      className="snap-center overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-v2-sm will-change-transform"
+      className="flex h-full snap-center flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-v2-sm will-change-transform"
     >
       <div className="relative">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -137,7 +156,7 @@ function MobileCaseCard({
           {item.tag}
         </span>
       </div>
-      <div className="grid content-start gap-2 p-4">
+      <div className="flex flex-1 flex-col gap-2 p-4">
         <span className="flex items-center gap-2 font-mono text-[.6875rem] text-slate-500">
           {item.date}
           <span aria-hidden className="h-3 w-px bg-slate-200" />
@@ -149,7 +168,7 @@ function MobileCaseCard({
           {item.title}
         </h3>
         <p className="m-0 line-clamp-2 text-[.75rem] leading-[1.55] text-slate-600">{item.excerpt}</p>
-        <span className="mt-0.5 flex items-center justify-between">
+        <span className="mt-auto flex items-center justify-between pt-1">
           <span className="text-[.6875rem] font-semibold text-slate-500">{item.author}</span>
           <span className="inline-flex items-center gap-1 text-[.75rem] font-semibold text-v2blue-600">
             Đọc tiếp <ArrowRight className="h-3.5 w-3.5" />
@@ -215,12 +234,18 @@ function MobileCases() {
 
 /**
  * Dự án & tin tức (v4) — nền SÁNG, lưới 4×2 dữ liệu thật (làm giàu: excerpt/tác giả/phút đọc).
- * Lớp 11: mỗi cột một tốc độ trôi → lưới gợn sóng; ảnh trong card parallax nhẹ.
+ * Lớp 11: mỗi cột một tốc độ trôi nhẹ → lưới gợn sóng; ảnh trong card parallax nhẹ.
  * Mobile: carousel vuốt ngang (xem MobileCases).
  */
 export function CasesV4() {
   const mobile = useIsMobile();
   if (mobile) return <MobileCases />;
+  return <DesktopCases />;
+}
+
+function DesktopCases() {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: gridRef, offset: ["start end", "end start"] });
 
   return (
     <section id="tin-tuc" className="relative overflow-hidden bg-white py-20 lg:py-24">
@@ -242,11 +267,11 @@ export function CasesV4() {
           </a>
         </Reveal>
 
-        <div className="grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div ref={gridRef} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {newsCardsRich.map((n, i) => (
-            <Parallax key={n.title} speed={COLUMN_SPEEDS[i % COLUMN_SPEEDS.length]}>
+            <WaveItem key={n.title} col={i} progress={scrollYProgress}>
               <CaseCard item={n} index={i} />
-            </Parallax>
+            </WaveItem>
           ))}
         </div>
       </div>
