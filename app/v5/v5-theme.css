@@ -1,0 +1,237 @@
+/* Hiệu ứng trang trí lấy từ v2-tcg — chỉ nạp cho route /v3 (import trong app/v3/layout.tsx). */
+
+/* Sao lấp lánh (hero + contact nền tối) */
+@keyframes v3twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.65; }
+}
+@keyframes v3drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.v3-star {
+  position: absolute;
+  border-radius: 9999px;
+  animation: v3twinkle 4.5s ease-in-out infinite, v3drift 6.5s ease-in-out infinite;
+}
+
+/* Ô lục giác phát sáng nhấp nháy (HexTexture — glow-scatter) */
+@keyframes v3hexglow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.v3-hex {
+  animation: v3hexglow 4.8s ease-in-out infinite;
+}
+
+/* Nút CTA có vệt sáng quét ngang (btn-hero của v2) */
+@keyframes v3ctashine {
+  0% { left: -70%; }
+  60%, 100% { left: 140%; }
+}
+.v3-shine { position: relative; overflow: hidden; }
+.v3-shine::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -70%;
+  width: 42%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-18deg);
+  animation: v3ctashine 3.4s ease-in-out 1.8s infinite;
+  pointer-events: none;
+}
+
+/* Viền conic xoay cho thẻ AI (CSS thuần, không tốn JS) */
+@property --v4angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes v4spin {
+  to { --v4angle: 360deg; }
+}
+.v4-conic {
+  position: relative;
+  background-clip: padding-box;
+}
+.v4-conic::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--v4angle),
+    rgba(87, 163, 255, 0) 0%,
+    rgba(87, 163, 255, 0.9) 18%,
+    rgba(173, 211, 255, 0.9) 30%,
+    rgba(87, 163, 255, 0) 45%
+  );
+  animation: v4spin 3.2s linear infinite;
+}
+
+/* Sparkle/pulse nút submit khi người dùng bắt đầu điền form */
+@keyframes v4sparkle {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(87, 163, 255, 0.55); }
+  50% { box-shadow: 0 0 0 10px rgba(87, 163, 255, 0); }
+}
+.v4-sparkle {
+  animation: v4sparkle 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-star { animation: none; }
+  .v3-hex { animation: none; opacity: 0.8; }
+  .v3-shine::before { display: none; }
+  .v4-conic::before { animation: none; }
+  .v4-sparkle { animation: none; }
+}
+
+/* ---------- Chặn bôi đen / copy nội dung trang (feedback) ----------
+   Toàn trang không cho select/copy chữ và kéo-thả ảnh;
+   chỉ chừa ô nhập liệu của form để người dùng vẫn gõ/sửa được. */
+.v4-select-guard {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.v4-select-guard input,
+.v4-select-guard textarea,
+.v4-select-guard select {
+  -webkit-user-select: text;
+  user-select: text;
+}
+.v4-select-guard img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
+}
+/* Ảnh nằm trong link/nút vẫn cần nhận click theo phần tử cha */
+.v4-select-guard a img,
+.v4-select-guard button img {
+  pointer-events: auto;
+}
+
+/* ==================== V5 Universe overrides ====================
+   v5 tái dùng nguyên các section của v4 nhưng đổi ngôn ngữ nền:
+   trong suốt / kính mờ trên nền vũ trụ fixed. Khối dưới đây remap
+   nền + chữ của các section (viết cho scope .v5-scope, không đụng v4). */
+
+/* ---------- Nebula trôi chậm ---------- */
+.v5-nebula {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  will-change: transform;
+}
+.v5-nebula-a {
+  left: -12%;
+  top: -14%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle at 35% 35%, rgba(124, 92, 255, 0.30), rgba(124, 92, 255, 0) 65%);
+  animation: v5drift 52s ease-in-out infinite alternate;
+}
+.v5-nebula-b {
+  right: -18%;
+  top: 22%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle at 60% 40%, rgba(35, 116, 217, 0.30), rgba(35, 116, 217, 0) 65%);
+  animation: v5drift 64s ease-in-out infinite alternate-reverse;
+}
+.v5-nebula-c {
+  left: 16%;
+  bottom: -25%;
+  width: 52vw;
+  height: 52vw;
+  background: radial-gradient(circle at 50% 60%, rgba(56, 189, 248, 0.16), rgba(56, 189, 248, 0) 70%);
+  animation: v5drift 75s ease-in-out infinite alternate;
+}
+@keyframes v5drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(6vw, 4vh, 0) scale(1.12); }
+}
+
+/* ---------- Texture nhiễu hạt + vignette ---------- */
+.v5-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.07;
+  mix-blend-mode: soft-light;
+}
+.v5-vignette {
+  background: radial-gradient(ellipse 90% 70% at 50% 40%, transparent 55%, rgba(2, 6, 18, 0.55) 100%);
+}
+
+/* ---------- Remap NỀN section/khối của v4 sang kính mờ tối ---------- */
+.v5-scope .bg-white { background-color: rgba(12, 24, 50, 0.52) !important; }
+.v5-scope .bg-v2blue-900 { background-color: rgba(6, 13, 30, 0.38) !important; }
+.v5-scope .bg-v2blue-50 { background-color: rgba(87, 163, 255, 0.14) !important; }
+.v5-scope .bg-slate-100 { background-color: rgba(255, 255, 255, 0.10) !important; }
+.v5-scope .bg-slate-200 { background-color: rgba(255, 255, 255, 0.14) !important; }
+/* Section có gradient inline (intro/drift-text/lead-form): thay bằng kính mờ */
+.v5-scope section[style*="linear-gradient"] { background: rgba(8, 16, 36, 0.42) !important; }
+/* Overlay gradient trang trí (aria-hidden) trên các section navy: hạ mờ để lộ sao */
+.v5-scope div[aria-hidden][style*="linear-gradient(160deg"] { opacity: 0.28; }
+
+/* ---------- Remap CHỮ/VIỀN của section sáng sang tông sáng trên nền tối ---------- */
+.v5-scope .text-slate-900, .v5-scope .text-slate-800 { color: #EDF2FA !important; }
+.v5-scope .text-slate-700 { color: #D9E2F2 !important; }
+.v5-scope .text-slate-600 { color: #B9C6DE !important; }
+.v5-scope .text-slate-500 { color: #9FAECB !important; }
+.v5-scope .text-v2blue-900 { color: #D6E9FF !important; }
+.v5-scope .text-v2blue-800 { color: #ADD3FF !important; }
+.v5-scope .text-v2blue-700 { color: #7BB8FF !important; }
+.v5-scope .text-v2blue-600 { color: #57A3FF !important; }
+.v5-scope .border-slate-100 { border-color: rgba(255, 255, 255, 0.10) !important; }
+.v5-scope .border-slate-200, .v5-scope .border-slate-200\/80 { border-color: rgba(255, 255, 255, 0.14) !important; }
+.v5-scope .divide-slate-200 > * + * { border-color: rgba(255, 255, 255, 0.14) !important; }
+
+/* Card gần-trắng (bg-white/90, /95…) vẫn giữ nền sáng → trả lại chữ tối bên trong */
+.v5-scope [class*="bg-white/9"] .text-slate-900,
+.v5-scope [class*="bg-white/9"] .text-slate-800 { color: #0f172a !important; }
+.v5-scope [class*="bg-white/9"] .text-slate-700 { color: #334155 !important; }
+.v5-scope [class*="bg-white/9"] .text-slate-600 { color: #475569 !important; }
+.v5-scope [class*="bg-white/9"] .text-slate-500 { color: #64748b !important; }
+.v5-scope [class*="bg-white/9"] .text-v2blue-900 { color: #0D2F5E !important; }
+.v5-scope [class*="bg-white/9"] .text-v2blue-800 { color: #134384 !important; }
+.v5-scope [class*="bg-white/9"] .text-v2blue-700 { color: #1A5BB0 !important; }
+.v5-scope [class*="bg-white/9"] .text-v2blue-600 { color: #2374D9 !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v5-nebula { animation: none; }
+}
+
+/* Trong card gần-trắng, các khối con giữ nguyên tông sáng gốc (không remap tối) */
+.v5-scope [class*="bg-white/9"] .bg-white { background-color: #ffffff !important; }
+.v5-scope [class*="bg-white/9"] .bg-v2blue-50 { background-color: #ebf4ff !important; }
+.v5-scope [class*="bg-white/9"] .bg-slate-100 { background-color: #f1f5f9 !important; }
+.v5-scope [class*="bg-white/9"] .border-slate-200 { border-color: #e2e8f0 !important; }
+.v5-scope [class*="bg-white/9"] .border-slate-100 { border-color: #f1f5f9 !important; }
+
+/* Logo chuẩn (navy) trong footer: đặt trên chip trắng để đọc được trên nền tối */
+.v5-scope footer img[src*="logo-full"] {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-sizing: content-box;
+}
+
+/* CTA band cuối: panel gradient sáng (120deg) của v4 giữ nền sáng trong khi chữ
+   đã bị remap sang tông sáng → cùng gam, chữ chìm. Chuyển panel về kính tối. */
+.v5-scope div[style*="linear-gradient(120deg"] {
+  background: rgba(10, 20, 45, 0.55) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.v5-scope .bg-white\/70 { background-color: rgba(255, 255, 255, 0.12) !important; }
+
+/* Wash màu tĩnh của nền vũ trụ (nebula động đã chuyển sang canvas) */
+.v5-space-wash {
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 8%, rgba(35, 116, 217, 0.16), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 12% 78%, rgba(124, 92, 255, 0.14), transparent 65%),
+    linear-gradient(180deg, #060d20 0%, #050b1d 50%, #070f26 100%);
+}
