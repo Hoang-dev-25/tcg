@@ -3,6 +3,8 @@ import { Lora, Plus_Jakarta_Sans } from "next/font/google";
 
 import "./v3-theme.css";
 
+import { SelectGuard } from "@/components/v4/select-guard";
+
 const v2Lora = Lora({
   subsets: ["latin", "vietnamese"],
   weight: ["400", "500", "600", "700"],
@@ -26,8 +28,9 @@ export const metadata: Metadata = {
 export default function V3Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${v2Lora.variable} ${v2Jakarta.variable} font-v2sans bg-white text-slate-900 antialiased`}
+      className={`${v2Lora.variable} ${v2Jakarta.variable} v4-select-guard font-v2sans bg-white text-slate-900 antialiased`}
     >
+      <SelectGuard />
       {children}
     </div>
   );

@@ -88,3 +88,28 @@
   .v4-conic::before { animation: none; }
   .v4-sparkle { animation: none; }
 }
+
+/* ---------- Chặn bôi đen / copy nội dung trang (feedback) ----------
+   Toàn trang không cho select/copy chữ và kéo-thả ảnh;
+   chỉ chừa ô nhập liệu của form để người dùng vẫn gõ/sửa được. */
+.v4-select-guard {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.v4-select-guard input,
+.v4-select-guard textarea,
+.v4-select-guard select {
+  -webkit-user-select: text;
+  user-select: text;
+}
+.v4-select-guard img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
+}
+/* Ảnh nằm trong link/nút vẫn cần nhận click theo phần tử cha */
+.v4-select-guard a img,
+.v4-select-guard button img {
+  pointer-events: auto;
+}

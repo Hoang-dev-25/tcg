@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, PhoneCall, X } from "lucide-react";
 
-import { logo, nav } from "@/lib/v3-data";
+import { contactInfo, logo, nav } from "@/lib/v3-data";
 
 /**
  * Header v4 — trong suốt đè lên hero, cuộn qua ~80px thì thu gọn:
  * nền trắng mờ + backdrop-blur + viền mảnh, chữ/logo đổi về tông tối.
+ * Trên hero: scrim gradient tối phía sau để chữ nổi rõ trên ảnh,
+ * logo giữ nguyên màu chuẩn trong chip trắng (không invert).
  */
 export function HeaderV4() {
   const [open, setOpen] = useState(false);
@@ -22,6 +24,12 @@ export function HeaderV4() {
 
   const solid = scrolled || open;
 
+  /* Link nav: gạch chân trượt vào khi hover, mục đang active giữ gạch chân */
+  const navLink = (active: boolean) =>
+    `relative py-1 font-semibold transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full after:origin-left after:rounded-full after:bg-current after:transition-transform after:duration-300 ${
+      active ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100"
+    }`;
+
   return (
     <header
       /* Khi menu mở: dùng nền TRẮNG ĐẶC cho cả thanh bar, vì panel nav bên dưới
@@ -35,33 +43,42 @@ export function HeaderV4() {
             : "border-transparent bg-transparent"
       }`}
     >
+      {/* Scrim tối phía trên hero — giúp cả cụm header đọc rõ trên ảnh nền */}
       <div
-        className={`mx-auto flex max-w-[1280px] items-center gap-7 px-4 transition-all duration-300 sm:px-6 lg:px-8 ${
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-0 top-0 h-[150%] bg-gradient-to-b from-v2blue-900/80 via-v2blue-900/35 to-transparent transition-opacity duration-300 ${
+          solid ? "opacity-0" : "opacity-100"
+        }`}
+      />
+      <div
+        className={`relative mx-auto flex max-w-[1280px] items-center gap-7 px-4 transition-all duration-300 sm:px-6 lg:px-8 ${
           solid ? "h-16" : "h-[80px]"
         }`}
       >
-        <a href="#top" className="flex shrink-0 items-center gap-2.5">
+        <a
+          href="#top"
+          /* Logo chuẩn (không invert): trên hero đặt trong chip trắng để giữ tương phản */
+          className={`flex shrink-0 items-center rounded-lg transition-all duration-300 ${
+            solid ? "" : "bg-white/95 px-2.5 py-1 shadow-v2-md backdrop-blur"
+          }`}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={logo.src}
-            alt={logo.alt}
-            className={`h-9 w-auto transition-all duration-300 sm:h-10 ${
-              solid ? "" : "brightness-0 invert"
-            }`}
-          />
+          <img src={logo.src} alt={logo.alt} className="h-9 w-auto sm:h-10" />
         </a>
-        <nav className="hidden flex-1 gap-6 text-[.9375rem] font-medium md:flex">
+        <nav className="hidden flex-1 gap-6 text-[.9375rem] md:flex">
           {nav.map((item, i) => (
             <a
               key={item.href}
               href={item.href}
-              className={
+              className={`${navLink(i === 0)} ${
                 i === 0
-                  ? `font-semibold ${solid ? "text-v2blue-600" : "text-white"}`
-                  : `transition-colors ${
-                      solid ? "text-slate-600 hover:text-v2blue-700" : "text-white/75 hover:text-white"
-                    }`
-              }
+                  ? solid
+                    ? "text-v2blue-600"
+                    : "text-white"
+                  : solid
+                    ? "text-slate-600 hover:text-v2blue-700"
+                    : "text-white/85 hover:text-white"
+              }`}
             >
               {item.label}
             </a>
@@ -69,13 +86,14 @@ export function HeaderV4() {
         </nav>
         <a
           href="#lien-he"
-          className={`ml-auto hidden h-11 items-center rounded-md px-5 text-[.9375rem] font-semibold transition md:inline-flex ${
+          className={`v3-shine ml-auto hidden h-11 items-center gap-2 rounded-md px-5 text-[.9375rem] font-semibold transition md:inline-flex ${
             solid
               ? "bg-v2blue-600 text-white shadow-v2-sm hover:-translate-y-0.5 hover:bg-v2blue-700"
-              : "border border-white/40 text-white hover:bg-white/10"
+              : "bg-white text-v2blue-800 shadow-v2-md hover:-translate-y-0.5 hover:bg-v2blue-50"
           }`}
         >
-          Yêu cầu báo giá
+          <PhoneCall className="h-4 w-4 shrink-0" />
+          Nhận tư vấn
         </a>
         <button
           type="button"
@@ -110,9 +128,16 @@ export function HeaderV4() {
             <a
               href="#lien-he"
               onClick={() => setOpen(false)}
-              className="my-3 inline-flex h-11 items-center justify-center rounded-md bg-v2blue-600 text-sm font-semibold text-white"
+              className="mt-3 inline-flex h-11 items-center justify-center gap-2 rounded-md bg-v2blue-600 text-sm font-semibold text-white"
             >
-              Yêu cầu báo giá
+              <PhoneCall className="h-4 w-4" />
+              Nhận tư vấn
+            </a>
+            <a
+              href={`tel:${contactInfo.hotline.replace(/\s/g, "")}`}
+              className="mb-3 mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-md border border-v2blue-200 text-sm font-semibold text-v2blue-700"
+            >
+              Hotline {contactInfo.hotline}
             </a>
           </nav>
         </div>

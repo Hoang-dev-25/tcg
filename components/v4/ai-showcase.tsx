@@ -14,6 +14,7 @@ import {
   ArrowRight,
   BarChart3,
   BrainCircuit,
+  Map as MapIcon,
   MapPin,
   Radar,
   Sparkles,
@@ -321,10 +322,10 @@ export function AiShowcase() {
             );
           })}
           <a
-            href="#lien-he"
+            href="#ban-do"
             className="inline-flex h-[52px] w-fit items-center gap-2 rounded-md bg-v2blue-600 px-6 text-base font-semibold text-white shadow-v2-lg"
           >
-            Xem báo cáo mẫu <ArrowRight className="h-[18px] w-[18px]" />
+            <MapIcon className="h-[18px] w-[18px]" /> Xem bản đồ vị trí <ArrowRight className="h-[18px] w-[18px]" />
           </a>
         </div>
       </section>
@@ -381,10 +382,10 @@ export function AiShowcase() {
 
               <motion.div style={{ opacity: ctaOpacity, y: ctaY }}>
                 <a
-                  href="#lien-he"
+                  href="#ban-do"
                   className="v3-shine inline-flex h-12 items-center gap-2 rounded-md bg-v2blue-600 px-5 text-sm font-semibold text-white shadow-v2-lg"
                 >
-                  Xem báo cáo mẫu <ArrowRight className="h-4 w-4" />
+                  <MapIcon className="h-4 w-4" /> Xem bản đồ vị trí <ArrowRight className="h-4 w-4" />
                 </a>
               </motion.div>
             </div>
@@ -436,10 +437,10 @@ export function AiShowcase() {
               </div>
               <motion.div style={{ opacity: ctaOpacity, y: ctaY }}>
                 <a
-                  href="#lien-he"
+                  href="#ban-do"
                   className="v3-shine inline-flex h-[52px] items-center gap-2 rounded-md bg-v2blue-600 px-6 text-base font-semibold text-white shadow-v2-lg transition hover:-translate-y-0.5 hover:bg-v2blue-500"
                 >
-                  Xem báo cáo mẫu <ArrowRight className="h-[18px] w-[18px]" />
+                  <MapIcon className="h-[18px] w-[18px]" /> Xem bản đồ vị trí <ArrowRight className="h-[18px] w-[18px]" />
                 </a>
               </motion.div>
             </div>
