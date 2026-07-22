@@ -42,64 +42,64 @@ const ICONS: Record<LucideName, LucideIcon> = {
 
 const N = deckServices.length;
 const SEG = 1 / N;
-const FLY = 0.45 * SEG; // thời lượng bay ra/về trong 1 segment
-const ARC = 0.2 * SEG; // mốc giữa của cung bay (nhấc lên trước, bay ngang sau)
+const FLY = 0.45 * SEG; // thời lượng chuyển cảnh trong 1 segment
 
-/* Kích thước thẻ (px) — khổ NGANG theo đúng tỉ lệ ảnh 16:9 để ảnh hiển thị đầy đủ,
-   không bị object-cover cắt. Vùng ảnh 420×236 + thanh label 54px nằm DƯỚI ảnh.
-   Kích thước chọn để deck (×0.8) + featured (×1.06) VỪA cột trái ~864px, không đè nhau. */
-const CW = 460;
+/* Kích thước thẻ (px) — khổ ngang 16:9 (560×315) + thanh label 56px nằm DƯỚI ảnh.
+   Chỉ một thẻ chiếm sân khấu tại một thời điểm nên thẻ được phóng to hơn deck cũ. */
+const CW = 560;
 const BAR = 56;
-const CH = 259 + BAR;
+const CH = 315 + BAR;
 
-type Pose = { x: number; y: number; z: number; rx: number; rz: number; s: number };
+type Pose = { y: number; op: number; s: number; rx: number };
 
-const deckPose = (i: number, dx: number): Pose => ({
-  x: dx,
-  y: i * 40 - 80,
-  z: -i * 34,
-  rx: 45,
-  rz: -8,
-  s: 0.4,
-});
-const liftPose = (i: number, dx: number): Pose => ({
-  x: dx * 0.78,
-  y: i * 40 - 80 - 76, // nhấc lên trước khi bay ngang → cung bay 2 nhịp, không lerp thẳng
-  z: 12,
-  rx: 22,
-  rz: -4,
-  s: 0.85,
-});
-const STAGE: Pose = { x: 0, y: 26, z: 40, rx: 0, rz: 0, s: 1.06 };
+/* 4 trạng thái của một thẻ trong hiệu ứng handoff parallax */
+const HID: Pose = { y: 120, op: 0, s: 0.9, rx: 9 }; // ẩn dưới sân khấu
+const PEEK: Pose = { y: 56, op: 0.38, s: 0.93, rx: 7 }; // ló mép dưới, chờ tới lượt
+const ON: Pose = { y: 0, op: 1, s: 1, rx: 0 }; // đang chiếm sân khấu
+const OFFM: Pose = { y: -92, op: 1, s: 0.97, rx: -6 }; // đang trượt lên — vẫn ĐẶC, che thẻ sau
+const OFF: Pose = { y: -150, op: 0, s: 0.95, rx: -9 }; // đã nhường chỗ, fade nhanh đoạn cuối
 
-/** Sinh keyframes cho thẻ i: deck → (lift) → stage ở segment i, bay ngược ở segment i+1. */
-function buildFrames(i: number, dx: number) {
-  const d = deckPose(i, dx);
-  const l = liftPose(i, dx);
+/**
+ * Keyframes cho thẻ i — hiệu ứng "handoff parallax" thay cho deck bay 3D cũ
+ * (deck cũ các thẻ xếp chồng lệch góc nên dễ đè lên nhau ở bề ngang hẹp):
+ * ẩn → PEEK trong segment trước → trượt lên sân khấu → giữ → trượt lên trên
+ * khi thẻ sau vào. Thẻ vào/ra ở tầng tốc độ khác nhau + ảnh bên trong trôi
+ * ngược chiều → vẫn là parallax nhiều tầng nhưng không bao giờ chồng chéo
+ * (thẻ active luôn nằm trên cùng nhờ zIndex theo segment).
+ */
+function buildFrames(i: number) {
   const si = i * SEG;
   const sn = (i + 1) * SEG;
+  const sp = (i - 1) * SEG;
+  // Handoff TUẦN TỰ: thẻ cũ trượt lên vẫn đặc (che thẻ sau) tới 30% FLY rồi
+  // fade nhanh, xong hẳn ở 45% FLY; thẻ mới rời PEEK từ 50% FLY → không tồn
+  // tại thời điểm nào hai thẻ cùng mờ đè lên nhau.
+  const IN0 = si + FLY * 0.5;
+  const IN1 = si + FLY;
+  const OUTM = sn + FLY * 0.3;
+  const OUT1 = sn + FLY * 0.45;
 
   let times: number[];
   let poses: Pose[];
-  if (i === N - 1) {
-    // thẻ cuối: rút ra rồi giữ trên sân khấu tới hết
-    times = si === 0 ? [0, ARC, FLY, 1] : [0, si, si + ARC, si + FLY, 1];
-    poses = si === 0 ? [d, l, STAGE, STAGE] : [d, d, l, STAGE, STAGE];
-  } else if (si === 0) {
-    times = [0, ARC, FLY, sn, sn + ARC, sn + FLY, 1];
-    poses = [d, l, STAGE, STAGE, l, d, d];
+  if (i === 0) {
+    times = N === 1 ? [0, 1] : [0, sn, OUTM, OUT1, 1];
+    poses = N === 1 ? [ON, ON] : [ON, ON, OFFM, OFF, OFF];
+  } else if (i === N - 1) {
+    times = sp === 0 ? [0, FLY, IN0, IN1, 1] : [0, sp, sp + FLY, IN0, IN1, 1];
+    poses = sp === 0 ? [HID, PEEK, PEEK, ON, ON] : [HID, HID, PEEK, PEEK, ON, ON];
+  } else if (sp === 0) {
+    times = [0, FLY, IN0, IN1, sn, OUTM, OUT1, 1];
+    poses = [HID, PEEK, PEEK, ON, ON, OFFM, OFF, OFF];
   } else {
-    times = [0, si, si + ARC, si + FLY, sn, sn + ARC, sn + FLY, 1];
-    poses = [d, d, l, STAGE, STAGE, l, d, d];
+    times = [0, sp, sp + FLY, IN0, IN1, sn, OUTM, OUT1, 1];
+    poses = [HID, HID, PEEK, PEEK, ON, ON, OFFM, OFF, OFF];
   }
   return {
     times,
-    x: poses.map((p) => p.x),
     y: poses.map((p) => p.y),
-    z: poses.map((p) => p.z),
-    rx: poses.map((p) => p.rx),
-    rz: poses.map((p) => p.rz),
+    op: poses.map((p) => p.op),
     s: poses.map((p) => p.s),
+    rx: poses.map((p) => p.rx),
   };
 }
 
@@ -125,57 +125,50 @@ function AiScoreChip({ score, active }: { score: number; active: boolean }) {
   );
 }
 
-/** Thẻ dịch vụ trong deck 3D — mọi transform là keyframe theo tiến độ cuộn (scrub 2 chiều). */
+/** Thẻ dịch vụ trên sân khấu — handoff parallax, thẻ active luôn nằm trên cùng. */
 function DeckCard({
   item,
   index,
   t,
-  dx,
   active,
   inView,
 }: {
   item: DeckService;
   index: number;
   t: MotionValue<number>;
-  dx: number;
   active: boolean;
   inView: boolean;
 }) {
-  const f = buildFrames(index, dx);
-  const x = useTransform(t, f.times, f.x);
+  const f = buildFrames(index);
   const y = useTransform(t, f.times, f.y);
-  const z = useTransform(t, f.times, f.z);
-  const rotateX = useTransform(t, f.times, f.rx);
-  const rotateZ = useTransform(t, f.times, f.rz);
+  const opacity = useTransform(t, f.times, f.op);
   const scale = useTransform(t, f.times, f.s);
-  // ảnh chỉ hiện khi thẻ ở/gần sân khấu
+  const rotateX = useTransform(t, f.times, f.rx);
   const si = index * SEG;
   const sn = (index + 1) * SEG;
-  // ảnh luôn hiện mờ ở deck (0.45) để nhận diện dịch vụ, rõ 100% khi được rút ra
-  const imgOpacity = useTransform(
-    t,
-    index === N - 1
-      ? [Math.max(0, si), si + FLY, 1]
-      : [Math.max(0, si), si + FLY, sn, Math.min(1, sn + FLY)],
-    index === N - 1 ? [0.3, 1, 1] : [0.3, 1, 1, 0.3]
+  // Tầng xếp chồng: active = 30; RIÊNG pha trượt ra giữ 40 (trên cả thẻ mới
+  // vừa thành active) — nếu tụt sớm, thẻ PEEK mờ sẽ đè lên thẻ đặc đang thoát.
+  const zIndex = useTransform(t, (v) =>
+    v >= sn && v < sn + FLY * 0.45 ? 40 : v >= si - 0.0001 && v < sn ? 30 : 10
   );
+  // ảnh bên trong trôi ngược hướng thẻ → tầng tốc độ thứ hai (parallax nội thẻ)
+  const imgY = useTransform(t, [Math.max(0, si - SEG), Math.min(1, sn + FLY)], ["6%", "-6%"]);
   const Icon = ICONS[item.icon];
 
   return (
     <motion.div
       style={{
-        x,
         y,
-        z,
-        rotateX,
-        rotateZ,
+        opacity,
         scale,
+        rotateX,
+        zIndex,
         width: CW,
         height: CH,
         marginLeft: -CW / 2,
         marginTop: -CH / 2,
       }}
-      className={`absolute left-[67%] top-1/2 overflow-hidden rounded-2xl border shadow-v2-xl ${
+      className={`absolute left-1/2 top-1/2 overflow-hidden rounded-2xl border shadow-v2-xl ${
         inView ? "will-change-transform" : ""
       } ${
         item.isAI
@@ -189,8 +182,8 @@ function DeckCard({
           <motion.img
             src={item.image}
             alt=""
-            style={{ opacity: imgOpacity }}
-            className="h-full w-full object-cover"
+            style={{ y: imgY }}
+            className="absolute inset-x-0 top-[-6%] h-[112%] w-full object-cover"
             loading="lazy"
           />
           <div
@@ -417,12 +410,10 @@ function MobileDeck() {
  */
 export function ServicesDeck() {
   const ref = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion() ?? false;
   const mobile = useIsMobile();
   const tier = useMotionTier();
   const inView = useInView(ref, { margin: "20% 0px" });
-  const [dx, setDx] = useState(-560);
   const [active, setActive] = useState(0);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
@@ -432,20 +423,6 @@ export function ServicesDeck() {
     const idx = Math.min(N - 1, Math.max(0, Math.floor((v + FLY * 0.5) / SEG)));
     if (idx !== active) setActive(idx);
   });
-
-  // đo khoảng bay deck ↔ sân khấu theo bề ngang thật (anchor 67% → 19%):
-  // hai khối tách hẳn nhau, thẻ featured không đè lên nhãn của deck phía sau
-  useEffect(() => {
-    if (reduced || mobile) return;
-    const measure = () => {
-      const w = stageRef.current?.clientWidth ?? 900;
-      setDx(-0.48 * w);
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (stageRef.current) ro.observe(stageRef.current);
-    return () => ro.disconnect();
-  }, [reduced, mobile]);
 
   /* Desktop + giảm chuyển động: tab-switcher cũ — không pin, không scrub */
   if (tier === "safe" && !mobile) return <Spotlight />;
@@ -490,18 +467,10 @@ export function ServicesDeck() {
             className="relative z-[1] mx-auto mt-5 grid w-full max-w-[1280px] flex-none grid-cols-[1fr_340px] gap-8 px-4 sm:px-6 lg:px-8 xl:grid-cols-[1fr_380px]"
             style={{ height: CH + 130 }}
           >
-            <div ref={stageRef} className="relative h-full" style={{ perspective: 1100 }}>
-              {/* Bóng sàn dưới deck — neo khối 3D xuống mặt phẳng */}
-              <div
-                aria-hidden
-                className="absolute left-[2%] top-[64%] h-[120px] w-[440px] rounded-full opacity-60"
-                style={{ background: "radial-gradient(ellipse at center,rgba(6,10,19,.55),transparent 70%)", filter: "blur(18px)" }}
-              />
-              <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
-                {deckServices.map((s, i) => (
-                  <DeckCard key={s.label} item={s} index={i} t={t} dx={dx} active={active === i} inView={inView} />
-                ))}
-              </div>
+            <div className="relative h-full" style={{ perspective: 1100 }}>
+              {deckServices.map((s, i) => (
+                <DeckCard key={s.label} item={s} index={i} t={t} active={active === i} inView={inView} />
+              ))}
             </div>
             {/* Cột text — trong luồng grid, tự có bề rộng riêng */}
             <div className="grid content-center">

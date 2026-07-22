@@ -119,7 +119,7 @@ export function HeaderV5() {
             </a>
             <a
               href={`tel:${contactInfo.hotline.replace(/\s/g, "")}`}
-              className="mb-3 mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-md border border-white/20 text-sm font-semibold text-v2blue-200"
+              className="v5-glass mb-3 mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-md text-sm font-semibold"
             >
               Hotline {contactInfo.hotline}
             </a>

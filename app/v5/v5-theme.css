@@ -208,24 +208,35 @@
   -webkit-backdrop-filter: none !important;
 }
 
-/* ---------- Nút kính kiểu iOS (liquid glass) ----------
-   Dùng cho các nút trước đây nền trắng. Blur chỉ áp lên vài nút nhỏ nên
-   không đáng kể về hiệu năng (khác các mảng backdrop-blur lớn đã tắt). */
-.v5-scope .v5-glass {
+/* ---------- Nút đồng nhất: glass kiểu iOS, lấy tông card "Điểm AI 92/100" ----------
+   Card mẫu: bg-white/10 + border-white/20. Mọi nút trong v5 (kể cả nút xanh
+   bg-v2blue-600/500 và nút viền của v4) đều quy về một nền glass chung này.
+   Blur chỉ áp lên vài nút nhỏ nên không đáng kể về hiệu năng. */
+.v5-scope .v5-glass,
+.v5-scope :is(a, button).bg-v2blue-600,
+.v5-scope :is(a, button).bg-v2blue-500,
+.v5-scope :is(a, button)[class*="border-v2blue"] {
   background: linear-gradient(
     165deg,
-    rgba(255, 255, 255, 0.34),
-    rgba(255, 255, 255, 0.13) 55%,
-    rgba(255, 255, 255, 0.22)
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.09) 60%,
+    rgba(255, 255, 255, 0.14)
   ) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
   color: #fff !important;
-  backdrop-filter: blur(18px) saturate(1.8) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(1.8) !important;
+  backdrop-filter: blur(16px) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.6) !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
-    0 10px 30px rgba(2, 6, 18, 0.35) !important;
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 8px 24px rgba(2, 6, 18, 0.3) !important;
+}
+.v5-scope .v5-glass:hover,
+.v5-scope :is(a, button).bg-v2blue-600:hover,
+.v5-scope :is(a, button).bg-v2blue-500:hover,
+.v5-scope :is(a, button)[class*="border-v2blue"]:hover {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-color: rgba(255, 255, 255, 0.32) !important;
 }
 
 /* ---------- Bỏ màu nền: AI Insights (#ban-do) & Dịch vụ nổi bật (#spotlight) ---------- */
@@ -236,3 +247,28 @@
 .v5-scope #spotlight div[aria-hidden][style*="linear-gradient(160deg"] { display: none; }
 /* Card pin của AI Insights không còn nền → bỏ luôn bóng đổ quanh khối trống */
 .v5-scope #ban-do .sticky { box-shadow: none !important; }
+
+/* ---------- Card Dự án & chiến dịch (#tin-tuc): card SÁNG nổi trên nền vũ trụ ----------
+   Nền tối toàn trang → card trắng là điểm tương phản mạnh nhất của section,
+   kèm bóng đổ sâu để card "bốc" khỏi nền sao. */
+.v5-scope #tin-tuc article {
+  background: linear-gradient(180deg, #ffffff 0%, #f2f7ff 100%) !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 10px 34px rgba(2, 6, 18, 0.45) !important;
+}
+.v5-scope #tin-tuc article:hover {
+  border-color: #7bb8ff !important;
+  box-shadow:
+    0 18px 50px rgba(87, 163, 255, 0.38),
+    0 0 0 1px rgba(87, 163, 255, 0.25) !important;
+}
+/* Chữ/viền trong card sáng: trả lại tông tối gốc (ghi đè remap sáng của v5) */
+.v5-scope #tin-tuc article .text-v2blue-900 { color: #0d2f5e !important; }
+.v5-scope #tin-tuc article .text-v2blue-600 { color: #2374d9 !important; }
+.v5-scope #tin-tuc article .text-slate-600 { color: #475569 !important; }
+.v5-scope #tin-tuc article .text-slate-500 { color: #64748b !important; }
+.v5-scope #tin-tuc article .bg-slate-200 { background-color: #e2e8f0 !important; }
+.v5-scope #tin-tuc article .bg-v2blue-100 {
+  background-color: #d6e9ff !important;
+  color: #1a5bb0 !important;
+}

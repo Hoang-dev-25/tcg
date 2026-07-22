@@ -16,6 +16,33 @@ import { newsCardsRich, type NewsCardRich } from "@/lib/v4-cases";
    lưới "gợn sóng" khi cuộn thay vì phẳng. */
 const COLUMN_SPEEDS = [0.12, 0.38, 0.18, 0.46];
 
+/* Màu tag theo nhóm nội dung — card nhận diện được ngay bằng màu thay vì
+   toàn bộ đều xanh dương như trước. */
+const TAG_STYLES: Record<string, string> = {
+  "Sản phẩm số": "bg-cyan-500/95",
+  "Hợp tác": "bg-emerald-500/95",
+  "Thị trường OOH": "bg-amber-500/95",
+  "Hệ thống vị trí": "bg-violet-500/95",
+};
+const tagClass = (tag: string) => TAG_STYLES[tag] ?? "bg-v2blue-600/95";
+
+/** Chip chữ cái đầu của tác giả — điểm màu nhỏ thay cho dòng tên trơ trọi. */
+function AuthorChip({ name }: { name: string }) {
+  const initials = name
+    .split(" ")
+    .map((p) => p[0])
+    .slice(-2)
+    .join("");
+  return (
+    <span className="flex items-center gap-1.5">
+      <span className="grid h-5 w-5 place-items-center rounded-full bg-v2blue-100 text-[.5625rem] font-bold uppercase text-v2blue-700">
+        {initials}
+      </span>
+      <span className="text-[.75rem] font-semibold text-slate-500">{name}</span>
+    </span>
+  );
+}
+
 /** Card tin — ảnh bên trong trôi chậm hơn card (~15%) tạo chiều sâu khi cuộn qua. */
 function CaseCard({ item, index }: { item: NewsCardRich; index: number }) {
   const ref = useRef<HTMLElement>(null);
@@ -27,16 +54,24 @@ function CaseCard({ item, index }: { item: NewsCardRich; index: number }) {
     <Reveal delay={(index % 4) * 0.08}>
       <article
         ref={ref}
-        className="grid h-full cursor-pointer grid-rows-[auto_1fr] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-v2-sm transition hover:-translate-y-1 hover:shadow-v2-lg"
+        className="group grid h-full cursor-pointer grid-rows-[auto_1fr] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-v2-sm transition duration-300 hover:-translate-y-1.5 hover:border-v2blue-300 hover:shadow-[0_14px_40px_rgba(35,116,217,.22)]"
       >
-        <div className="relative aspect-[16/10] overflow-hidden">
+        <div className="relative aspect-[16/10] overflow-hidden transition-transform duration-500 group-hover:scale-[1.04]">
           <motion.img
             src={item.img}
             alt=""
             style={{ y: imgY }}
             className="absolute inset-x-0 top-[-8%] h-[116%] w-full object-cover will-change-transform"
           />
-          <span className="absolute left-3 top-3 rounded-full bg-v2blue-600/95 px-2.5 py-1 text-[.6875rem] font-bold uppercase tracking-[.04em] text-white shadow-v2-sm">
+          {/* Phủ tối chân ảnh — ảnh sâu hơn và tag/label nổi rõ trên mọi ảnh */}
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(180deg,transparent 55%,rgba(7,15,34,.45) 100%)" }}
+          />
+          <span
+            className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[.6875rem] font-bold uppercase tracking-[.04em] text-white shadow-v2-sm ${tagClass(item.tag)}`}
+          >
             {item.tag}
           </span>
         </div>
@@ -48,14 +83,15 @@ function CaseCard({ item, index }: { item: NewsCardRich; index: number }) {
               <Clock3 className="h-3 w-3" /> {item.read} phút đọc
             </span>
           </span>
-          <h3 className="m-0 font-v2display text-base font-semibold leading-[1.45] text-v2blue-900">
+          <h3 className="m-0 font-v2display text-base font-semibold leading-[1.45] text-v2blue-900 transition-colors group-hover:text-v2blue-600">
             {item.title}
           </h3>
           <p className="m-0 line-clamp-2 text-[.8125rem] leading-[1.6] text-slate-600">{item.excerpt}</p>
           <span className="mt-1 flex items-center justify-between">
-            <span className="text-[.75rem] font-semibold text-slate-500">{item.author}</span>
+            <AuthorChip name={item.author} />
             <span className="inline-flex items-center gap-1.5 text-[.8125rem] font-semibold text-v2blue-600">
-              Đọc tiếp <ArrowRight className="h-[15px] w-[15px]" />
+              Đọc tiếp{" "}
+              <ArrowRight className="h-[15px] w-[15px] transition-transform duration-300 group-hover:translate-x-1" />
             </span>
           </span>
         </div>
@@ -95,7 +131,9 @@ function MobileCaseCard({
       <div className="relative">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={item.img} alt="" loading="lazy" className="aspect-[16/10] w-full object-cover" />
-        <span className="absolute left-2.5 top-2.5 rounded-full bg-v2blue-600/95 px-2.5 py-1 text-[.625rem] font-bold uppercase tracking-[.04em] text-white">
+        <span
+          className={`absolute left-2.5 top-2.5 rounded-full px-2.5 py-1 text-[.625rem] font-bold uppercase tracking-[.04em] text-white ${tagClass(item.tag)}`}
+        >
           {item.tag}
         </span>
       </div>
