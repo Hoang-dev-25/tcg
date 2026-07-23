@@ -4,16 +4,31 @@ Ngày: 2026-07-23
 
 ## 1. Mục tiêu
 
-`/v6` là một mạch camera liên tục, không phải một trang cuộn thông thường:
+`/v6` giữ nguyên outline nội dung của `/v5`, nhưng đổi hoàn toàn ngôn ngữ trình bày: mỗi
+section trở thành một chương trong một mạch camera liên tục, dựng bằng hình học 3D thật,
+parallax nhiều tầng và scroll styling mạnh.
 
-1. **Cổng vào** — một totem kính lơ lửng: vòng tròn đôi ôm lấy một lõi sao lập thể, hai
-   dải mảnh rời khỏi vòng, cắt nhau ngay dưới nó rồi xòe rộng chạy ra khỏi cạnh dưới khung.
-2. **Xuyên qua** — người xem cuộn, camera lao vào lõi sao, sao quay nhanh dần, tám chóp
-   tách rời và bung ra, camera xuyên qua vỏ.
-3. **Nội dung hiện ra từ bên trong sao** — lần lượt: slogan → văn hóa doanh nghiệp →
-   năng lực online.
+Trước toàn bộ outline đó là một chương mới — **cổng vào**:
 
-Yêu cầu xuyên suốt: hình học 3D thật, parallax nhiều tầng, scroll styling mạnh.
+1. Một totem kính lơ lửng: vòng tròn đôi ôm lấy một lõi sao lập thể, hai dải mảnh rời
+   khỏi vòng, cắt nhau ngay dưới nó rồi xòe rộng chạy ra khỏi cạnh dưới khung.
+2. Người xem cuộn, camera lao vào lõi sao, sao quay nhanh dần, tám chóp tách rời và bung
+   ra, camera xuyên qua vỏ.
+3. Chương 01 hiện ra từ bên trong sao.
+
+### 1.1 Phân đợt
+
+Mười chương thiết kế lại toàn bộ bằng 3D không phải một implementation plan mà là một
+chương trình nhiều đợt. Gộp hết vào một plan sẽ cho mười chương hời hợt, và một sai lầm ở
+tầng kiến trúc (scroll, camera, hand-off giữa các chương) sẽ nhân lên mười lần trước khi
+kịp phát hiện.
+
+| Đợt | Nội dung |
+|---|---|
+| **1** *(spec này)* | Bộ khung: totem chương 00, kiến trúc scroll, hệ camera, và **chương 01 Hero** dựng trọn vẹn để chốt ngôn ngữ thị giác. Gỡ tường ảnh. |
+| 2..n | Từng cụm chương còn lại, bám theo ngôn ngữ đã chốt ở đợt 1. Mỗi đợt một spec–plan riêng. |
+
+Mục 3 và 4 dưới đây thuộc đợt 1. Mục 5 liệt kê outline đầy đủ để các đợt sau có chỗ bám.
 
 ## 2. Kiến trúc hai tầng
 
@@ -136,41 +151,70 @@ Một `ScrollTrigger` scrub trên chương 0, ghi vào `scrollRef.intro` (0 → 
 `Totem.tsx` giữ prop `variant: "intro" | "outro"` ngay từ đầu (bản `outro` chỉ là
 `scale.y = -1` + đảo hướng bay) nhưng **vòng này chỉ mount bản `intro`**.
 
-## 4. Ba chương nội dung
+## 4. Chương 01 — Hero (chương mẫu của đợt 1)
 
-Nguồn dữ liệu: `lib/v3-data.ts` và `lib/v4-content.ts`, dùng chung với v4/v5. Không bịa
-copy mới, không thêm con số mới.
+Đây là chương chốt ngôn ngữ thị giác cho chín chương còn lại, nên nó phải giải đúng bài
+toán khó nhất: **camera vừa xuyên qua vỏ sao thì chữ xuất hiện bằng cách nào**.
 
-### Chương 1 — Slogan
-Một câu, chiếm trọn khung. `ctaBand.title` làm mệnh đề chính, `heroWords` (Billboard ·
-Màn hình LED · Sân bay · Nhà chờ xe bus) chạy luân phiên bên dưới. Section được pin,
-chữ reveal theo dòng bằng clip-path, scrub theo scroll.
+Nguồn dữ liệu: `lib/v3-data.ts`. Không bịa copy mới, không thêm con số mới.
 
-### Chương 2 — Văn hóa doanh nghiệp
-Bốn mục `commitments` (hồ sơ pháp lý · nghiệm thu bằng hình ảnh · kiểm tra kết cấu định
-kỳ · báo giá minh bạch). Bố cục lệch, không phải bốn thẻ bằng nhau xếp hàng. Mỗi mục có
-hệ số parallax riêng nên chúng trôi lệch nhau khi cuộn. Nền là mốc thời gian `journey`
-(2003 → 2026) trôi chậm hơn ở tầng sau.
+**Hand-off.** Tám chóp sao bung ra không biến mất — chúng trở thành tầng parallax xa nhất
+của chương 01, tiếp tục trôi chậm phía sau chữ. Người xem không thấy một điểm cắt, chỉ
+thấy vỏ sao mở ra rồi giãn thành không gian.
 
-### Chương 3 — Năng lực online
-`mapPreview` làm trung tâm: bản đồ chấm, `mapPreview.stats` (~730 vị trí, 30+ tỉnh
-thành), nhãn `liveLabel` và `aiLabel`. `heroStats` (730+ / 400+ / 20+) đếm lên khi vào
-khung. `featuredServices` xếp thành một dải trượt ngang được scrub bằng scroll dọc.
+**Nội dung, từ gần tới xa:**
 
-Mọi con số dùng `tabular-nums` monospace, dấu chấm phân tách hàng nghìn.
+| tầng | nội dung | biên độ parallax |
+|---|---|---|
+| 4 (gần nhất) | H1 + `heroWords` gõ chữ luân phiên (Billboard · Màn hình LED · Sân bay · Nhà chờ xe bus) | cao nhất, mờ dần khi chương 02 phủ lên |
+| 3 | `heroStats` — 730+ vị trí · 400+ nhãn hàng · 20+ năm, monospace `tabular-nums`, đếm lên khi vào khung | cao |
+| 2 | thẻ kính nổi mang ảnh OOH thật từ `heroWords[].img` | vừa |
+| 1 | tám chóp sao trôi tiếp từ chương 00 | thấp |
+| 0 (xa nhất) | `UniverseBackdrop` — starfield của scene WebGL | gần như đứng yên |
 
-## 5. Scroll và parallax
+**Chuyển động:** section được pin; H1 reveal theo dòng bằng clip-path scrub theo scroll;
+mọi biên độ nhân với `parallaxFactor` (0 khi reduced-motion, giảm trên mobile), đúng cách
+`V5Hero` đang làm với `useParallaxFactor`.
+
+## 5. Outline đầy đủ
+
+Chuỗi chương của `/v6` bằng đúng chuỗi section của `/v5`, cộng thêm chương 00.
+
+| # | Section v5 | Nội dung mang theo | Đợt |
+|---|---|---|---|
+| **00** | *(mới)* | Totem — cổng vào, camera xuyên qua sao | 1 |
+| **01** | `V5Hero` | `heroWords` gõ chữ · `heroStats` 730+ / 400+ / 20+ | 1 |
+| 02 | `IntroV4` | "20 năm đưa thương hiệu Việt ra đường phố" · FACTS 20+ / ~730 / 89.000 m² / 400+ · **cộng thêm 4 mục `commitments`** làm phần cách vận hành | sau |
+| 03 | `AiShowcase` | ba bước AI · `mapPreview` bản đồ vị trí · điểm AI theo ngành hàng | sau |
+| 04 | `DriftText` | ba dòng tuyên ngôn trôi ngang ngược hướng, dòng giữa outline | sau |
+| 05 | `ServicesDeck` | `featuredServices` — billboard · pano · LED · sân bay | sau |
+| 06 | `CasesV4` | `newsCardsRich` — dự án và tin tức | sau |
+| 07 | `LeadFormV4` | `leadForm` — form liên hệ | sau |
+| 08 | `CtaBandV4` | `ctaBand` — "Sẵn sàng tìm vị trí OOH cho chiến dịch tiếp theo?" | sau |
+| 09 | `Footer` | `footerLegal` · `contactInfo` — pháp lý, hotline, địa chỉ | sau |
+| — | `HeaderV5` | chrome cố định, đè lên mọi chương | sau |
+
+Ghi chú về chương 02: `commitments` (hồ sơ pháp lý · nghiệm thu bằng hình ảnh · kiểm tra
+kết cấu định kỳ · báo giá minh bạch) hiện nằm trong `components/v4/faq.tsx`, mà `/v5`
+không dùng. Ở `/v6` nó được gộp vào chương 02 thay vì tạo chương riêng, để outline không
+lệch khỏi v5.
+
+Mọi con số trong mọi chương dùng monospace `tabular-nums`, dấu chấm phân tách hàng nghìn.
+
+## 6. Scroll và parallax
 
 - **Lenis** lo smooth scroll trên document thật; `ScrollTrigger.scrollerProxy` nối hai
   bên, `lenis.on("scroll", ScrollTrigger.update)`.
-- Mỗi chương là một `ScrollTrigger` với `pin` + `scrub`. Tiến độ chương 0 ghi vào
-  `scrollRef.intro`; ba chương sau ghi vào `scrollRef.chapter`.
+- Mỗi chương là một `ScrollTrigger` với `pin` + `scrub`. Tiến độ chương 00 ghi vào
+  `scrollRef.intro`; các chương sau ghi vào `scrollRef.chapter` (số thực: phần nguyên là
+  chỉ số chương, phần thập phân là tiến độ trong chương). Một số duy nhất như vậy đủ cho
+  scene WebGL biết đang ở đâu mà không cần thêm state.
 - Parallax: mỗi tầng khai báo một hệ số nhân trong config, biên độ thật bằng hệ số ×
   `parallaxFactor` (0 khi reduced-motion, giảm trên mobile) — cùng cách `V5Hero` đang
   làm với `useParallaxFactor`.
 - Vẫn không có `setState` nào chạy theo frame.
 
-## 6. Gỡ bỏ
+## 7. Gỡ bỏ
 
 Tường ảnh vô tận không còn chỗ trong mạch kể này. Xóa:
 
@@ -189,7 +233,7 @@ Giữ lại: `UniverseBackdrop`, `GalleryCanvas`, `Loader`, `Overlay`, `useStudi
 `GrainEffect`, khối `post` trong config, `TunePanel` (panel không bind vào `star.*` nên
 không vướng).
 
-## 7. Thay đổi theo file
+## 8. Thay đổi theo file (đợt 1)
 
 | File | Việc |
 |---|---|
@@ -197,13 +241,14 @@ không vướng).
 | `components/IntroStar.tsx` → `Totem.tsx` | prop `variant`; timeline dựng hình; pha bung chóp |
 | `config/scene.config.ts` | bỏ `points`/`innerRatio`/`depth`/`bevel`; thêm `spike`/`waist`/`innerCore`, `strandFlare`, `strandTubeStart`/`End`, khối `chapters` |
 | `hooks/usePageScroll.ts` | **mới** — Lenis + ScrollTrigger, ghi `scrollRef` |
-| `components/chapters/*.tsx` | **mới** — ba chương DOM |
+| `hooks/useParallaxFactor` | tái dùng hook sẵn có của v5, không viết lại |
+| `components/chapters/HeroChapter.tsx` | **mới** — chương 01 |
 | `components/GalleryScene.tsx` | bỏ `TileWall`, chỉ còn `Totem` |
-| `app/v6/page.tsx` | canvas fixed + ba chương DOM chồng lên |
+| `app/v6/page.tsx` | canvas fixed + chương DOM chồng lên |
 
-## 8. Ngoài phạm vi vòng này
+## 9. Ngoài phạm vi đợt 1
 
+- **Chương 02 → 09 và `HeaderV5`** — outline đã chốt ở mục 5, dựng ở các đợt sau.
 - Totem lật ngược ở cuối trang (`variant="outro"`) — component đã sẵn prop, chỉ chưa mount.
-- Header, footer, form liên hệ.
 - Sáu màn trong `docs/v6-stitch-prompts.md` — tài liệu đó mô tả một mạch khác (Thành phố →
   20 năm → AI → Dịch vụ → Dự án → Liên hệ) và **không** phải nguồn sự thật cho spec này.
