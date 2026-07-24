@@ -7,7 +7,10 @@ import * as THREE from "three";
 import { scrollState } from "./progress";
 import { sampleCamera, type CameraSample } from "./cameraPath";
 
-export function CameraRig() {
+/* Tâm các đoạn hold — reduced-motion nhảy giữa các pose tĩnh này (spec 6.6) */
+const HOLD_CENTERS = [0.03, 0.185, 0.255, 0.315, 0.48, 0.66, 0.82, 0.96];
+
+export function CameraRig({ reduced = false }: { reduced?: boolean }) {
   const scene = useThree((s) => s.scene);
   const sample = useRef<CameraSample>({
     pos: new THREE.Vector3(),
@@ -17,8 +20,13 @@ export function CameraRig() {
   });
 
   useFrame(({ camera }) => {
+    let p = scrollState.progress;
+    if (reduced) {
+      /* nhảy giữa các pose tĩnh — không tween camera */
+      p = HOLD_CENTERS.reduce((best, c) => (Math.abs(c - p) < Math.abs(best - p) ? c : best));
+    }
     const s = sample.current;
-    sampleCamera(scrollState.progress, s);
+    sampleCamera(p, s);
     camera.position.copy(s.pos);
     camera.lookAt(s.look);
     if (s.roll !== 0) camera.rotateZ(s.roll);
