@@ -3,16 +3,11 @@ import type { Metadata } from "next";
 import "./v6.css";
 
 export const metadata: Metadata = {
-  title: "Toàn Cầu ADV — v6 Wireframe: hành trình zoom xuyên thành phố",
+  title: "Toàn Cầu ADV — Một chuyến bay đêm qua thành phố quảng cáo",
   description:
-    "Bản wireframe v6: một viewport duy nhất, cuộn chuột điều khiển camera zoom xuyên 6 lớp cảnh — thành phố đêm, màn LED 20 năm, không gian AI, dịch vụ, bản đồ dự án, liên hệ.",
+    "Trải nghiệm 3D: một chuyến bay drone xuyên thành phố đêm — billboard, pano, màn hình LED, 20 năm Toàn Cầu ADV, bản đồ dự án toàn quốc.",
 };
 
 export default function V6Layout({ children }: { children: React.ReactNode }) {
-  return (
-    /* Khóa scroll tài liệu: toàn bộ cuộn diễn ra trong scroller ẩn thanh cuộn của page */
-    <div className="fixed inset-0 overflow-hidden bg-[#04091a] text-slate-100 antialiased">
-      {children}
-    </div>
-  );
+  return <div className="bg-[#04091a] text-slate-100 antialiased">{children}</div>;
 }
