@@ -1,9 +1,19 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 import { PINS, VN_OUTLINE, pinToWorld } from "@/components/v6/data";
+import { scrollState } from "./progress";
+
+/* Bản đồ chỉ hiện quanh cú dolly-out + frame bản đồ (0.66 → 0.92),
+   để các frame mặt đất không thấy vệt chấm ở chân trời */
+function mapOpacity(p: number): number {
+  const fadeIn = THREE.MathUtils.smoothstep(p, 0.66, 0.74);
+  const fadeOut = 1 - THREE.MathUtils.smoothstep(p, 0.9, 0.96);
+  return Math.min(fadeIn, fadeOut);
+}
 
 function mulberry32(seed: number) {
   let a = seed;
@@ -16,6 +26,15 @@ function mulberry32(seed: number) {
 }
 
 export function VietnamLights() {
+  const outlineMat = useRef<THREE.PointsMaterial>(null);
+  const pinMat = useRef<THREE.PointsMaterial>(null);
+
+  useFrame(() => {
+    const k = mapOpacity(scrollState.progress);
+    if (outlineMat.current) outlineMat.current.opacity = 0.8 * k;
+    if (pinMat.current) pinMat.current.opacity = 0.95 * k;
+  });
+
   const { outlinePos, pinPos } = useMemo(() => {
     const rnd = mulberry32(1975);
     /* Outline 220×420 → % → thế giới, rải chấm dọc từng cạnh + jitter */
@@ -57,13 +76,13 @@ export function VietnamLights() {
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[outlinePos, 3]} />
         </bufferGeometry>
-        <pointsMaterial color="#2e5ea8" size={7} sizeAttenuation transparent opacity={0.8} depthWrite={false} />
+        <pointsMaterial ref={outlineMat} color="#2e5ea8" size={7} sizeAttenuation transparent opacity={0} depthWrite={false} />
       </points>
       <points>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[pinPos, 3]} />
         </bufferGeometry>
-        <pointsMaterial color="#7dd3fc" size={10} sizeAttenuation transparent opacity={0.95} depthWrite={false} />
+        <pointsMaterial ref={pinMat} color="#7dd3fc" size={10} sizeAttenuation transparent opacity={0} depthWrite={false} />
       </points>
     </group>
   );

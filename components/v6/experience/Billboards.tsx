@@ -1,7 +1,10 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+
+import { scrollState } from "./progress";
 
 /* Texture chữ vẽ canvas — CHỈ dùng cho nội dung trên mặt biển (năm, logo mẫu).
    Chữ nội dung trang vẫn là DOM (spec 6.2). */
@@ -33,7 +36,8 @@ function Halo({ position, scale }: { position: [number, number, number]; scale: 
     c.width = c.height = 128;
     const g = c.getContext("2d")!;
     const grad = g.createRadialGradient(64, 64, 6, 64, 64, 64);
-    grad.addColorStop(0, "rgba(90,200,255,0.55)");
+    grad.addColorStop(0, "rgba(90,200,255,0.16)");
+    grad.addColorStop(0.55, "rgba(90,200,255,0.05)");
     grad.addColorStop(1, "rgba(90,200,255,0)");
     g.fillStyle = grad;
     g.fillRect(0, 0, 128, 128);
@@ -70,11 +74,11 @@ function Board({
           color="#031018"
           emissive={NEON}
           emissiveMap={face ?? undefined}
-          emissiveIntensity={face ? 1.6 : 1.1}
+          emissiveIntensity={face ? 1.15 : 0.8}
           toneMapped={false}
         />
       </mesh>
-      <Halo position={[0, 0, 1.5]} scale={Math.max(w, h) * 1.9} />
+      <Halo position={[0, 0, 0.8]} scale={Math.max(w, h) * 1.05} />
     </group>
   );
 }
@@ -100,8 +104,30 @@ function WetGlow({ position, w }: { position: [number, number, number]; w: numbe
   );
 }
 
+/* Màn LED liên hệ F6 — bật/tắt theo progress để không lọt vào các frame đầu */
+function ContactScreen() {
+  const ref = useRef<THREE.Group>(null);
+  useFrame(() => {
+    if (ref.current) ref.current.visible = scrollState.progress >= 0.86;
+  });
+  return (
+    <group ref={ref} position={[0, 40, -20]} visible={false}>
+      <mesh>
+        <planeGeometry args={[64, 36]} />
+        <meshStandardMaterial color="#04101e" emissive={NEON} emissiveIntensity={0.16} toneMapped={false} />
+      </mesh>
+      <mesh position={[0, 0, -0.5]}>
+        <boxGeometry args={[66, 38, 0.8]} />
+        <meshStandardMaterial color="#101a35" />
+      </mesh>
+    </group>
+  );
+}
+
 export function Billboards() {
   const logoTex = useMemo(() => makeTextTexture(["TOÀN CẦU", "ADV"]), []);
+  const panoTex = useMemo(() => makeTextTexture(["TOÀN", "CẦU", "ADV"], 256, 512), []);
+  const ledTex = useMemo(() => makeTextTexture(["TOÀN CẦU ADV"], 1024, 256), []);
   const yearTex = useMemo(
     () => ["2005", "2009", "2014", "2019", "2024"].map((y) => makeTextTexture([y], 256, 256)),
     []
@@ -109,8 +135,8 @@ export function Billboards() {
 
   return (
     <group>
-      {/* F1/F2 · Billboard hero — camera F1 nhìn thẳng vào nó từ trên cao */}
-      <Board position={[14, 12, -40]} rotY={-Math.PI / 2} w={24} h={13} face={logoTex} />
+      {/* F1/F2 · Billboard hero — chếch mặt về phía camera đi tới trên đại lộ */}
+      <Board position={[14, 12, -40]} rotY={-Math.PI / 2 + 0.5} w={24} h={13} face={logoTex} />
 
       {/* F2 · Pano ốp tường — dựng kèm một tòa "chủ" ngay sau */}
       <group>
@@ -118,7 +144,7 @@ export function Billboards() {
           <boxGeometry args={[12, 40, 18]} />
           <meshStandardMaterial color="#0a1226" roughness={0.9} />
         </mesh>
-        <Board position={[-15.8, 20, -85]} rotY={Math.PI / 2} w={14} h={26} face={null} />
+        <Board position={[-15.8, 20, -85]} rotY={Math.PI / 2} w={14} h={26} face={panoTex} />
       </group>
 
       {/* F2 · Màn LED cong — trụ cong phát sáng */}
@@ -128,12 +154,13 @@ export function Billboards() {
           <meshStandardMaterial
             color="#031018"
             emissive={NEON}
-            emissiveIntensity={1.2}
+            emissiveMap={ledTex}
+            emissiveIntensity={1.05}
             side={THREE.DoubleSide}
             toneMapped={false}
           />
         </mesh>
-        <Halo position={[0, 0, 8]} scale={30} />
+        <Halo position={[0, 0, 8]} scale={16} />
       </group>
 
       {/* Nền ướt phản chiếu dưới 3 biển hero (spec mục 5) */}
@@ -153,17 +180,10 @@ export function Billboards() {
         />
       ))}
 
-      {/* F6 · Màn LED liên hệ — camera kết thúc vuông góc trước mặt nó */}
-      <group position={[0, 40, -20]}>
-        <mesh>
-          <planeGeometry args={[64, 36]} />
-          <meshStandardMaterial color="#04101e" emissive={NEON} emissiveIntensity={0.35} toneMapped={false} />
-        </mesh>
-        <mesh position={[0, 0, -0.5]}>
-          <boxGeometry args={[66, 38, 0.8]} />
-          <meshStandardMaterial color="#101a35" />
-        </mesh>
-      </group>
+      {/* F6 · Màn LED liên hệ — camera kết thúc vuông góc trước mặt nó.
+          Chỉ hiện từ cú lao vào (p ≥ 0.86), nếu không nó lơ lửng giữa khung
+          ở các frame mặt đất đầu trang. */}
+      <ContactScreen />
     </group>
   );
 }

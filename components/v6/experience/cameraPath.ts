@@ -27,8 +27,8 @@ export const KEYFRAMES: Key[] = [
   { t: 0.0,  pos: [120, 300, 260],  look: [0, 26, -60] },
   { t: 0.06, pos: [120, 300, 260],  look: [0, 26, -60] },                       // hold F1
   { t: 0.11, pos: [60, 120, 120],   look: [0, 22, -60], fov: 64, ease: easeIn }, // hạ + FOV kick
-  { t: 0.16, pos: [-4, 8, -16],     look: [14, 12, -40], ease: easeOut },
-  { t: 0.20, pos: [-4, 8, -16],     look: [14, 12, -40] },                      // hold billboard
+  { t: 0.16, pos: [-6, 10, -12],    look: [14, 12, -40], ease: easeOut },
+  { t: 0.20, pos: [-6, 10, -12],    look: [14, 12, -40] },                      // hold billboard
   { t: 0.24, pos: [3, 10, -62],     look: [-16, 20, -85], ease: easeInOut },
   { t: 0.27, pos: [3, 10, -62],     look: [-16, 20, -85] },                     // hold pano
   { t: 0.30, pos: [-3, 7, -103],    look: [13, 9, -125], ease: easeInOut },
@@ -44,8 +44,8 @@ export const KEYFRAMES: Key[] = [
   { t: 0.70, pos: [0, 150, -240],   look: [0, 0, -110] },                       // hold F4
   { t: 0.78, pos: [150, 2600, -400], look: [120, 0, -1150], fov: 60, ease: easeIn }, // dolly-out bản đồ
   { t: 0.86, pos: [150, 2600, -400], look: [120, 0, -1150], fov: 55 },          // hold F5
-  { t: 0.92, pos: [0, 40, 26],      look: [0, 40, -20], fov: 50, ease: easeInOut }, // lao vào LED
-  { t: 1.0,  pos: [0, 40, 26],      look: [0, 40, -20], fov: 50 },              // hold F6
+  { t: 0.92, pos: [0, 40, 17],      look: [0, 40, -20], fov: 50, ease: easeInOut }, // lao vào LED
+  { t: 1.0,  pos: [0, 40, 17],      look: [0, 40, -20], fov: 50 },              // hold F6
 ];
 
 const vA = new THREE.Vector3();
