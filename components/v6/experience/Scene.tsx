@@ -5,6 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import { City } from "./City";
 import { Billboards } from "./Billboards";
 import { CameraRig } from "./CameraRig";
+import { VietnamLights } from "./VietnamLights";
 
 export default function Scene() {
   return (
@@ -15,6 +16,7 @@ export default function Scene() {
       <directionalLight position={[200, 400, 100]} intensity={0.35} color="#8fb4ff" />
       <City count={400} />
       <Billboards />
+      <VietnamLights />
       <CameraRig />
     </Canvas>
   );
