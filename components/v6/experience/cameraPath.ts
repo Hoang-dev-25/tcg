@@ -65,5 +65,17 @@ export function sampleCamera(p: number, out: CameraSample): void {
   out.pos.copy(vA.fromArray(a.pos).lerp(vB.fromArray(b.pos), u));
   out.look.copy(vA.fromArray(a.look).lerp(vB.fromArray(b.look), u));
   out.fov = THREE.MathUtils.lerp(a.fov ?? 55, b.fov ?? 55, u);
-  out.roll = 0; // roll gắn ở Task 9 (hiệu ứng mạnh)
+
+  /* Roll ±2° chỉ trong 2 chặng bay nhanh (spec: FOV kick + camera roll) */
+  const rollWindows: Array<[number, number, number]> = [
+    [0.06, 0.16, -2], // hạ xuống đại lộ — nghiêng trái
+    [0.70, 0.78, 2],  // dolly-out bản đồ — nghiêng phải
+  ];
+  out.roll = 0;
+  for (const [a2, b2, deg] of rollWindows) {
+    if (t > a2 && t < b2) {
+      const uu = (t - a2) / (b2 - a2);
+      out.roll = THREE.MathUtils.degToRad(deg) * Math.sin(uu * Math.PI); // vào-ra mềm
+    }
+  }
 }

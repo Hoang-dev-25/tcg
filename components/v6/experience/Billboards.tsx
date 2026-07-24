@@ -79,6 +79,27 @@ function Board({
   );
 }
 
+/* Giả phản chiếu ướt: halo gradient lộn ngược trên mặt đường (spec mục 5) */
+function WetGlow({ position, w }: { position: [number, number, number]; w: number }) {
+  const tex = useMemo(() => {
+    const c = document.createElement("canvas");
+    c.width = 128; c.height = 64;
+    const g = c.getContext("2d")!;
+    const grad = g.createLinearGradient(0, 0, 0, 64);
+    grad.addColorStop(0, "rgba(90,200,255,0.35)");
+    grad.addColorStop(1, "rgba(90,200,255,0)");
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 128, 64);
+    return new THREE.CanvasTexture(c);
+  }, []);
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={position}>
+      <planeGeometry args={[w * 1.4, w * 0.8]} />
+      <meshBasicMaterial map={tex} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+    </mesh>
+  );
+}
+
 export function Billboards() {
   const logoTex = useMemo(() => makeTextTexture(["TOÀN CẦU", "ADV"]), []);
   const yearTex = useMemo(
@@ -114,6 +135,11 @@ export function Billboards() {
         </mesh>
         <Halo position={[0, 0, 8]} scale={30} />
       </group>
+
+      {/* Nền ướt phản chiếu dưới 3 biển hero (spec mục 5) */}
+      <WetGlow position={[8, 0.06, -40]} w={24} />
+      <WetGlow position={[-10, 0.06, -85]} w={16} />
+      <WetGlow position={[7, 0.06, -125]} w={20} />
 
       {/* F3 · 5 biển năm dọc con đường 20 năm, so le trái phải */}
       {yearTex.map((tex, i) => (

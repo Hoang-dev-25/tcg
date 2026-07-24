@@ -5,6 +5,8 @@ import { Canvas } from "@react-three/fiber";
 import { City } from "./City";
 import { Billboards } from "./Billboards";
 import { CameraRig } from "./CameraRig";
+import { V6Effects } from "./Effects";
+import { MapDust, Streaks } from "./Streaks";
 import { VietnamLights } from "./VietnamLights";
 
 export default function Scene() {
@@ -17,7 +19,10 @@ export default function Scene() {
       <City count={400} />
       <Billboards />
       <VietnamLights />
+      <Streaks />
+      <MapDust />
       <CameraRig />
+      <V6Effects enabled />
     </Canvas>
   );
 }
