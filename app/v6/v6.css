@@ -1,16 +1,33 @@
-/* ===== v6 "Một chuyến bay đêm" — style cho DOM overlay ===== */
+/* ===== v6 "Một chuyến bay đêm" — style cho DOM overlay =====
+   Màu bám design system (docs/design-system/design-system.md):
+   một họ accent v2blue quanh #368FFF, không màu nóng. */
+
+.v6-root {
+  font-family: var(--font-v6-sans), system-ui, sans-serif;
+}
+
+/* Display heading — Lora, chỉ dùng cho h1/h2 */
+.v6-display {
+  font-family: var(--font-v6-display), Georgia, serif;
+}
 
 .v6-label {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.6875rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(148, 197, 253, 0.75);
+  color: rgba(123, 184, 255, 0.8); /* v2blue-300 */
 }
 
-/* Card kính mờ cho chữ nổi trên cảnh 3D */
+/* Card kính mờ cho chữ nổi trên cảnh 3D — bo 16px theo DS */
 .v6-card {
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  background: rgba(6, 12, 30, 0.55);
+  border: 1px solid rgba(87, 163, 255, 0.32); /* v2blue-400 */
+  background: rgba(10, 17, 32, 0.6);
   backdrop-filter: blur(6px);
+  border-radius: 16px;
+}
+
+/* Nút — bo 8px theo DS */
+.v6-btn {
+  border-radius: 8px;
 }

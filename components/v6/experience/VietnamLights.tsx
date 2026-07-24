@@ -76,13 +76,13 @@ export function VietnamLights() {
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[outlinePos, 3]} />
         </bufferGeometry>
-        <pointsMaterial ref={outlineMat} color="#2e5ea8" size={7} sizeAttenuation transparent opacity={0} depthWrite={false} />
+        <pointsMaterial ref={outlineMat} color="#2374D9" size={7} sizeAttenuation transparent opacity={0} depthWrite={false} />
       </points>
       <points>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[pinPos, 3]} />
         </bufferGeometry>
-        <pointsMaterial ref={pinMat} color="#7dd3fc" size={10} sizeAttenuation transparent opacity={0} depthWrite={false} />
+        <pointsMaterial ref={pinMat} color="#7BB8FF" size={10} sizeAttenuation transparent opacity={0} depthWrite={false} />
       </points>
     </group>
   );

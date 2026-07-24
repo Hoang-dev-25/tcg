@@ -12,6 +12,7 @@ const HOLD_CENTERS = [0.03, 0.185, 0.255, 0.315, 0.48, 0.66, 0.82, 0.96];
 
 export function CameraRig({ reduced = false }: { reduced?: boolean }) {
   const scene = useThree((s) => s.scene);
+  const smoothed = useRef(0);
   const sample = useRef<CameraSample>({
     pos: new THREE.Vector3(),
     look: new THREE.Vector3(),
@@ -19,11 +20,18 @@ export function CameraRig({ reduced = false }: { reduced?: boolean }) {
     roll: 0,
   });
 
-  useFrame(({ camera }) => {
+  useFrame(({ camera }, dt) => {
     let p = scrollState.progress;
     if (reduced) {
       /* nhảy giữa các pose tĩnh — không tween camera */
       p = HOLD_CENTERS.reduce((best, c) => (Math.abs(c - p) < Math.abs(best - p) ? c : best));
+      smoothed.current = p;
+    } else {
+      /* Damping lũy thừa: lọc mọi cú giật của con lăn + góc gãy giữa các
+         keyframe — camera luôn tới đích êm, độc lập tốc độ khung hình */
+      const k = 1 - Math.exp(-Math.min(dt, 0.05) * 4.2);
+      smoothed.current += (p - smoothed.current) * k;
+      p = smoothed.current;
     }
     const s = sample.current;
     sampleCamera(p, s);

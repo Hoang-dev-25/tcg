@@ -35,10 +35,10 @@ export default function Scene() {
       dpr={tier === 0 ? 1 : [1, 1.75]}
       camera={{ fov: 55, near: 0.5, far: 6000, position: [120, 300, 260] }}
     >
-      <color attach="background" args={["#04091a"]} />
-      <fog attach="fog" args={["#04091a", 120, 900]} />
-      <ambientLight intensity={0.25} />
-      <directionalLight position={[200, 400, 100]} intensity={0.35} color="#8fb4ff" />
+      <color attach="background" args={["#060a13"]} />
+      <fog attach="fog" args={["#060a13", 120, 900]} />
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[200, 400, 100]} intensity={0.4} color="#57A3FF" />
 
       <City count={mobile ? 150 : 400} />
       <Billboards />

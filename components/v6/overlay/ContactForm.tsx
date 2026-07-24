@@ -12,13 +12,13 @@ export function ContactForm() {
   if (submitted) {
     return (
       <div className="v6-card grid place-content-center justify-items-center gap-2.5 p-8 text-center">
-        <CheckCircle2 className="h-10 w-10 text-cyan-300" />
+        <CheckCircle2 className="h-10 w-10 text-[#7BB8FF]" />
         <strong className="font-sans text-2xl text-white">Đã nhận yêu cầu của bạn</strong>
         <p className="text-sm text-slate-300">Chúng tôi sẽ liên hệ trong 24h làm việc.</p>
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="v6-card mt-2 inline-flex h-11 items-center px-5 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-cyan-400/10"
+          className="v6-card v6-btn mt-2 inline-flex h-11 items-center px-5 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#368FFF]/10"
         >
           Gửi yêu cầu khác
         </button>
@@ -32,7 +32,7 @@ export function ContactForm() {
       className="v6-card grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 sm:p-6"
     >
       {leadForm.fields.map((f) => (
-        <label key={f.label} className="flex flex-col gap-1 border border-dashed border-blue-300/30 px-3 py-2">
+        <label key={f.label} className="flex flex-col gap-1 border border-dashed border-[#7BB8FF]/30 px-3 py-2">
           <span className="v6-label">
             {f.label}
             {f.required && <span className="text-rose-400"> *</span>}
@@ -49,14 +49,14 @@ export function ContactForm() {
           type="checkbox"
           checked={agree}
           onChange={(e) => setAgree(e.target.checked)}
-          className="h-4 w-4 accent-cyan-400"
+          className="h-4 w-4 accent-[#368FFF]"
         />
         Đồng ý nhận liên hệ
       </label>
       <button
         type="submit"
         disabled={!agree}
-        className="v6-card inline-flex h-12 items-center justify-center gap-2 px-6 font-mono text-sm font-bold uppercase tracking-[0.2em] text-white transition hover:bg-cyan-400/10 disabled:cursor-not-allowed disabled:opacity-45 sm:justify-self-end"
+        className="v6-card v6-btn inline-flex h-12 items-center justify-center gap-2 px-6 font-mono text-sm font-bold uppercase tracking-[0.2em] text-white transition hover:bg-[#368FFF]/10 disabled:cursor-not-allowed disabled:opacity-45 sm:justify-self-end"
       >
         Liên hệ ngay <ArrowRight className="h-4 w-4" />
       </button>

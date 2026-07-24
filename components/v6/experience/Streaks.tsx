@@ -59,7 +59,7 @@ export function Streaks({ count = 90 }: { count?: number }) {
       <boxGeometry args={[0.12, 14, 0.12]} />
       <meshBasicMaterial
         ref={matRef}
-        color="#7dd3fc"
+        color="#7BB8FF"
         transparent
         opacity={0}
         depthWrite={false}
@@ -93,7 +93,7 @@ export function MapDust({ count = 500 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial ref={matRef} color="#9fc8ff" size={4} sizeAttenuation transparent opacity={0} depthWrite={false} />
+      <pointsMaterial ref={matRef} color="#ADD3FF" size={4} sizeAttenuation transparent opacity={0} depthWrite={false} />
     </points>
   );
 }

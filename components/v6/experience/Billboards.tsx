@@ -8,26 +8,29 @@ import { scrollState } from "./progress";
 
 /* Texture chữ vẽ canvas — CHỈ dùng cho nội dung trên mặt biển (năm, logo mẫu).
    Chữ nội dung trang vẫn là DOM (spec 6.2). */
-export function makeTextTexture(lines: string[], w = 512, h = 256): THREE.CanvasTexture {
+export function makeTextTexture(lines: string[], w = 1024, h = 512): THREE.CanvasTexture {
   const c = document.createElement("canvas");
   c.width = w; c.height = h;
   const g = c.getContext("2d")!;
-  g.fillStyle = "#03101f";
+  /* Nền biển: navy đậm v2blue-900, chữ trắng-xanh D6E9FF (design system) */
+  g.fillStyle = "#0D2F5E";
   g.fillRect(0, 0, w, h);
-  g.fillStyle = "#aee9ff";
+  g.fillStyle = "#D6E9FF";
   g.textAlign = "center";
   g.textBaseline = "middle";
   const size = Math.floor(h / (lines.length + 1.2));
-  g.font = `700 ${size}px ui-monospace, Menlo, monospace`;
+  g.font = `700 ${size}px 'Plus Jakarta Sans', system-ui, sans-serif`;
   lines.forEach((line, i) => {
     g.fillText(line, w / 2, (h / (lines.length + 1)) * (i + 1));
   });
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
   return tex;
 }
 
-const NEON = "#38bdf8";
+/* Accent duy nhất của cả trang: họ v2blue (design system cấm màu nóng/cyan lạ) */
+const NEON = "#57A3FF";
 
 /* Sprite halo — glow rẻ quanh mặt biển (spec 6.3: không bloom ở tier thấp) */
 function Halo({ position, scale }: { position: [number, number, number]; scale: number }) {
@@ -36,9 +39,9 @@ function Halo({ position, scale }: { position: [number, number, number]; scale: 
     c.width = c.height = 128;
     const g = c.getContext("2d")!;
     const grad = g.createRadialGradient(64, 64, 6, 64, 64, 64);
-    grad.addColorStop(0, "rgba(90,200,255,0.16)");
-    grad.addColorStop(0.55, "rgba(90,200,255,0.05)");
-    grad.addColorStop(1, "rgba(90,200,255,0)");
+    grad.addColorStop(0, "rgba(87,163,255,0.16)");
+    grad.addColorStop(0.55, "rgba(87,163,255,0.05)");
+    grad.addColorStop(1, "rgba(87,163,255,0)");
     g.fillStyle = grad;
     g.fillRect(0, 0, 128, 128);
     return new THREE.CanvasTexture(c);
@@ -67,14 +70,14 @@ function Board({
         <boxGeometry args={[w + 1, h + 1, 0.6]} />
         <meshStandardMaterial color="#101a35" roughness={0.8} />
       </mesh>
-      {/* Mặt biển — vật duy nhất mang neon (luật 2) */}
+      {/* Mặt biển — vật duy nhất mang accent brand (luật 2) */}
       <mesh>
         <planeGeometry args={[w, h]} />
         <meshStandardMaterial
-          color="#031018"
-          emissive={NEON}
+          color="#0a1120"
+          emissive="#ffffff"
           emissiveMap={face ?? undefined}
-          emissiveIntensity={face ? 1.15 : 0.8}
+          emissiveIntensity={face ? 1.05 : 0.7}
           toneMapped={false}
         />
       </mesh>
@@ -90,8 +93,8 @@ function WetGlow({ position, w }: { position: [number, number, number]; w: numbe
     c.width = 128; c.height = 64;
     const g = c.getContext("2d")!;
     const grad = g.createLinearGradient(0, 0, 0, 64);
-    grad.addColorStop(0, "rgba(90,200,255,0.35)");
-    grad.addColorStop(1, "rgba(90,200,255,0)");
+    grad.addColorStop(0, "rgba(87,163,255,0.3)");
+    grad.addColorStop(1, "rgba(87,163,255,0)");
     g.fillStyle = grad;
     g.fillRect(0, 0, 128, 64);
     return new THREE.CanvasTexture(c);

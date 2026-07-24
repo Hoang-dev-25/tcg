@@ -64,13 +64,13 @@ export function V6Overlay() {
 
       {/* F1 · Hero */}
       <section data-range="0,0.07" className="absolute inset-x-0 bottom-[12%] flex flex-col items-center gap-4 px-6 text-center">
-        <h1 className="max-w-[16ch] font-sans text-[clamp(1.9rem,5.2vw,3.9rem)] font-extrabold leading-[1.08] tracking-tight text-white [text-shadow:0_0_28px_rgba(56,130,246,.45)]">
+        <h1 className="v6-display max-w-[16ch] text-[clamp(1.9rem,5.2vw,3.9rem)] font-extrabold leading-[1.08] tracking-tight text-white [text-shadow:0_0_28px_rgba(54,143,255,.4)]">
           Thương hiệu của bạn, vươn tầm đại chúng
         </h1>
         <button
           type="button"
           onClick={() => jumpTo(0.18)}
-          className="v6-card pointer-events-auto group inline-flex h-12 items-center gap-2 px-6 font-mono text-sm font-semibold uppercase tracking-[0.2em] text-cyan-100 transition hover:bg-cyan-400/10"
+          className="v6-card v6-btn pointer-events-auto group inline-flex h-12 items-center gap-2 px-6 font-mono text-sm font-semibold uppercase tracking-[0.2em] text-[#D6E9FF] transition hover:bg-[#368FFF]/10"
         >
           Khám phá ngay
           <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -88,7 +88,7 @@ export function V6Overlay() {
           >
             <div className="v6-card p-5">
               <p className="v6-label">dịch vụ 0{i + 1}</p>
-              <h2 className="mt-1 font-sans text-2xl font-bold text-white">{s.name}</h2>
+              <h2 className="v6-display mt-1 text-2xl font-bold text-white">{s.name}</h2>
               <p className="mt-2 text-sm leading-relaxed text-slate-300">{s.desc}</p>
             </div>
           </section>
@@ -105,8 +105,8 @@ export function V6Overlay() {
             className={`absolute top-[30%] w-72 ${i % 2 === 0 ? "left-[10%]" : "right-[10%]"}`}
           >
             <div className="v6-card p-5">
-              <p className="font-mono text-3xl font-bold tabular-nums text-cyan-300">{m.year}</p>
-              <h2 className="mt-1 font-sans text-lg font-semibold text-white">{m.title}</h2>
+              <p className="font-mono text-3xl font-bold tabular-nums text-[#7BB8FF]">{m.year}</p>
+              <h2 className="mt-1 text-lg font-semibold text-white">{m.title}</h2>
               <p className="mt-1 text-sm leading-relaxed text-slate-300">{m.note}</p>
             </div>
           </section>
@@ -115,13 +115,13 @@ export function V6Overlay() {
 
       {/* F4 · AI */}
       <section data-range="0.62,0.71" className="absolute inset-x-0 top-[14%] flex flex-col items-center gap-6 px-6">
-        <h2 className="max-w-[26ch] text-center font-sans text-[clamp(1.3rem,3.2vw,2.4rem)] font-bold text-white">
+        <h2 className="v6-display max-w-[26ch] text-center text-[clamp(1.3rem,3.2vw,2.4rem)] font-bold text-white">
           AI tối ưu hiệu quả quảng cáo — phân tích thời gian thực
         </h2>
         <div className="flex flex-wrap justify-center gap-4">
           {AI_STATS.map((s) => (
             <div key={s.label} className="v6-card w-60 p-5">
-              <p className="font-mono text-3xl font-bold tabular-nums text-cyan-200">{s.value}</p>
+              <p className="font-mono text-3xl font-bold tabular-nums text-[#ADD3FF]">{s.value}</p>
               <p className="v6-label mt-2">{s.label}</p>
             </div>
           ))}
@@ -144,7 +144,7 @@ export function V6Overlay() {
         <div className="pointer-events-auto grid w-full max-w-[880px] gap-6">
           <div className="text-center">
             <p className="v6-label">nội dung tiếp theo trên màn hình này là thương hiệu của bạn</p>
-            <h2 className="mt-2 font-sans text-[clamp(1.35rem,2.9vw,2.15rem)] font-bold text-white">
+            <h2 className="v6-display mt-2 text-[clamp(1.35rem,2.9vw,2.15rem)] font-bold text-white">
               Sẵn sàng đưa thương hiệu lên tầm cao mới?
             </h2>
           </div>
@@ -167,7 +167,7 @@ export function V6Overlay() {
             <span className="v6-label opacity-0 transition group-hover:opacity-100 group-data-[active=1]:opacity-100">
               {name}
             </span>
-            <span className="h-2 w-2 rounded-full border border-cyan-300/60 transition group-data-[active=1]:bg-cyan-300 group-data-[active=1]:shadow-[0_0_10px_rgba(56,189,248,.9)]" />
+            <span className="h-2 w-2 rounded-full border border-[#7BB8FF]/60 transition group-data-[active=1]:bg-[#7BB8FF] group-data-[active=1]:shadow-[0_0_10px_rgba(87,163,255,.9)]" />
           </button>
         ))}
       </nav>
@@ -175,7 +175,7 @@ export function V6Overlay() {
       {/* Progress bar đáy */}
       <footer className="absolute inset-x-0 bottom-0 flex items-center gap-3 p-4 md:p-6">
         <div className="h-px flex-1 bg-white/15">
-          <div className="v6-progress-fill h-full w-full origin-left bg-gradient-to-r from-cyan-300 to-violet-400" style={{ transform: "scaleX(0)" }} />
+          <div className="v6-progress-fill h-full w-full origin-left bg-gradient-to-r from-[#7BB8FF] to-[#368FFF]" style={{ transform: "scaleX(0)" }} />
         </div>
       </footer>
     </div>
