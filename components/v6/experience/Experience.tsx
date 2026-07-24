@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
 import { scrollState } from "./progress";
+import { V6Overlay } from "@/components/v6/overlay/Overlay";
 
 const Scene = dynamic(() => import("./Scene"), { ssr: false });
 
@@ -46,6 +47,7 @@ export function V6Experience() {
       <div className="fixed inset-0 z-0">
         <Scene />
       </div>
+      <V6Overlay />
     </div>
   );
 }
