@@ -1,13 +1,9 @@
-import { V6Wireframe } from "@/components/v6/wireframe";
+import { V6Experience } from "@/components/v6/experience/Experience";
 
 /**
- * v6 — bản wireframe scrollytelling "Parallax Zoom":
- * cả trang là MỘT viewport 100vh không thanh cuộn; con lăn chuột chỉ kéo
- * tiến trình của một timeline GSAP duy nhất — camera zoom sâu dần qua 6 cảnh
- * (Thành phố đêm → màn LED 20 năm → không gian AI → Dịch vụ → Bản đồ → Liên hệ).
- * Mọi hình đều là khung dây (wireframe) để chốt bố cục + nhịp chuyển động
- * trước khi thay bằng art thật (WebGL) ở các đợt sau.
+ * v6 — "Một chuyến bay đêm": một cú máy drone 3D WebGL liền mạch qua 6 frame,
+ * scroll scrub toàn bộ. Spec: docs/superpowers/specs/2026-07-24-v6-night-flight-design.md
  */
 export default function V6Page() {
-  return <V6Wireframe />;
+  return <V6Experience />;
 }
