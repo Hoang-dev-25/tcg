@@ -1,0 +1,69 @@
+/* ===== v8 "Serene" — luxury beauty/wellness =====
+   Mọi selector scope trong .v8-root để không đụng CSS của các version khác. */
+
+.v8-root {
+  font-family: var(--font-v8-inter), "Inter", sans-serif;
+  background: #0a0a0c;
+  overflow-x: hidden;
+}
+
+.v8-root .font-inter {
+  font-family: var(--font-v8-inter), "Inter", sans-serif;
+}
+
+.v8-root .font-instrument {
+  font-family: var(--font-v8-serif), "Instrument Serif", serif;
+}
+
+.v8-root .font-script {
+  font-family: var(--font-v8-script), "Dancing Script", cursive;
+}
+
+.v8-root .scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.v8-root .scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.v8-root .liquid-glass {
+  background: rgba(255, 255, 255, 0.01);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.v8-root .liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.15) 80%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.v8-root .text-glow {
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.4), 0 0 80px rgba(255, 255, 255, 0.2),
+    0 0 120px rgba(255, 255, 255, 0.1);
+}
+
+.v8-root .button-glow {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.1);
+}
